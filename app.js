@@ -40,7 +40,7 @@ const schema = new GraphQLSchema({
         name: 'Query',
         fields: {
             movies: {
-                type: GraphQLList(MovieType),
+                type: new GraphQLList(MovieType),
                 resolve: (root,args,context,info)=> {
                     return MovieModel.find()
                 }
