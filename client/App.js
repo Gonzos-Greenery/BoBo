@@ -2,12 +2,12 @@ import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { AppRegistry } from "react-native";
-import { ApolloClient, InMemoryCache, ApolloProvider} from "@apollo/client";
+import { ApolloClient, InMemoryCache, ApolloProvider, ApolloConsumer} from "@apollo/client";
 import { gql } from "apollo-boost";
 import Data from './Data';
 
 const client = new ApolloClient({
-  uri: "localhost:8080/graphql",
+  uri: "http://localhost:8080/graphql",
   cache: new InMemoryCache(),
 });
 
@@ -28,13 +28,19 @@ const client = new ApolloClient({
 //     </View>
 //   )
 // };
+const WithApolloClient = () => (
+  <ApolloConsumer>
+    {client => 'We have access to the client!' /* do stuff here */}
+  </ApolloConsumer>
+);
 
 export default function App() {
-
+  
   return (
     <ApolloProvider client={client}>
+      <WithApolloClient />
+      <Data />
       <View style={styles.container}>
-        <Data />
         <Text style={{ fontWeight: "bold", fontSize: 30 }}>Data Goes Here</Text>
         <StatusBar style="auto" />
       </View>
