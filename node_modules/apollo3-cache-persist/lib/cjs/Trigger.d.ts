@@ -1,0 +1,21 @@
+import Log from './Log';
+import Persistor from './Persistor';
+import { ApolloPersistOptions, TriggerUninstallFunction } from './types';
+export interface TriggerConfig<T> {
+    log: Log<T>;
+    persistor: Persistor<T>;
+}
+export default class Trigger<T> {
+    debounce: number;
+    persistor: Persistor<T>;
+    paused: boolean;
+    timeout: any;
+    uninstall: TriggerUninstallFunction;
+    static defaultDebounce: number;
+    constructor({ log, persistor }: TriggerConfig<T>, options: ApolloPersistOptions<T>);
+    pause(): void;
+    resume(): void;
+    remove(): void;
+    fire: () => void;
+    persist: () => void;
+}
