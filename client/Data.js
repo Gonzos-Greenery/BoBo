@@ -6,15 +6,17 @@ import { ApolloClient, InMemoryCache, ApolloProvider, gql , useQuery } from '@ap
 // import { gql } from "apollo-boost";
 
 const GET_MOVIES = gql`
-query GET_MOVIES{
-  movies {
+query GetMovies {
+  getMovies {
     title
+    description
   }
 }
 `;
 
 export default () => {
   const {loading, error, data} = useQuery(GET_MOVIES);
+  console.log(data)
   return(
     <View>
       {/* <Text>Title: {data.movies && data.movies.title}</Text> */}
