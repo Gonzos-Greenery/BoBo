@@ -1,4 +1,5 @@
 import { registerRootComponent } from 'expo';
+import './src/icons/index.js'
 
 import App from './App';
 

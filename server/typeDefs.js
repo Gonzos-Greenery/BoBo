@@ -6,10 +6,22 @@ const typeDefs = gql`
     title: String
     description: String
   }
+  type User {
+    id: ID
+    name: String
+    username: String
+    password: String
+    hulu: Boolean
+    netflix: Boolean
+    prime: Boolean
+    disney: Boolean
+    hbo: Boolean
+  }
   type Query {
     welcome: String
     getMovies: [Movie]
     getMovie(id: ID): Movie
+    getUser(id:ID): User
   }
   type Mutation {
     addMovie(title: String, description: String): Movie
