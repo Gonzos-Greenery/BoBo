@@ -10,6 +10,7 @@ const typeDefs = gql`
     id: ID
     name: String
     username: String
+    email: String
     password: String
     hulu: Boolean
     netflix: Boolean

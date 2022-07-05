@@ -4,6 +4,7 @@ const Schema = mongoose.Schema
 const userSchema = new Schema({
     name: String,
     username: String,
+    email: String,
     password: String,
     hulu: Boolean,
     netflix: Boolean,

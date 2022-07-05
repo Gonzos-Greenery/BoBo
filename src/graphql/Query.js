@@ -15,6 +15,7 @@ export const MOVIES_QUERY = gql`
 //     id
 //     name
 //     username
+//     email 
 //     password
 //     hulu
 //     netflix
