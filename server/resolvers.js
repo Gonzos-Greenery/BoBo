@@ -1,4 +1,5 @@
 import Movie from "./models/Model.js";
+import User from "./models/User.js";
 
 const resolvers = {
   Query: {
@@ -13,6 +14,10 @@ const resolvers = {
       const movie = await Movie.findById(args.id);
       return movie;
     },
+    getUser: async (root,args) => {
+      const user = await User.findById(args.id);
+      return user;
+    }
   },
   Mutation: {
     addMovie: async (root, args) => {
