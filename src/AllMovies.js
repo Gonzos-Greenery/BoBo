@@ -31,7 +31,7 @@ export default () => {
   if (loading) {
     return <Loading />;
   } else {
-    console.log(data.getMovies[0]);
+    // console.log(data.getMovies[0])
   }
 
   return (

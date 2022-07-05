@@ -7,6 +7,8 @@ import { NativeBaseProvider } from 'native-base';
 
 import AllMovies from './src/AllMovies';
 import Register from './src/Register';
+import AllMovies from './src/AllMovies'
+import Login from './src/Login'
 
 import { screenOptions } from './src/styles.js';
 
@@ -41,7 +43,7 @@ export default function App() {
             <StatusBar style="light" />
           </NavigationContainer>
         </NativeBaseProvider>
-     
+
     </ApolloProvider>
   );
 }
