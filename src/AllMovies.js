@@ -20,7 +20,7 @@ const MovieItem = ({ movie }) => {
   return (
     <Pressable style={styles.item}>
       <Text style={styles.header}>{header}</Text>
-      {subheader && <Text style={styles.subheader}>{subheader}</Text>}
+      {!!subheader && <Text style={styles.subheader}>{subheader}</Text>}
     </Pressable>
   )
 }

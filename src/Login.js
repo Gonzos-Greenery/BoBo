@@ -3,22 +3,22 @@ import { StyleSheet, Text, View, Alert, Image, TextInput, Dimensions, TouchableO
 import * as Facebook from 'expo-facebook'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faFacebook, faTwitter, faGoogle} from '@fortawesome/free-brands-svg-icons';
-import { useQuery } from '@apollo/client';
-import { USER_QUERY } from './graphql/Query';
+// import { useQuery } from '@apollo/client';
+// import { USER_QUERY } from './graphql/Query';
 
 export default () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
     //Regular Authentication with User Database + Auth state 
-    const loginAuth = async function (id = "62c497cbe028cca03375aa53") {
-        const {data} = useQuery(USER_QUERY(), {
-            variables:{
-                id: id
-            }
-        })
-        console.log(data)
-    }
+    // const loginAuth = async function (id = "62c497cbe028cca03375aa53") {
+    //     const {data} = useQuery(USER_QUERY(), {
+    //         variables:{
+    //             id: id
+    //         }
+    //     })ex
+    //     console.log(data)
+    // }
 
     //Facebook Login + Need to hide appId
     const facebookAuth = async function (){
