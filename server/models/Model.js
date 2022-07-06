@@ -7,15 +7,6 @@ const movieSchema = new Schema({
   genres: Array,
 });
 
-const userSchema = new Schema({
-  username: String,
-  fullName: String,
-  email: String,
-  password: String,
-});
-
 const Movie = mongoose.model('movie', movieSchema);
-export const User = mongoose.model('user', userSchema);
 
 export default Movie;
-

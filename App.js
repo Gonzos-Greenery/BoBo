@@ -7,8 +7,8 @@ import { NativeBaseProvider } from 'native-base';
 
 import AllMovies from './src/AllMovies';
 import Register from './src/Register';
-import AllMovies from './src/AllMovies'
-import Login from './src/Login'
+
+import Login from './src/Login';
 
 import { screenOptions } from './src/styles.js';
 
@@ -22,28 +22,26 @@ const client = new ApolloClient({
 export default function App() {
   return (
     <ApolloProvider client={client}>
-
-        <NativeBaseProvider>
-          <NavigationContainer>
-            <Stack.Navigator
-              initialRouteName="Register"
-              screenOptions={screenOptions}
-            >
-              <Stack.Screen
-                name="Movies"
-                component={AllMovies}
-                options={{ title: 'BoBo' }}
-              />
-              <Stack.Screen
-                name="Register"
-                component={Register}
-                options={{ title: 'BoBo Reg' }}
-              />
-            </Stack.Navigator>
-            <StatusBar style="light" />
-          </NavigationContainer>
-        </NativeBaseProvider>
-
+      <NativeBaseProvider>
+        <NavigationContainer>
+          <Stack.Navigator
+            initialRouteName="Register"
+            screenOptions={screenOptions}
+          >
+            <Stack.Screen
+              name="Movies"
+              component={AllMovies}
+              options={{ title: 'BoBo' }}
+            />
+            <Stack.Screen
+              name="Register"
+              component={Register}
+              options={{ title: 'BoBo Reg' }}
+            />
+          </Stack.Navigator>
+          <StatusBar style="light" />
+        </NavigationContainer>
+      </NativeBaseProvider>
     </ApolloProvider>
   );
 }

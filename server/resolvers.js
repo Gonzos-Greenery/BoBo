@@ -1,10 +1,13 @@
-import Movie from "./models/Model.js";
-import User from "./models/User.js";
+import Movie from './models/Model.js';
+import User from './models/User.js';
+const bcrypt = require ('bcrypt');
+const jwt= require ('jsonwebtoken')
+require('dotenv').config;
 
 const resolvers = {
   Query: {
     welcome: () => {
-      return "Welcome to Bobo";
+      return 'Welcome to Bobo';
     },
     getMovies: async () => {
       const movies = await Movie.find();
@@ -14,10 +17,10 @@ const resolvers = {
       const movie = await Movie.findById(args.id);
       return movie;
     },
-    getUser: async (root,args) => {
+    getUser: async (root, args) => {
       const user = await User.findById(args.id);
       return user;
-    }
+    },
   },
   Mutation: {
     addMovie: async (root, args) => {
@@ -30,7 +33,7 @@ const resolvers = {
     },
     deleteMovie: async (root, args) => {
       await Movie.findByIdAndDelete(args.id);
-      return "The Movie has been deleted successfully";
+      return 'The Movie has been deleted successfully';
     },
     updateMovie: async (root, args) => {
       const { id, title, description } = args;
@@ -45,6 +48,38 @@ const resolvers = {
         new: true,
       });
       return movie;
+    },
+    addUser: async (root, args) => {
+      const newUser = new User({
+        name: args.fullname,
+        username: args.username,
+        password: args.password,
+        hulu: args.hulu ? args.hulu : false,
+        netflix: args.netflix ? args.netflix : false,
+        prime: args.prime ? args.prime : false,
+        hbo: args.hbo ? args.hbo : false,
+        disney: args.disney ? args.disney : false,
+      });
+      await newUser.save();
+      return newUser;
+    },
+    updateUser: async (root, args) => {
+      const { id, name, username, password, hulu, netflix, prime, hbo } = args;
+      const updatedUser = {
+        name,
+        username,
+        password,
+        hulu,
+        netflix,
+        prime,
+        hbo,
+        disney,
+      };
+
+      const user = await User.findByIdAndUpdate(id, updatedUser, {
+        new: true,
+      });
+      return user;
     },
   },
 };
