@@ -5,6 +5,7 @@ const typeDefs = gql`
     id: ID
     title: String
     description: String
+    imdb_id: ID
   }
   type User {
     id: ID
@@ -12,6 +13,7 @@ const typeDefs = gql`
     username: String
     email: String
     password: String
+    token: String
     hulu: Boolean
     netflix: Boolean
     prime: Boolean

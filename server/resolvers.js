@@ -13,11 +13,7 @@ const resolvers = {
     getMovie: async (root, args) => {
       const movie = await Movie.findById(args.id);
       return movie;
-    },
-    getUser: async (root,args) => {
-      const user = await User.findById(args.id);
-      return user;
-    },
+    }
   },
   Mutation: {
     addMovie: async (root, args) => {

@@ -1,22 +1,22 @@
 import React, {useState, useEffect} from 'react';
-import { StyleSheet, Text, View, Alert, Image, TextInput, Dimensions, TouchableOpacity} from 'react-native';
+import { StyleSheet, Text, View, Alert, Image, TextInput, Dimensions, TouchableOpacity, NativeModules} from 'react-native';
 import * as Facebook from 'expo-facebook'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faFacebook, faTwitter, faGoogle} from '@fortawesome/free-brands-svg-icons';
 import { useQuery, useLazyQuery, useMutation} from '@apollo/client';
 import { LoginAuth } from './graphql/Mutation';
 
-export default () => {
+
+export default ({navigation}) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     //Regular Authentication with User Database + Auth state 
     //useQuery -> takes in a lot of parameters -> returns a lot of data and actions 
     //useLazyQuery -> stops the automatic render of useQuery. It allows for execution upon event
-    const [fetchUser, {data, loading, error}] = useMutation(LoginAuth)
-    if(data){
-        console.log(data)
-    }
+    //reset will void the data so that each time the page rerenders, the information isn't persistent
+
+    const [fetchUser, {data, loading, error,reset}] = useMutation(LoginAuth)
     
     //Facebook Login + Need to hide appId
     const facebookAuth = async function (){
@@ -43,6 +43,9 @@ export default () => {
     //Google Login 
     
 
+    //Twitter Login
+    
+
     return(
         <View style={styles.container}>
             <Image
@@ -55,6 +58,7 @@ export default () => {
                     style={styles.input}
                     placeholderTextColor={`rgba(255,255,255,0.7)`}
                     onChangeText={(info) => setEmail(info)}
+                    autoCapitalize = 'none'
                 />
             </View>
             <View style={styles.inputContainer}>
@@ -63,11 +67,19 @@ export default () => {
                     style={styles.input}
                     placeholderTextColor={`rgba(255,255,255,0.7)`}
                     onChangeText={(info) => setPassword(info)}
+                    autoCapitalize = 'none'
                     secureTextEntry
                 />
             </View>
-            <TouchableOpacity style={styles.btn} onPress={()=>{fetchUser({variables:{loginInput: {email,password}}})}}>
-                    <Text style={styles.btnText}>Login</Text>
+            <TouchableOpacity style={styles.btn} onPress={
+                () => {
+                    fetchUser({variables:{loginInput: {email,password}}}) //fetch user
+                    if(!loading && data.loginUser){
+                        navigation.navigate('Movies')
+                        reset();
+                    }
+                }}>
+                <Text style={styles.btnText}>Login</Text>
             </TouchableOpacity>
             <Text style={{textAlign:'center', paddingTop: 20}}>or continue with</Text>
             <View style={styles.loginBtnContainer}>
@@ -90,7 +102,7 @@ export default () => {
                 </View>
             </View>
             <Text style={{textAlign:'center', paddingTop: 20}}>Don't have an account?</Text>
-            <Text style={{color:'white'}} onPress={() => {}}>Sign up here!</Text>
+            <Text style={{color:'black', textDecorationLine: 'underline'}} onPress={() => {}}>Sign up here!</Text>
         </View>
     )
 }
@@ -99,13 +111,13 @@ export default () => {
 const {width, height} = Dimensions.get('window')
 const styles = StyleSheet.create({
     container: {
-        flex: 1, 
         alignItems: 'center',
-        width: '100%'
+        width: '100%',
+        backgroundColor: `rgba(164,198,156,1)`
     },
     logo:{
         marginTop:0,
-        width: '90%'
+        height: height * 0.45
     },
     textStyle:{
         backgroundColor: "#A4C69C",
