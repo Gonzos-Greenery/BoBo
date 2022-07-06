@@ -9,6 +9,7 @@ import Login from './src/Login';
 import MovieCard from './src/MovieSwipe/MovieCard';
 import SingleMovie from './src/SingleMovie';
 import StreamingOptions from './src/StreamingOptions';
+import GenrePreferences from './src/GenrePreferences';
 
 import { screenOptions } from './src/styles.js';
 
@@ -24,7 +25,7 @@ export default function App() {
     <ApolloProvider client={client}>
       <NavigationContainer>
         <Stack.Navigator initialRouteName='Login' screenOptions={screenOptions}>
-          <Stack.Screen
+          {/* <Stack.Screen
             name='Movies'
             component={AllMovies}
             options={{ title: 'BoBo' }}
@@ -56,6 +57,11 @@ export default function App() {
             name='StreamingOptions'
             component={StreamingOptions}
             options={{ title: 'Choose Streaming Services' }}
+          /> */}
+          <Stack.Screen
+            name='GenrePreferences'
+            component={GenrePreferences}
+            options={{ title: 'Choose Preferred Genres' }}
           />
         </Stack.Navigator>
         <StatusBar style='light' />
