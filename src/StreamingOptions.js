@@ -27,56 +27,70 @@ const StreamingOptions = (props) => {
       disney: disney,
     };
     // const updatedUser = useMutation(root, user);
-
     console.log(user);
   };
+
   return (
     <View style={styles.container}>
       <View style={styles.iconContainer}>
-        <Pressable onPress={() => setNetflix(!netflix)}>
-          <Image
-            source={{
-              uri: 'https://www.designmantic.com/blog/wp-content/uploads/2016/07/Netflix-Revamps-Logo.jpg',
-            }}
-            style={styles.buttonLogo}
-          />
+        <Pressable
+          onPress={() => {
+            setNetflix(!netflix);
+          }}
+        >
+          <View style={netflix ? styles.btnPress : styles.btnNormal}>
+            <Image
+              source={{
+                uri: 'https://www.designmantic.com/blog/wp-content/uploads/2016/07/Netflix-Revamps-Logo.jpg',
+              }}
+              style={styles.buttonLogo}
+            />
+          </View>
         </Pressable>
         <Pressable onPress={() => setPrime(!prime)}>
-          <Image
-            source={{
-              uri: 'https://cdn.wezift.com/assets/apps/amazon-prime-video/logo/_imgSingle/208890/512x512bb.png?mtime=20220129040734',
-            }}
-            style={styles.buttonLogo}
-          />
+          <View style={prime ? styles.btnPress : styles.btnNormal}>
+            <Image
+              source={{
+                uri: 'https://cdn.wezift.com/assets/apps/amazon-prime-video/logo/_imgSingle/208890/512x512bb.png?mtime=20220129040734',
+              }}
+              style={styles.buttonLogo}
+            />
+          </View>
         </Pressable>
         <Pressable onPress={() => setHulu(!hulu)}>
-          <Image
-            source={{
-              uri: 'https://media.glassdoor.com/sqll/43242/hulu-squarelogo-1561078825650.png',
-            }}
-            style={styles.buttonLogo}
-          />
+          <View style={hulu ? styles.btnPress : styles.btnNormal}>
+            <Image
+              source={{
+                uri: 'https://media.glassdoor.com/sqll/43242/hulu-squarelogo-1561078825650.png',
+              }}
+              style={styles.buttonLogo}
+            />
+          </View>
         </Pressable>
         <Pressable onPress={() => setHbo(!hbo)}>
-          <Image
-            source={{
-              uri: 'https://hbomax-images.warnermediacdn.com/2020-05/square%20social%20logo%20400%20x%20400_0.png',
-            }}
-            style={styles.buttonLogo}
-          />
+          <View style={hbo ? styles.btnPress : styles.btnNormal}>
+            <Image
+              source={{
+                uri: 'https://hbomax-images.warnermediacdn.com/2020-05/square%20social%20logo%20400%20x%20400_0.png',
+              }}
+              style={styles.buttonLogo}
+            />
+          </View>
         </Pressable>
         <Pressable onPress={() => setDisney(!disney)}>
-          <Image
-            source={{
-              uri: 'https://media.wdwnt.com/2020/05/2_disney_logo_29e79241_fbd045f0.png',
-            }}
-            style={styles.buttonLogo}
-          />
+          <View style={disney ? styles.btnPress : styles.btnNormal}>
+            <Image
+              source={{
+                uri: 'https://media.wdwnt.com/2020/05/2_disney_logo_29e79241_fbd045f0.png',
+              }}
+              style={styles.buttonLogo}
+            />
+          </View>
         </Pressable>
       </View>
-      <Button style={styles.nextButton} onPress={updateUser()}>
-        Next
-      </Button>
+      <Pressable onPress={() => updateUser()}>
+        <Text style={styles.nextButton}>Next</Text>
+      </Pressable>
     </View>
   );
 };
@@ -90,6 +104,9 @@ const styles = StyleSheet.create({
   iconContainer: {
     flex: 1,
     flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyItems: 'space-between',
+    justifyContent: 'space-between',
   },
   buttonLogo: {
     padding: 10,
@@ -99,10 +116,49 @@ const styles = StyleSheet.create({
     resizeMode: 'stretch',
   },
   nextButton: {
-    padding: 10,
-    margin: 5,
-    height: '30px',
-    width: '100px',
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    textAlign: 'center',
+    height: 15,
+    width: 75,
+    borderColor: 'grey',
+    borderWidth: 1,
+    borderRadius: 10,
+    backgroundColor: 'pink',
+  },
+  btnNormal: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 75,
+    width: 75,
+    borderColor: 'grey',
+    borderWidth: 1,
+    borderRadius: 10,
+    paddingHorizontal: 8,
+    paddingVertical: 8,
+    alignSelf: 'flex-start',
+    marginHorizontal: 20,
+    marginVertical: 20,
+    minWidth: '48%',
+  },
+  btnPress: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 75,
+    width: 75,
+    borderColor: 'grey',
+    borderWidth: 1,
+    borderRadius: 10,
+    paddingHorizontal: 8,
+    paddingVertical: 8,
+    alignSelf: 'flex-start',
+    marginHorizontal: 20,
+    marginVertical: 20,
+    minWidth: '48%',
+    backgroundColor: 'grey',
   },
 });
 
