@@ -3,23 +3,21 @@ import { StyleSheet, Text, View, Alert, Image, TextInput, Dimensions, TouchableO
 import * as Facebook from 'expo-facebook'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faFacebook, faTwitter, faGoogle} from '@fortawesome/free-brands-svg-icons';
-// import { useQuery } from '@apollo/client';
-// import { USER_QUERY } from './graphql/Query';
+import { useQuery, useLazyQuery, useMutation} from '@apollo/client';
+import { LoginAuth } from './graphql/Mutation';
 
 export default () => {
-    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     //Regular Authentication with User Database + Auth state 
-    // const loginAuth = async function (id = "62c497cbe028cca03375aa53") {
-    //     const {data} = useQuery(USER_QUERY(), {
-    //         variables:{
-    //             id: id
-    //         }
-    //     })ex
-    //     console.log(data)
-    // }
-
+    //useQuery -> takes in a lot of parameters -> returns a lot of data and actions 
+    //useLazyQuery -> stops the automatic render of useQuery. It allows for execution upon event
+    const [fetchUser, {data, loading, error}] = useMutation(LoginAuth)
+    if(data){
+        console.log(data)
+    }
+    
     //Facebook Login + Need to hide appId
     const facebookAuth = async function (){
         try{
@@ -56,7 +54,7 @@ export default () => {
                 <TextInput
                     style={styles.input}
                     placeholderTextColor={`rgba(255,255,255,0.7)`}
-                    onChangeText={(info) => setUsername(info)}
+                    onChangeText={(info) => setEmail(info)}
                 />
             </View>
             <View style={styles.inputContainer}>
@@ -68,13 +66,13 @@ export default () => {
                     secureTextEntry
                 />
             </View>
-            <TouchableOpacity style={styles.btn} onPress={() => {loginAuth()}}>
+            <TouchableOpacity style={styles.btn} onPress={()=>{fetchUser({variables:{loginInput: {email,password}}})}}>
                     <Text style={styles.btnText}>Login</Text>
             </TouchableOpacity>
             <Text style={{textAlign:'center', paddingTop: 20}}>or continue with</Text>
             <View style={styles.loginBtnContainer}>
                 <View style={styles.loginBtnRow}>
-                    <TouchableOpacity onPress={()=>{facebookAuth()}}>
+                    <TouchableOpacity onPress={facebookAuth}>
                         <View style={styles.loginBtn}>
                             <FontAwesomeIcon icon={faFacebook} size={50} color={"#4267B2"}/>
                         </View>

@@ -18,16 +18,21 @@ const typeDefs = gql`
     disney: Boolean
     hbo: Boolean
   }
+  input LoginInput{
+    email: String
+    password: String
+  }
+
   type Query {
     welcome: String
     getMovies: [Movie]
     getMovie(id: ID): Movie
-    getUser(id:ID): User
   }
   type Mutation {
     addMovie(title: String, description: String): Movie
     deleteMovie(id: ID): String
     updateMovie(id: ID, title: String, description: String): Movie
+    loginUser(LoginInput: LoginInput): User
   }
 `;
 

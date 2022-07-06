@@ -17,7 +17,7 @@ const resolvers = {
     getUser: async (root,args) => {
       const user = await User.findById(args.id);
       return user;
-    }
+    },
   },
   Mutation: {
     addMovie: async (root, args) => {
@@ -46,6 +46,13 @@ const resolvers = {
       });
       return movie;
     },
+    loginUser: async (root, {LoginInput: {email, password}}) => {
+      const user = await User.findOne({email, password});
+      //will have to bcrypt the password and compare the input string to the bcrypt version
+      if(user){
+        return user;
+      }
+    }
   },
 };
 
