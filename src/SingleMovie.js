@@ -134,7 +134,7 @@ export default ({ route }) => {
   };
 
   const seenHandler = () => {
-    setSeen(true);
+    setSeen(!seen);
   };
 
   return (
@@ -154,6 +154,11 @@ export default ({ route }) => {
           <View style={iconstyles.thumbs}>
             <ThumbsRating />
           </View>
+          <Button
+          style={styles.subheader}
+          title="I haven't seen this movie"
+          onPress={() => seenHandler()}
+        />
         </View>
       ) : (
         <Button
