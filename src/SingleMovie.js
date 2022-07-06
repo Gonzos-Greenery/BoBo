@@ -1,6 +1,13 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  Button,
+} from "react-native";
 import { SINGLE_MOVIES_QUERY } from "./graphql/Query";
 import { gql, useQuery } from "@apollo/client";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
@@ -15,7 +22,7 @@ export default ({ route }) => {
   const [maxRating, setMaxRating] = useState([1, 2, 3, 4, 5]);
   const [thumbsUp, setThumbsUp] = useState(false);
   const [thumbsDown, setThumbsDown] = useState(false);
-  const [thumbsRating, setThumbsRating] = useState(false);
+  const [seen, setSeen] = useState(false);
 
   const { data, loading } = useQuery(SINGLE_MOVIES_QUERY, {
     variables: { id: route.params.movie.id },
@@ -95,14 +102,12 @@ export default ({ route }) => {
       setThumbsDown(false);
     }
     setThumbsUp(!thumbsUp);
-
   };
   const ThumbsDownHandler = () => {
     if (thumbsDown === false) {
       setThumbsUp(false);
     }
     setThumbsDown(!thumbsDown);
-
   };
   const ThumbsRating = () => {
     return (
@@ -128,18 +133,35 @@ export default ({ route }) => {
     );
   };
 
+  const seenHandler = () => {
+    setSeen(true);
+  };
+
   return (
     <View style={iconstyles.imageContainer}>
-      <Text style={styles.header}>How did you like {data.getMovie.title}?</Text>
+      <Text style={styles.header}> {data.getMovie.title}</Text>
       <Image style={iconstyles.image} source={{ uri: posterUrl }} />
 
-      <View style={iconstyles.stars}>
-        <RatingBar />
-      </View>
-      <Text style={styles.subheader}>Would you watch it again?</Text>
-      <View style={iconstyles.thumbs}>
-        <ThumbsRating />
-      </View>
+      {seen === true ? (
+        <View style={iconstyles.imageContainer}>
+          <Text style={styles.header}>
+            How did you like {data.getMovie.title}?
+          </Text>
+          <View style={iconstyles.stars}>
+            <RatingBar />
+          </View>
+          <Text style={styles.subheader}>Would you watch it again?</Text>
+          <View style={iconstyles.thumbs}>
+            <ThumbsRating />
+          </View>
+        </View>
+      ) : (
+        <Button
+          style={styles.subheader}
+          title="I've seen this movie"
+          onPress={() => seenHandler()}
+        />
+      )}
     </View>
   );
 };
