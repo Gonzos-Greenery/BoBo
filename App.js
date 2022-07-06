@@ -5,12 +5,17 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import { NativeBaseProvider } from 'native-base';
 
-import AllMovies from './src/AllMovies';
-import Register from './src/Register';
-
-import Login from './src/Login';
 
 import { screenOptions } from './src/styles.js';
+
+
+import Register from './src/Register';
+import AllMovies from "./src/AllMovies";
+import Login from "./src/Login";
+import MovieCard from "./src/MovieSwipe/MovieCard";
+import SingleMovie from "./src/SingleMovie";
+
+import { screenOptions } from "./src/styles.js";
 
 const Stack = createStackNavigator();
 

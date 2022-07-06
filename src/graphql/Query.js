@@ -6,8 +6,22 @@ export const MOVIES_QUERY = gql`
     id
     title
     description
+    imdb_id
   }
 }`
+
+export const SINGLE_MOVIES_QUERY = gql`
+query getMovie($id: ID)
+{
+  getMovie (id: $id){
+    id
+    title
+    description
+    imdb_id
+  }
+}`
+
+
 
 // export const USER_QUERY = gql`
 // {
@@ -15,7 +29,7 @@ export const MOVIES_QUERY = gql`
 //     id
 //     name
 //     username
-//     email 
+//     email
 //     password
 //     hulu
 //     netflix
