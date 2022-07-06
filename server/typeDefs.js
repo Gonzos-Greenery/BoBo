@@ -19,11 +19,23 @@ const typeDefs = gql`
     disney: Boolean
     hbo: Boolean
   }
-  input RegisterInput{
+  input RegisterInput {
     name: String
     username: String
     email: String
     password: String
+  }
+
+  input UpdateUserInput {
+    name: String
+    username: String
+    email: String
+    password: String
+    hulu: Boolean
+    netflix: Boolean
+    prime: Boolean
+    disney: Boolean
+    hbo: Boolean
   }
 
   type Query {
@@ -36,29 +48,9 @@ const typeDefs = gql`
     addMovie(title: String, description: String): Movie
     deleteMovie(id: ID): String
     updateMovie(id: ID, title: String, description: String): Movie
-    addUser(
-      name: String
-      username: String
-      email: String
-      password: String
-      hulu: Boolean
-      netflix: Boolean
-      prime: Boolean
-      disney: Boolean
-      hbo: Boolean
-    ): User
-    updateUser(
-      id: ID
-      name: String
-      username: String
-      email: String
-      password: String
-      hulu: Boolean
-      netflix: Boolean
-      prime: Boolean
-      disney: Boolean
-      hbo: Boolean
-    ): User
+    registerUser(registerInput: RegisterInput): User
+
+    updateUser(updateUserInput: UpdateUserInput): User
   }
 `;
 
