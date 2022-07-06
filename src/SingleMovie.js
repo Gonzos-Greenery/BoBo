@@ -1,45 +1,22 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import { StyleSheet, Text, View, Image, FlatList } from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { SINGLE_MOVIES_QUERY } from "./graphql/Query";
 import { gql, useQuery } from "@apollo/client";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faStar } from "@fortawesome/free-regular-svg-icons";
-import { faThumbsUp, faThumbsDown } from "@fortawesome/free-solid-svg-icons";
+import { faThumbsUp, faThumbsDown } from "@fortawesome/free-regular-svg-icons";
 
 import styles from "./styles";
 import Loading from "./Loading";
 
-const iconstyles = StyleSheet.create({
-  stars: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  thumbs: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    display: "inline-block",
-    margin: 25
-  },
-  text: {
-    fontWeight: "bold",
-    fontSize: 32,
-  },
-  image: {
-    width: 300,
-    height: 400,
-  },
-  imageContainer: {
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});
-
 export default ({ route }) => {
   const [posterUrl, setPosterUrl] = useState("");
+  const [defaultRating, setDefaultRating] = useState(0);
+  const [maxRating, setMaxRating] = useState([1, 2, 3, 4, 5]);
+  const [thumbsUp, setThumbsUp] = useState(false);
+  const [thumbsDown, setThumbsDown] = useState(false);
+  const [thumbsRating, setThumbsRating] = useState(false);
+
   const { data, loading } = useQuery(SINGLE_MOVIES_QUERY, {
     variables: { id: route.params.movie.id },
   });
@@ -83,23 +60,120 @@ export default ({ route }) => {
 
   getMovie(API_URL);
 
+  const starImgFilled =
+    "https://github.com/tranhonghan/images/blob/main/star_filled.png?raw=true";
+  const starImgEmpty =
+    "https://github.com/tranhonghan/images/blob/main/star_corner.png?raw=true";
+
+  const RatingBar = () => {
+    return (
+      <View style={iconstyles.ratingBar}>
+        {maxRating.map((item, key) => {
+          return (
+            <TouchableOpacity
+              activeOpacity={0.7}
+              key={item}
+              onPress={() => setDefaultRating(item)}
+            >
+              <Image
+                style={iconstyles.stars}
+                source={
+                  item <= defaultRating
+                    ? { uri: starImgFilled }
+                    : { uri: starImgEmpty }
+                }
+              />
+            </TouchableOpacity>
+          );
+        })}
+      </View>
+    );
+  };
+
+  const ThumbsUpHandler = () => {
+    if (thumbsUp === false) {
+      setThumbsDown(false);
+    }
+    setThumbsUp(!thumbsUp);
+
+  };
+  const ThumbsDownHandler = () => {
+    if (thumbsDown === false) {
+      setThumbsUp(false);
+    }
+    setThumbsDown(!thumbsDown);
+
+  };
+  const ThumbsRating = () => {
+    return (
+      <View style={iconstyles.ratingBar}>
+        <TouchableOpacity activeOpacity={0.7} onPress={() => ThumbsUpHandler()}>
+          <FontAwesomeIcon
+            icon={faThumbsUp}
+            size={32}
+            color={thumbsUp === true ? "green" : "grey"}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity
+          activeOpacity={0.7}
+          onPress={() => ThumbsDownHandler()}
+        >
+          <FontAwesomeIcon
+            icon={faThumbsDown}
+            size={32}
+            color={thumbsDown === true ? "red" : "grey"}
+          />
+        </TouchableOpacity>
+      </View>
+    );
+  };
+
   return (
     <View style={iconstyles.imageContainer}>
       <Text style={styles.header}>How did you like {data.getMovie.title}?</Text>
       <Image style={iconstyles.image} source={{ uri: posterUrl }} />
 
       <View style={iconstyles.stars}>
-        <FontAwesomeIcon icon={faStar} size={32} color={"grey"} />
-        <FontAwesomeIcon icon={faStar} size={32} color={"grey"} />
-        <FontAwesomeIcon icon={faStar} size={32} color={"grey"} />
-        <FontAwesomeIcon icon={faStar} size={32} color={"grey"} />
-        <FontAwesomeIcon icon={faStar} size={32} color={"grey"} />
+        <RatingBar />
       </View>
       <Text style={styles.subheader}>Would you watch it again?</Text>
       <View style={iconstyles.thumbs}>
-        <FontAwesomeIcon icon={faThumbsUp} size={32} color={"green"} />
-        <FontAwesomeIcon icon={faThumbsDown} size={32} color={"red"} />
+        <ThumbsRating />
       </View>
     </View>
   );
 };
+
+const iconstyles = StyleSheet.create({
+  stars: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    width: 40,
+    height: 40,
+    resizeMode: "cover",
+  },
+  thumbs: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  text: {
+    fontWeight: "bold",
+    fontSize: 32,
+  },
+  image: {
+    width: 300,
+    height: 400,
+  },
+  imageContainer: {
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  ratingBar: {
+    justifyContent: "center",
+    flexDirection: "row",
+    marginTop: 30,
+  },
+});

@@ -32,7 +32,7 @@ export default ({ navigation }) => {
   if (loading) {
     return <Loading />
   }
-console.log(data)
+
   return (
     <View>
       <Button title="Vote" onPress={() => navigation.navigate("MovieCard")} />
