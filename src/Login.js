@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { StyleSheet, Text, View, Alert, Image, TextInput, Dimensions, TouchableOpacity, NativeModules} from 'react-native';
 import * as Facebook from 'expo-facebook'
+import * as Google from 'expo-auth-session/providers/google'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faFacebook, faTwitter, faGoogle} from '@fortawesome/free-brands-svg-icons';
 import { useQuery, useLazyQuery, useMutation} from '@apollo/client';
@@ -41,7 +42,15 @@ export default ({navigation}) => {
     }
 
     //Google Login 
-    
+    const googleAuth = () => {
+        const [request, response, promptAsync] = Google.useAuthRequest({
+            iosClientId: "616067821868-rq45l8ujq8vr2n7atj3ekc617uadg6ce.apps.googleusercontent.com"
+        });
+
+        if(response?.type === 'success'){
+            console.log(response.authentication.accessToken)
+        }
+    }
 
     //Twitter Login
     
@@ -89,7 +98,7 @@ export default ({navigation}) => {
                             <FontAwesomeIcon icon={faFacebook} size={50} color={"#4267B2"}/>
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={googleAuth}>
                         <View style={styles.loginBtn}>
                             <FontAwesomeIcon icon={faGoogle} size={50} color={"#1aa260"}/>
                         </View>
