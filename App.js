@@ -24,17 +24,17 @@ export default function App() {
     <ApolloProvider client={client}>
       <NavigationContainer>
         <Stack.Navigator initialRouteName='Login' screenOptions={screenOptions}>
-          {/* <Stack.Screen
+          <Stack.Screen
             name='Movies'
             component={AllMovies}
             options={{ title: 'BoBo' }}
-          /> */}
-          {/* <Stack.Screen
-          name="Login"
-          component={Login}
-          options={{title: 'BoBo Account Login'}}
-        /> */}
-          {/* <Stack.Screen
+          />
+          <Stack.Screen
+            name='Login'
+            component={Login}
+            options={{ title: 'BoBo Account Login' }}
+          />
+          <Stack.Screen
             name='SingleMovie'
             component={SingleMovie}
             options={({
@@ -51,7 +51,7 @@ export default function App() {
             name='MovieCard'
             component={MovieCard}
             options={{ title: 'Netflix and Chill' }}
-          /> */}
+          />
           <Stack.Screen
             name='StreamingOptions'
             component={StreamingOptions}
