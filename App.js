@@ -4,6 +4,9 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import { NativeBaseProvider } from 'native-base';
+import 'react-native-gesture-handler';
+
+
 import Register from './src/Register';
 import AllMovies from "./src/AllMovies";
 import Login from "./src/Login";
