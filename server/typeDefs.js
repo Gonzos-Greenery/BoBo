@@ -13,17 +13,20 @@ const typeDefs = gql`
     username: String
     email: String
     password: String
+    token: String
     hulu: Boolean
     netflix: Boolean
     prime: Boolean
     disney: Boolean
     hbo: Boolean
   }
+  input LoginInput{
+    email: String
+    password: String
+  }
   input RegisterInput {
     name: String
     username: String
-    email: String
-    password: String
   }
 
   input UpdateUserInput {
@@ -49,17 +52,10 @@ const typeDefs = gql`
     addMovie(title: String, description: String): Movie
     deleteMovie(id: ID): String
     updateMovie(id: ID, title: String, description: String): Movie
+    loginUser(LoginInput: LoginInput): User
     registerUser(registerInput: RegisterInput): User
     updateUser(updateUserInput: UpdateUserInput): User
   }
 `;
-
-// const GET_MOVIES = gql`
-// type Query {
-//   movies {
-//     title
-//   }
-// }
-// `
 
 export default typeDefs;

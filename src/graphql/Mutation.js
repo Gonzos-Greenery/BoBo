@@ -8,3 +8,19 @@ export const REGISTER_USER_MUTATION = gql`
     }
   }
 `;
+
+
+export const LoginAuth = gql`
+mutation LoginUser($loginInput: LoginInput) {
+    loginUser(LoginInput: $loginInput) {
+      name
+      username
+      email
+      hulu
+      netflix
+      prime
+      disney
+      hbo
+    }
+  }
+`

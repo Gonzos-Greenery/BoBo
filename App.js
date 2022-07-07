@@ -6,6 +6,7 @@ import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import { NativeBaseProvider } from 'native-base';
 
 import { screenOptions } from './src/styles.js';
+import 'react-native-gesture-handler';
 
 import Register from './src/Register';
 import AllMovies from './src/AllMovies';
@@ -20,13 +21,14 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
+
 export default function App() {
   return (
     <ApolloProvider client={client}>
       <NativeBaseProvider>
         <NavigationContainer>
           <Stack.Navigator
-            initialRouteName="Register"
+            initialRouteName="Login"
             screenOptions={screenOptions}
           >
             <Stack.Screen
@@ -38,6 +40,29 @@ export default function App() {
               name="Register"
               component={Register}
               options={{ title: 'BoBo Reg' }}
+            />
+            <Stack.Screen
+            name="Login"
+            component={Login}
+            options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="SingleMovie"
+              component={SingleMovie}
+              options={({
+                route: {
+                  params: {
+                    movie: { title },
+                  },
+                },
+              }) => ({
+                title: title,
+              })}
+            />
+            <Stack.Screen
+              name="MovieCard"
+              component={MovieCard}
+              options={{ title: "Netflix and Chill" }}
             />
           </Stack.Navigator>
           <StatusBar style="light" />
