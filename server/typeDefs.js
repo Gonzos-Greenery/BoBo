@@ -20,7 +20,6 @@ const typeDefs = gql`
     hbo: Boolean
     genre: [Genre!]
   }
-<<<<<<< HEAD
   type Genre {
     action: Boolean
     animation: Boolean
@@ -41,18 +40,13 @@ const typeDefs = gql`
     western: Boolean
     user: [User!]
   }
-=======
->>>>>>> 13503d97d548ce245da051c978b9337e5e54a619
   input RegisterInput {
     name: String
     username: String
     email: String
     password: String
   }
-<<<<<<< HEAD
-=======
 
->>>>>>> 13503d97d548ce245da051c978b9337e5e54a619
   input UpdateUserInput {
     name: String
     username: String
@@ -76,7 +70,6 @@ const typeDefs = gql`
     deleteMovie(id: ID): String
     updateMovie(id: ID, title: String, description: String): Movie
     registerUser(registerInput: RegisterInput): User
-<<<<<<< HEAD
     addGenre(
       action: Boolean
       animation: Boolean
@@ -96,10 +89,7 @@ const typeDefs = gql`
       war: Boolean
       western: Boolean
     ): Genre
-=======
-
     updateUser(updateUserInput: UpdateUserInput): User
->>>>>>> 13503d97d548ce245da051c978b9337e5e54a619
   }
 `;
 
