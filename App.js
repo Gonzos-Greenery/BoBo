@@ -45,11 +45,6 @@ export default function App() {
               component={GenrePreferences}
               options={{ title: 'Choose Preferred Genres' }}
             />
-            {/* <Stack.Screen
-              name='Login'
-              component={Login}
-              options={{ title: 'BoBo Account Login' }}
-            /> */}
             <Stack.Screen
               name='Login'
               component={Login}
