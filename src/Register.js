@@ -1,5 +1,7 @@
 import React from 'react';
 import { View, Text } from 'react-native';
+import { gql, useMutation } from '@apollo/client';
+import { REGISTER_USER_MUTATION } from './graphql/Mutation';
 import {
   Input,
   Icon,
@@ -11,10 +13,10 @@ import {
   Center,
   Stack,
   useToast,
-  WarningOutlineIcon
+  WarningOutlineIcon,
 } from 'native-base';
 
-const Register = () => {
+const Register = ({ navigation }) => {
   const [password, setPassword] = React.useState('');
   const [username, setUsername] = React.useState('');
   const [email, setEmail] = React.useState('');
@@ -22,13 +24,20 @@ const Register = () => {
   const [show, setShow] = React.useState(false);
   const handleClick = () => setShow(!show);
   const toast = useToast();
+  const [registerUser, { data }] = useMutation(REGISTER_USER_MUTATION);
 
-  // const handleSubmit=()=>
+  const handleSubmit = () => {
+    const newUserInput = { username, email, password, name: fullName };
+    console.log(newUserInput);
+
+    registerUser({ variables: { registerInput: newUserInput } });
+    console.log('success');
+  };
 
   return (
     <View style={{ flex: 1 }}>
       <VStack space={2} w="100%" alignItems="center">
-        <FormControl >
+        <FormControl>
           <Stack mx="4" alignItems="center">
             <FormControl.Label py="1" w="75%">
               Full Name
@@ -60,8 +69,10 @@ const Register = () => {
               label="Username"
               placeholder="Username"
             ></Input>
-            <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
-          Username is not available
+            <FormControl.ErrorMessage
+              leftIcon={<WarningOutlineIcon size="xs" />}
+            >
+              Username is not available
             </FormControl.ErrorMessage>
           </Stack>
         </FormControl>
@@ -78,8 +89,10 @@ const Register = () => {
               label="email"
               placeholder="E-mail"
             ></Input>
-             <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
-          Invalid E-mail
+            <FormControl.ErrorMessage
+              leftIcon={<WarningOutlineIcon size="xs" />}
+            >
+              Invalid E-mail
             </FormControl.ErrorMessage>
           </Stack>
         </FormControl>
@@ -111,7 +124,13 @@ const Register = () => {
             />
           </Stack>
         </FormControl>
-        <Button _text={{ color: '#F7F6D4' }} w="70%" bg="#86A17F" shadow="4">
+        <Button
+          _text={{ color: '#F7F6D4' }}
+          w="70%"
+          bg="#86A17F"
+          shadow="4"
+          onPress={handleSubmit}
+        >
           Register
         </Button>
         <Text color="#86A17F" py="9">

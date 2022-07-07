@@ -82,22 +82,28 @@ const resolvers = {
       const res = await newUser.save();
       return { id: res.id, ...res._doc };
     },
-    updateUser: async (root, args) => {
-      const { id, name, username, password, hulu, netflix, prime, hbo } = args;
-      const updatedUser = {
-        name,
-        username,
-        password,
-        hulu,
-        netflix,
-        prime,
-        hbo,
-        disney,
-      };
+    updateUser: async (_, {updateUserInput:{id, name, username, password, hulu, netflix, prime, hbo, disney}}) => {
 
-      const user = await User.findByIdAndUpdate(id, updatedUser, {
-        new: true,
-      });
+      const updatedUser = {
+        name:name,
+        username:username,
+        password:password,
+        hulu:hulu,
+        netflix:netflix,
+        prime:prime,
+        hbo:hbo,
+        disney:disney,
+      };
+      const user = await User.findById(id);
+
+      let samePassword= await bcrypt.compare(password,user.password);
+      if (samePassword){
+        updatedUser.password=user.password
+      } else{
+        updatedUser.password=await bcrypt.hash(password,5)
+      }
+
+      await user.update(updatedUser)
       return user;
     },
   },

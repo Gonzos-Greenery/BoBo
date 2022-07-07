@@ -27,6 +27,7 @@ const typeDefs = gql`
   }
 
   input UpdateUserInput {
+    id: String
     name: String
     username: String
     email: String
@@ -49,7 +50,6 @@ const typeDefs = gql`
     deleteMovie(id: ID): String
     updateMovie(id: ID, title: String, description: String): Movie
     registerUser(registerInput: RegisterInput): User
-
     updateUser(updateUserInput: UpdateUserInput): User
   }
 `;
