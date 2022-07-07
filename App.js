@@ -21,14 +21,13 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-
 export default function App() {
   return (
     <ApolloProvider client={client}>
       <NativeBaseProvider>
         <NavigationContainer>
           <Stack.Navigator
-            initialRouteName="Login"
+            initialRouteName="Register"
             screenOptions={screenOptions}
           >
             <Stack.Screen
@@ -42,9 +41,9 @@ export default function App() {
               options={{ title: 'BoBo Reg' }}
             />
             <Stack.Screen
-            name="Login"
-            component={Login}
-            options={{ headerShown: false }}
+              name="Login"
+              component={Login}
+              options={{ headerShown: false }}
             />
             <Stack.Screen
               name="SingleMovie"
@@ -62,7 +61,7 @@ export default function App() {
             <Stack.Screen
               name="MovieCard"
               component={MovieCard}
-              options={{ title: "Netflix and Chill" }}
+              options={{ title: 'Netflix and Chill' }}
             />
           </Stack.Navigator>
           <StatusBar style="light" />

@@ -20,13 +20,15 @@ const typeDefs = gql`
     disney: Boolean
     hbo: Boolean
   }
-  input LoginInput{
+  input LoginInput {
     email: String
     password: String
   }
   input RegisterInput {
     name: String
     username: String
+    password: String
+    email: String
   }
 
   input UpdateUserInput {
