@@ -54,45 +54,64 @@ const resolvers = {
       });
       return movie;
     },
-<<<<<<< HEAD
-    addGenre: async (root, args) => {
+    addGenre: async (
+      _,
+      {
+        genreInput: {
+          action,
+          animation,
+          comedy,
+          crime,
+          documentation,
+          drama,
+          european,
+          family,
+          fantasy,
+          history,
+          horror,
+          music,
+          romance,
+          scifi,
+          thriller,
+          war,
+          western,
+        },
+      }
+    ) => {
       const newGenre = new Genre({
-        action: args.action,
-        animation: args.animation,
-        comedy: args.comedy,
-        crime: args.crime,
-        documentation: args.documentation,
-        drama: args.drama,
-        european: args.european,
-        family: args.family,
-        fantasy: args.fantasy,
-        history: args.history,
-        horror: args.horror,
-        music: args.music,
-        romance: args.romance,
-        scifi: args.scifi,
-        thriller: args.thriller,
-        war: args.war,
-        western: args.western,
+        action: action,
+        animation: animation,
+        comedy: comedy,
+        crime: crime,
+        documentation: documentation,
+        drama: drama,
+        european: european,
+        family: family,
+        fantasy: fantasy,
+        history: history,
+        horror: horror,
+        music: music,
+        romance: romance,
+        scifi: scifi,
+        thriller: thriller,
+        war: war,
+        western: western,
       });
+
       await newGenre.save();
       return newGenre;
-=======
-    loginUser: async (root, {LoginInput: {email, password}}) => {
-      const user = await User.findOne({email});
-      if(user && (await bcrypt.compare(password, user.password))){
-        const token = jwt.sign(
-          {email}, 'JWT',
-          {
-            expiresIn: '7d'
-          }
-        )
-        user.token = token
-        return {...user, password: ''}
+    },
+    loginUser: async (root, { LoginInput: { email, password } }) => {
+      const user = await User.findOne({ email });
+      if (user && (await bcrypt.compare(password, user.password))) {
+        const token = jwt.sign({ email }, 'JWT', {
+          expiresIn: '7d',
+        });
+        user.token = token;
+        return { ...user, password: '' };
       } else {
-        throw new ApolloError('Invalid email or password, try again')
+        throw new ApolloError('Invalid email or password, try again');
       }
->>>>>>> 84910115771ee9b08716ca9b3c8cb0dc3c724bee
     },
     registerUser: async (
       _,
@@ -126,43 +145,42 @@ const resolvers = {
       const res = await newUser.save();
       return { id: res.id, ...res._doc };
     },
-<<<<<<< HEAD
-    updateUser: async (root, args) => {
-      const {
-        id,
-        name,
-        username,
-        password,
-        hulu,
-        netflix,
-        prime,
-        hbo,
-        disney,
-      } = args;
-=======
-    updateUser: async (_, {updateUserInput:{id, name, username, password, hulu, netflix, prime, hbo, disney}}) => {
-
->>>>>>> 84910115771ee9b08716ca9b3c8cb0dc3c724bee
+    updateUser: async (
+      _,
+      {
+        updateUserInput: {
+          id,
+          name,
+          username,
+          password,
+          hulu,
+          netflix,
+          prime,
+          hbo,
+          disney,
+        },
+      }
+    ) => {
       const updatedUser = {
-        name:name,
-        username:username,
-        password:password,
-        hulu:hulu,
-        netflix:netflix,
-        prime:prime,
-        hbo:hbo,
-        disney:disney,
+        name: name,
+        username: username,
+        password: password,
+        hulu: hulu,
+        netflix: netflix,
+        prime: prime,
+        hbo: hbo,
+        disney: disney,
       };
       const user = await User.findById(id);
 
-      let samePassword= await bcrypt.compare(password,user.password);
-      if (samePassword){
-        updatedUser.password=user.password
-      } else{
-        updatedUser.password=await bcrypt.hash(password,5)
+      let samePassword = await bcrypt.compare(password, user.password);
+      if (samePassword) {
+        updatedUser.password = user.password;
+      } else {
+        updatedUser.password = await bcrypt.hash(password, 5);
       }
 
-      await user.update(updatedUser)
+      await user.update(updatedUser);
       return user;
     },
   },

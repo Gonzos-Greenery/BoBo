@@ -8,26 +8,29 @@ import {
   Pressable,
   Button,
 } from 'react-native';
+import { gql, useMutation } from '@apollo/client';
+import { UPDATE_USER_MUTATION } from './graphql/Mutation';
 
-const StreamingOptions = (props) => {
-  const userId = props.userId;
+const StreamingOptions = ({ navigation }) => {
+  const [updateUser, { data }] = useMutation(UPDATE_USER_MUTATION);
+
   const [netflix, setNetflix] = useState(false);
   const [hbo, setHbo] = useState(false);
   const [hulu, setHulu] = useState(false);
   const [prime, setPrime] = useState(false);
   const [disney, setDisney] = useState(false);
 
-  const updateUser = () => {
+  const handleSubmit = () => {
     const user = {
-      id: userId,
+      // id: userId,
       netflix: netflix,
       hbo: hbo,
       hulu: hulu,
       prime: prime,
       disney: disney,
     };
-    // const updatedUser = useMutation(root, user);
-    console.log(user);
+    updateUser({ variables: { updateUserInput: user } });
+    navigation.push('GenrePreferences');
   };
 
   return (
@@ -88,7 +91,7 @@ const StreamingOptions = (props) => {
           </View>
         </Pressable>
       </View>
-      <Pressable onPress={() => updateUser()}>
+      <Pressable onPress={() => handleSubmit()}>
         <Text style={styles.nextButton}>Next</Text>
       </Pressable>
     </View>

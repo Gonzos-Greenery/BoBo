@@ -8,9 +8,11 @@ import {
   Pressable,
   Button,
 } from 'react-native';
+import { gql, useMutation } from '@apollo/client';
+import { ADD_GENRE_MUTATION } from './graphql/Mutation';
 
-const GenrePreferences = (props) => {
-  const userId = props.userId;
+const GenrePreferences = ({ navigation }) => {
+  const [addGenre, { data }] = useMutation(ADD_GENRE_MUTATION);
 
   const genreObject = {
     action: false,
@@ -34,9 +36,11 @@ const GenrePreferences = (props) => {
 
   const [genres, setGenres] = useState(genreObject);
 
-  const updateUser = () => {
-    // const updatedUser = useMutation(ADD_GENRE_MUTATION);
-    // console.log(user);
+  const handleSubmit = () => {
+    console.log('genres: ', genres);
+    addGenre({ variables: { genreInput: genres } });
+    console.log('success!');
+    navigation.push('Movies');
   };
 
   return (
@@ -59,7 +63,7 @@ const GenrePreferences = (props) => {
           );
         })}
       </View>
-      <Pressable onPress={() => updateUser()}>
+      <Pressable onPress={() => handleSubmit()}>
         <Text style={styles.nextButton}>Next</Text>
       </Pressable>
     </View>
