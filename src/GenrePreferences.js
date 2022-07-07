@@ -35,8 +35,8 @@ const GenrePreferences = (props) => {
   const [genres, setGenres] = useState(genreObject);
 
   const updateUser = () => {
-    const user = { ...genres, userId: userId };
-    // const updatedUser = useMutation(root, user);
+    const outputGenre = { ...genres };
+    // const updatedUser = useMutation(ADD_GENRE_MUTATION);
     console.log(user);
   };
 
@@ -70,6 +70,8 @@ const GenrePreferences = (props) => {
 // React Native Styles
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+    flexDirection: 'column',
     justifyContent: 'space-around',
     alignItems: 'center',
   },
@@ -104,7 +106,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     height: 75,
-    width: 75,
+    width: 125,
     borderColor: 'grey',
     borderWidth: 1,
     borderRadius: 10,
@@ -120,7 +122,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     height: 75,
-    width: 75,
+    width: 125,
     borderColor: 'grey',
     borderWidth: 1,
     borderRadius: 10,
