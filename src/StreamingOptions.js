@@ -11,7 +11,7 @@ import {
 import { gql, useMutation } from '@apollo/client';
 import { UPDATE_USER_MUTATION } from './graphql/Mutation';
 
-const StreamingOptions = ({ navigation }) => {
+const StreamingOptions = ({ navigation, route }) => {
   const [updateUser, { data }] = useMutation(UPDATE_USER_MUTATION);
 
   const [netflix, setNetflix] = useState(false);
@@ -20,16 +20,21 @@ const StreamingOptions = ({ navigation }) => {
   const [prime, setPrime] = useState(false);
   const [disney, setDisney] = useState(false);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const user = {
-      // id: userId,
+      id: route.params.id,
+      name: route.params.name,
+      username: route.params.username,
+      password: route.params.password,
+      email: route.params.username,
       netflix: netflix,
       hbo: hbo,
       hulu: hulu,
       prime: prime,
       disney: disney,
     };
-    updateUser({ variables: { updateUserInput: user } });
+
+    await updateUser({ variables: { updateUserInput: user } });
     navigation.push('GenrePreferences');
   };
 

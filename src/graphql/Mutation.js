@@ -27,6 +27,10 @@ export const REGISTER_USER_MUTATION = gql`
   mutation RegisterUser($registerInput: RegisterInput) {
     registerUser(registerInput: $registerInput) {
       id
+      name
+      username
+      email
+      password
     }
   }
 `;
@@ -48,9 +52,11 @@ export const LoginAuth = gql`
 
 export const UPDATE_USER_MUTATION = gql`
   mutation UpdateUser($updateUserInput: UpdateUserInput) {
-    updateUser(UpdateUserInput: $updateUserInput) {
+    updateUser(updateUserInput: $updateUserInput) {
+      id
       name
       username
+      password
       email
       hulu
       netflix

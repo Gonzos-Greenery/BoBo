@@ -26,11 +26,12 @@ const Register = ({ navigation }) => {
   const toast = useToast();
   const [registerUser, { data }] = useMutation(REGISTER_USER_MUTATION);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const newUserInput = { username, email, password, name: fullName };
-    console.log(newUserInput);
-    registerUser({ variables: { registerInput: newUserInput } });
-    navigation.push('StreamingOptions');
+    const dataOutput = await registerUser({
+      variables: { registerInput: newUserInput },
+    });
+    navigation.push('StreamingOptions', dataOutput.data.registerUser);
   };
 
   return (
