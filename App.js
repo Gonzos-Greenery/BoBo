@@ -35,17 +35,17 @@ export default function App() {
               component={Register}
               options={{ title: 'BoBo Reg' }}
             /> */}
-            <Stack.Screen
+            {/* <Stack.Screen
               name='StreamingOptions'
               component={StreamingOptions}
               options={{ title: 'Choose Streaming Services' }}
-            />
-            {/* <Stack.Screen
+            /> */}
+            <Stack.Screen
               name='GenrePreferences'
               component={GenrePreferences}
               options={{ title: 'Choose Preferred Genres' }}
             />
-            <Stack.Screen
+            {/*<Stack.Screen
               name='Login'
               component={Login}
               options={{ headerShown: false }}

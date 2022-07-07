@@ -56,7 +56,7 @@ const StreamingOptions = ({ navigation, route }) => {
                     <Circle
                       size='100px'
                       borderWidth='1'
-                      bg={netflix ? '#86A17F' : 'coolGray.100'}
+                      bg={netflix ? 'primary.900' : 'coolGray.100'}
                     >
                       <Avatar
                         source={{
@@ -77,7 +77,7 @@ const StreamingOptions = ({ navigation, route }) => {
                     <Circle
                       size='100px'
                       borderWidth='1'
-                      bg={prime ? '#86A17F' : 'coolGray.100'}
+                      bg={prime ? 'primary.900' : 'coolGray.100'}
                     >
                       <Avatar
                         source={{
@@ -98,7 +98,7 @@ const StreamingOptions = ({ navigation, route }) => {
                     <Circle
                       size='100px'
                       borderWidth='1'
-                      bg={hulu ? '#86A17F' : 'coolGray.100'}
+                      bg={hulu ? 'primary.900' : 'coolGray.100'}
                     >
                       <Avatar
                         source={{
@@ -119,7 +119,7 @@ const StreamingOptions = ({ navigation, route }) => {
                     <Circle
                       size='100px'
                       borderWidth='1'
-                      bg={hbo ? '#86A17F' : 'coolGray.100'}
+                      bg={hbo ? 'primary.900' : 'coolGray.100'}
                     >
                       <Avatar
                         source={{
@@ -140,7 +140,7 @@ const StreamingOptions = ({ navigation, route }) => {
                     <Circle
                       size='100px'
                       borderWidth='1'
-                      bg={disney ? '#86A17F' : 'coolGray.100'}
+                      bg={disney ? 'primary.900' : 'coolGray.100'}
                     >
                       <Avatar
                         source={{
@@ -159,9 +159,9 @@ const StreamingOptions = ({ navigation, route }) => {
 
         <Stack>
           <Button
-            _text={{ color: '#F7F6D4' }}
+            _text={{ color: 'white' }}
             w='100%'
-            bg='#86A17F'
+            bg='primary.900'
             shadow='4'
             onPress={handleSubmit}
           >

@@ -1,6 +1,14 @@
 import React, { useState } from 'react';
 import { View, Text } from 'react-native';
-import { Image, Pressable, Button } from 'native-base';
+import {
+  Pressable,
+  Button,
+  Stack,
+  VStack,
+  HStack,
+  Box,
+  Center,
+} from 'native-base';
 import { gql, useMutation } from '@apollo/client';
 import { ADD_GENRE_MUTATION } from './graphql/Mutation';
 
@@ -35,29 +43,53 @@ const GenrePreferences = ({ navigation, route }) => {
   };
 
   return (
-    <View>
-      <View>
-        {Object.keys(genreObject).map((genre) => {
-          return (
-            <Pressable
-              onPress={() => {
-                let newGenreObj = genres;
-                newGenreObj[genre] = !genres[genre];
-                setGenres({ ...newGenreObj });
-              }}
-              key={genre}
-            >
-              {/* <View style={genres[genre] ? styles.btnPress : styles.btnNormal}> */}
-              <View>
-                <Text>{genre}</Text>
-              </View>
-            </Pressable>
-          );
-        })}
-      </View>
-      <Pressable onPress={() => handleSubmit()}>
-        <Text>Next</Text>
-      </Pressable>
+    <View style={{ flex: 1 }}>
+      <VStack space={2} w='100%' alignItems='center'>
+        <Stack>
+          <HStack space={10} justifyContent='center' flexWrap='wrap'>
+            {Object.keys(genreObject).map((genre) => {
+              return (
+                <Stack key={genre}>
+                  <Pressable
+                    onPress={() => {
+                      let newGenreObj = genres;
+                      newGenreObj[genre] = !genres[genre];
+                      setGenres({ ...newGenreObj });
+                    }}
+                  >
+                    {/* <View style={genres[genre] ? styles.btnPress : styles.btnNormal}> */}
+                    <Center
+                      bg={genres[genre] ? 'primary.300' : 'primary.900'}
+                      h='30px'
+                      w='110px'
+                      rounded='md'
+                      _text={{
+                        color: 'white',
+                        fontWeight: 'bold',
+                      }}
+                      marginTop='15px'
+                    >
+                      {genre}
+                    </Center>
+                  </Pressable>
+                </Stack>
+              );
+            })}
+          </HStack>
+        </Stack>
+        <Stack>
+          <Button
+            _text={{ color: 'white' }}
+            w='100%'
+            bg='primary.300'
+            shadow='4'
+            onPress={handleSubmit}
+            marginTop='50px'
+          >
+            Next
+          </Button>
+        </Stack>
+      </VStack>
     </View>
   );
 };
