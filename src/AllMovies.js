@@ -30,7 +30,7 @@ export default ({ navigation }) => {
   const { data, loading } = useQuery(MOVIES_QUERY);
 
   if (loading) {
-    return <Loading />
+    return <Loading />;
   } else {
     // console.log(data.getMovies[0])
   }

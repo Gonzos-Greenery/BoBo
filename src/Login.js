@@ -16,9 +16,8 @@ export default ({navigation}) => {
     //useQuery -> takes in a lot of parameters -> returns a lot of data and actions 
     //useLazyQuery -> stops the automatic render of useQuery. It allows for execution upon event
     //reset will void the data so that each time the page rerenders, the information isn't persistent
+    const [fetchUser, {data, error, loading, reset}] = useMutation(LoginAuth)
 
-    const [fetchUser, {data, loading, error,reset}] = useMutation(LoginAuth)
-    
     //Facebook Login + Need to hide appId
     const facebookAuth = async function (){
         try{
@@ -83,9 +82,15 @@ export default ({navigation}) => {
             <TouchableOpacity style={styles.btn} onPress={
                 () => {
                     fetchUser({variables:{loginInput: {email,password}}}) //fetch user
-                    if(!loading && data.loginUser){
-                        navigation.navigate('Movies')
-                        reset();
+                    if(!loading){
+                        if(data){
+                            navigation.navigate('Movies')
+                            reset()
+                        } else {
+                            Alert.alert(`${error}`);
+                        }
+                    } else {
+                        Alert.alert(`${error}`);
                     }
                 }}>
                 <Text style={styles.btnText}>Login</Text>

@@ -1,4 +1,4 @@
-import { ApolloServer, gql } from "apollo-server-express";
+import { ApolloServer, gql } from 'apollo-server-express';
 
 const typeDefs = gql`
   type Movie {
@@ -24,26 +24,37 @@ const typeDefs = gql`
     email: String
     password: String
   }
+  input RegisterInput {
+    name: String
+    username: String
+  }
+
+  input UpdateUserInput {
+    name: String
+    username: String
+    email: String
+    password: String
+    hulu: Boolean
+    netflix: Boolean
+    prime: Boolean
+    disney: Boolean
+    hbo: Boolean
+  }
 
   type Query {
     welcome: String
     getMovies: [Movie]
     getMovie(id: ID): Movie
+    getUser(id: ID): User
   }
   type Mutation {
     addMovie(title: String, description: String): Movie
     deleteMovie(id: ID): String
     updateMovie(id: ID, title: String, description: String): Movie
     loginUser(LoginInput: LoginInput): User
+    registerUser(registerInput: RegisterInput): User
+    updateUser(updateUserInput: UpdateUserInput): User
   }
 `;
-
-// const GET_MOVIES = gql`
-// type Query {
-//   movies {
-//     title
-//   }
-// }
-// `
 
 export default typeDefs;
