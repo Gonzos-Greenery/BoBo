@@ -11,7 +11,7 @@ const resolvers = {
       return 'Welcome to Bobo';
     },
     getMovies: async () => {
-      const movies = await Movie.find();
+      const movies = await Movie.find().limit(100);
       return movies;
     },
     getMovie: async (root, args) => {
@@ -49,6 +49,21 @@ const resolvers = {
         new: true,
       });
       return movie;
+    },
+    loginUser: async (root, {LoginInput: {email, password}}) => {
+      const user = await User.findOne({email});
+      if(user && (await bcrypt.compare(password, user.password))){
+        const token = jwt.sign(
+          {email}, 'JWT',
+          {
+            expiresIn: '7d'
+          }
+        )
+        user.token = token
+        return {...user, password: ''}
+      } else {
+        throw new ApolloError('Invalid email or password, try again')
+      }
     },
     registerUser: async (
       _,
