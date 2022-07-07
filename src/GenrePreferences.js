@@ -57,7 +57,6 @@ const GenrePreferences = ({ navigation, route }) => {
                       setGenres({ ...newGenreObj });
                     }}
                   >
-                    {/* <View style={genres[genre] ? styles.btnPress : styles.btnNormal}> */}
                     <Center
                       bg={genres[genre] ? 'primary.300' : 'primary.900'}
                       h='30px'
@@ -93,74 +92,5 @@ const GenrePreferences = ({ navigation, route }) => {
     </View>
   );
 };
-
-// React Native Styles
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     flexDirection: 'column',
-//     justifyContent: 'space-around',
-//     alignItems: 'center',
-//   },
-//   iconContainer: {
-//     flex: 1,
-//     flexDirection: 'row',
-//     flexWrap: 'wrap',
-//     justifyItems: 'space-between',
-//     justifyContent: 'space-between',
-//   },
-//   buttonLogo: {
-//     padding: 10,
-//     margin: 5,
-//     height: 50,
-//     width: 50,
-//     resizeMode: 'stretch',
-//   },
-//   nextButton: {
-//     flex: 1,
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//     textAlign: 'center',
-//     height: 15,
-//     width: 75,
-//     borderColor: 'grey',
-//     borderWidth: 1,
-//     borderRadius: 10,
-//     backgroundColor: 'pink',
-//   },
-//   btnNormal: {
-//     flex: 1,
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//     height: 75,
-//     width: 125,
-//     borderColor: 'grey',
-//     borderWidth: 1,
-//     borderRadius: 10,
-//     paddingHorizontal: 8,
-//     paddingVertical: 8,
-//     alignSelf: 'flex-start',
-//     marginHorizontal: 20,
-//     marginVertical: 20,
-//     minWidth: '48%',
-//   },
-//   btnPress: {
-//     flex: 1,
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//     height: 75,
-//     width: 125,
-//     borderColor: 'grey',
-//     borderWidth: 1,
-//     borderRadius: 10,
-//     paddingHorizontal: 8,
-//     paddingVertical: 8,
-//     alignSelf: 'flex-start',
-//     marginHorizontal: 20,
-//     marginVertical: 20,
-//     minWidth: '48%',
-//     backgroundColor: 'grey',
-//   },
-// });
 
 export default GenrePreferences;

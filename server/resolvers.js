@@ -1,4 +1,4 @@
-import Movie from './models/Model.js';
+import Movie from './models/Movie.js';
 import User from './models/User.js';
 import Genre from './models/Genre.js';
 import { ApolloError } from 'apollo-server-errors';

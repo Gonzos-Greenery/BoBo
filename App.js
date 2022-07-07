@@ -31,6 +31,11 @@ export default function App() {
             screenOptions={screenOptions}
           >
             <Stack.Screen
+              name='Movies'
+              component={AllMovies}
+              options={{ title: 'BoBo' }}
+            />
+            <Stack.Screen
               name='Register'
               component={Register}
               options={{ title: 'BoBo Reg' }}
@@ -49,11 +54,6 @@ export default function App() {
               name='Login'
               component={Login}
               options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name='Movies'
-              component={AllMovies}
-              options={{ title: 'BoBo' }}
             />
             <Stack.Screen
               name='SingleMovie'

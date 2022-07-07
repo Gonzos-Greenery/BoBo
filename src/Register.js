@@ -22,16 +22,33 @@ const Register = ({ navigation }) => {
   const [email, setEmail] = React.useState('');
   const [fullName, setFullName] = React.useState('');
   const [show, setShow] = React.useState(false);
+  const [errors, setErrors] = React.useState('');
   const handleClick = () => setShow(!show);
   const toast = useToast();
   const [registerUser, { data }] = useMutation(REGISTER_USER_MUTATION);
 
+  const validate = () => {
+    if (!email.includes('@') || !email.includes('.')) {
+      setErrors('Invalid email type.');
+      return false;
+    }
+    return true;
+  };
+
   const handleSubmit = async () => {
-    const newUserInput = { username, email, password, name: fullName };
-    const dataOutput = await registerUser({
-      variables: { registerInput: newUserInput },
-    });
-    navigation.push('StreamingOptions', dataOutput.data.registerUser);
+    if (validate()) {
+      const newUserInput = { username, email, password, name: fullName };
+      try {
+        const data = await registerUser({
+          variables: { registerInput: newUserInput },
+        });
+        navigation.push('StreamingOptions', data.data.registerUser);
+      } catch (err) {
+        setErrors(err.message);
+      }
+    } else {
+      console.log('**not validated', errors);
+    }
   };
 
   return (
@@ -69,11 +86,6 @@ const Register = ({ navigation }) => {
               label='Username'
               placeholder='Username'
             ></Input>
-            <FormControl.ErrorMessage
-              leftIcon={<WarningOutlineIcon size='xs' />}
-            >
-              Username is not available
-            </FormControl.ErrorMessage>
           </Stack>
         </FormControl>
         <FormControl isRequired>
@@ -89,11 +101,6 @@ const Register = ({ navigation }) => {
               label='email'
               placeholder='E-mail'
             ></Input>
-            <FormControl.ErrorMessage
-              leftIcon={<WarningOutlineIcon size='xs' />}
-            >
-              Invalid E-mail
-            </FormControl.ErrorMessage>
           </Stack>
         </FormControl>
         <FormControl isRequired>
@@ -122,6 +129,13 @@ const Register = ({ navigation }) => {
               }
               placeholder='Password'
             />
+            {errors.length > 1 ? (
+              <FormControl.HelperText>
+                Unable to register. {errors}
+              </FormControl.HelperText>
+            ) : (
+              <Text> </Text>
+            )}
           </Stack>
         </FormControl>
         <Button
@@ -134,7 +148,15 @@ const Register = ({ navigation }) => {
           Register
         </Button>
         <Text color='#86A17F' py='9'>
-          Already signed up? Login
+          Already signed up?
+        </Text>
+        <Text
+          style={{ color: 'black', textDecorationLine: 'underline' }}
+          onPress={() => {
+            navigation.navigate('Login');
+          }}
+        >
+          Login here!
         </Text>
       </VStack>
     </View>
