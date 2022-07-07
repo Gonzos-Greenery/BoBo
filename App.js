@@ -10,6 +10,10 @@ import MovieCard from './src/MovieSwipe/MovieCard';
 import SingleMovie from './src/SingleMovie';
 import StreamingOptions from './src/StreamingOptions';
 import GenrePreferences from './src/GenrePreferences';
+import { NativeBaseProvider } from 'native-base';
+import { screenOptions } from './src/styles.js';
+import Register from './src/Register';
+import Login from './src/Login';
 
 import { screenOptions } from './src/styles.js';
 
@@ -23,49 +27,31 @@ const client = new ApolloClient({
 export default function App() {
   return (
     <ApolloProvider client={client}>
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName='Login' screenOptions={screenOptions}>
-          {/* <Stack.Screen
-            name='Movies'
-            component={AllMovies}
-            options={{ title: 'BoBo' }}
-          />
-          <Stack.Screen
-            name='Login'
-            component={Login}
-            options={{ title: 'BoBo Account Login' }}
-          />
-          <Stack.Screen
-            name='SingleMovie'
-            component={SingleMovie}
-            options={({
-              route: {
-                params: {
-                  movie: { title },
-                },
-              },
-            }) => ({
-              title: title,
-            })}
-          />
-          <Stack.Screen
-            name='MovieCard'
-            component={MovieCard}
-            options={{ title: 'Netflix and Chill' }}
-          />
-          <Stack.Screen
-            name='StreamingOptions'
-            component={StreamingOptions}
-            options={{ title: 'Choose Streaming Services' }}
-          /> */}
-          <Stack.Screen
-            name='GenrePreferences'
-            component={GenrePreferences}
-            options={{ title: 'Choose Preferred Genres' }}
-          />
-        </Stack.Navigator>
-        <StatusBar style='light' />
-      </NavigationContainer>
+      <NativeBaseProvider>
+        <NavigationContainer>
+          <Stack.Navigator
+            initialRouteName='Register'
+            screenOptions={screenOptions}
+          >
+            <Stack.Screen
+              name='Movies'
+              component={AllMovies}
+              options={{ title: 'BoBo' }}
+            />
+            <Stack.Screen
+              name='Register'
+              component={Register}
+              options={{ title: 'BoBo Reg' }}
+            />
+            <Stack.Screen
+              name='GenrePreferences'
+              component={GenrePreferences}
+              options={{ title: 'Choose Preferred Genres' }}
+            />
+          </Stack.Navigator>
+          <StatusBar style='light' />
+        </NavigationContainer>
+      </NativeBaseProvider>
     </ApolloProvider>
   );
 }

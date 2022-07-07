@@ -1,13 +1,13 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native';
 
-export const PINK = '#ff5dc8'
+export const PINK = '#ff5dc8';
 
 export const screenOptions = {
   headerStyle: {
     backgroundColor: PINK,
   },
   headerTintColor: '#fff',
-}
+};
 
 export default StyleSheet.create({
   centered: {
@@ -29,4 +29,4 @@ export default StyleSheet.create({
   subheader: {
     paddingTop: 10,
   },
-})
+});
