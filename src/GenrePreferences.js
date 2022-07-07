@@ -35,9 +35,8 @@ const GenrePreferences = (props) => {
   const [genres, setGenres] = useState(genreObject);
 
   const updateUser = () => {
-    const outputGenre = { ...genres };
     // const updatedUser = useMutation(ADD_GENRE_MUTATION);
-    console.log(user);
+    // console.log(user);
   };
 
   return (

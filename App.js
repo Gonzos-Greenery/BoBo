@@ -13,7 +13,6 @@ import GenrePreferences from './src/GenrePreferences';
 import { NativeBaseProvider } from 'native-base';
 import { screenOptions } from './src/styles.js';
 import Register from './src/Register';
-import Login from './src/Login';
 
 import { screenOptions } from './src/styles.js';
 
