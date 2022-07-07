@@ -72,7 +72,7 @@ const resolvers = {
       const exEmail = await User.findOne({ email });
       if (exEmail) {
         throw new ApolloError(
-          'A user is already registered with the email' + email,
+          'A user is already registered with the email ' + email,
           'USER_ALREADY_EXISTS'
         );
       }
