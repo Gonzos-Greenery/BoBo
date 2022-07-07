@@ -1,13 +1,6 @@
 import React, { useState } from 'react';
-import {
-  View,
-  StyleSheet,
-  TouchableOpacity,
-  Image,
-  Text,
-  Pressable,
-  Button,
-} from 'react-native';
+import { View, Text } from 'react-native';
+import { Image, Pressable, Button } from 'native-base';
 import { gql, useMutation } from '@apollo/client';
 import { ADD_GENRE_MUTATION } from './graphql/Mutation';
 
@@ -42,8 +35,8 @@ const GenrePreferences = ({ navigation, route }) => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.iconContainer}>
+    <View>
+      <View>
         {Object.keys(genreObject).map((genre) => {
           return (
             <Pressable
@@ -54,7 +47,8 @@ const GenrePreferences = ({ navigation, route }) => {
               }}
               key={genre}
             >
-              <View style={genres[genre] ? styles.btnPress : styles.btnNormal}>
+              {/* <View style={genres[genre] ? styles.btnPress : styles.btnNormal}> */}
+              <View>
                 <Text>{genre}</Text>
               </View>
             </Pressable>
@@ -62,79 +56,79 @@ const GenrePreferences = ({ navigation, route }) => {
         })}
       </View>
       <Pressable onPress={() => handleSubmit()}>
-        <Text style={styles.nextButton}>Next</Text>
+        <Text>Next</Text>
       </Pressable>
     </View>
   );
 };
 
 // React Native Styles
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-  },
-  iconContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyItems: 'space-between',
-    justifyContent: 'space-between',
-  },
-  buttonLogo: {
-    padding: 10,
-    margin: 5,
-    height: 50,
-    width: 50,
-    resizeMode: 'stretch',
-  },
-  nextButton: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    textAlign: 'center',
-    height: 15,
-    width: 75,
-    borderColor: 'grey',
-    borderWidth: 1,
-    borderRadius: 10,
-    backgroundColor: 'pink',
-  },
-  btnNormal: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: 75,
-    width: 125,
-    borderColor: 'grey',
-    borderWidth: 1,
-    borderRadius: 10,
-    paddingHorizontal: 8,
-    paddingVertical: 8,
-    alignSelf: 'flex-start',
-    marginHorizontal: 20,
-    marginVertical: 20,
-    minWidth: '48%',
-  },
-  btnPress: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: 75,
-    width: 125,
-    borderColor: 'grey',
-    borderWidth: 1,
-    borderRadius: 10,
-    paddingHorizontal: 8,
-    paddingVertical: 8,
-    alignSelf: 'flex-start',
-    marginHorizontal: 20,
-    marginVertical: 20,
-    minWidth: '48%',
-    backgroundColor: 'grey',
-  },
-});
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     flexDirection: 'column',
+//     justifyContent: 'space-around',
+//     alignItems: 'center',
+//   },
+//   iconContainer: {
+//     flex: 1,
+//     flexDirection: 'row',
+//     flexWrap: 'wrap',
+//     justifyItems: 'space-between',
+//     justifyContent: 'space-between',
+//   },
+//   buttonLogo: {
+//     padding: 10,
+//     margin: 5,
+//     height: 50,
+//     width: 50,
+//     resizeMode: 'stretch',
+//   },
+//   nextButton: {
+//     flex: 1,
+//     alignItems: 'center',
+//     justifyContent: 'center',
+//     textAlign: 'center',
+//     height: 15,
+//     width: 75,
+//     borderColor: 'grey',
+//     borderWidth: 1,
+//     borderRadius: 10,
+//     backgroundColor: 'pink',
+//   },
+//   btnNormal: {
+//     flex: 1,
+//     alignItems: 'center',
+//     justifyContent: 'center',
+//     height: 75,
+//     width: 125,
+//     borderColor: 'grey',
+//     borderWidth: 1,
+//     borderRadius: 10,
+//     paddingHorizontal: 8,
+//     paddingVertical: 8,
+//     alignSelf: 'flex-start',
+//     marginHorizontal: 20,
+//     marginVertical: 20,
+//     minWidth: '48%',
+//   },
+//   btnPress: {
+//     flex: 1,
+//     alignItems: 'center',
+//     justifyContent: 'center',
+//     height: 75,
+//     width: 125,
+//     borderColor: 'grey',
+//     borderWidth: 1,
+//     borderRadius: 10,
+//     paddingHorizontal: 8,
+//     paddingVertical: 8,
+//     alignSelf: 'flex-start',
+//     marginHorizontal: 20,
+//     marginVertical: 20,
+//     minWidth: '48%',
+//     backgroundColor: 'grey',
+//   },
+// });
 
 export default GenrePreferences;
