@@ -12,6 +12,9 @@ import StreamingOptions from './src/StreamingOptions';
 import GenrePreferences from './src/GenrePreferences';
 import { NativeBaseProvider } from 'native-base';
 import { screenOptions } from './src/styles.js';
+import { NativeBaseProvider } from 'native-base';
+import 'react-native-gesture-handler';
+
 import Register from './src/Register';
 
 import { screenOptions } from './src/styles.js';
@@ -29,9 +32,13 @@ export default function App() {
       <NativeBaseProvider>
         <NavigationContainer>
           <Stack.Navigator
-            initialRouteName='Register'
+            initialRouteName='Login'
             screenOptions={screenOptions}
           >
+            {/* <Stack.Navigator
+            initialRouteName="Register"
+            screenOptions={screenOptions}
+          > */}
             <Stack.Screen
               name='Movies'
               component={AllMovies}
@@ -46,6 +53,29 @@ export default function App() {
               name='GenrePreferences'
               component={GenrePreferences}
               options={{ title: 'Choose Preferred Genres' }}
+            />
+            {/* <Stack.Screen
+          name="Login"
+          component={Login}
+          options={{title: 'BoBo Account Login'}}
+        /> */}
+            <Stack.Screen
+              name='SingleMovie'
+              component={SingleMovie}
+              options={({
+                route: {
+                  params: {
+                    movie: { title },
+                  },
+                },
+              }) => ({
+                title: title,
+              })}
+            />
+            <Stack.Screen
+              name='MovieCard'
+              component={MovieCard}
+              options={{ title: 'Netflix and Chill' }}
             />
           </Stack.Navigator>
           <StatusBar style='light' />
