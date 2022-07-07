@@ -48,6 +48,8 @@ const typeDefs = gql`
   input RegisterInput {
     name: String
     username: String
+    password: String
+    email: String
   }
   input UpdateUserInput {
     id: String
