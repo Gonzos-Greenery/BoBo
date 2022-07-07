@@ -1,24 +1,22 @@
 import React, {useState, useEffect} from 'react';
-import { StyleSheet, Text, View, Alert, Image, TextInput, Dimensions, TouchableOpacity} from 'react-native';
+import { StyleSheet, Text, View, Alert, Image, TextInput, Dimensions, TouchableOpacity, NativeModules} from 'react-native';
 import * as Facebook from 'expo-facebook'
+import * as Google from 'expo-auth-session/providers/google'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faFacebook, faTwitter, faGoogle} from '@fortawesome/free-brands-svg-icons';
-// import { useQuery } from '@apollo/client';
-// import { USER_QUERY } from './graphql/Query';
+import { useQuery, useLazyQuery, useMutation} from '@apollo/client';
+import { LoginAuth } from './graphql/Mutation';
 
-export default () => {
-    const [username, setUsername] = useState('');
+
+export default ({navigation}) => {
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     //Regular Authentication with User Database + Auth state 
-    // const loginAuth = async function (id = "62c497cbe028cca03375aa53") {
-    //     const {data} = useQuery(USER_QUERY(), {
-    //         variables:{
-    //             id: id
-    //         }
-    //     })ex
-    //     console.log(data)
-    // }
+    //useQuery -> takes in a lot of parameters -> returns a lot of data and actions 
+    //useLazyQuery -> stops the automatic render of useQuery. It allows for execution upon event
+    //reset will void the data so that each time the page rerenders, the information isn't persistent
+    const [fetchUser, {data, error, loading, reset}] = useMutation(LoginAuth)
 
     //Facebook Login + Need to hide appId
     const facebookAuth = async function (){
@@ -43,6 +41,17 @@ export default () => {
     }
 
     //Google Login 
+    const googleAuth = () => {
+        const [request, response, promptAsync] = Google.useAuthRequest({
+            iosClientId: "616067821868-rq45l8ujq8vr2n7atj3ekc617uadg6ce.apps.googleusercontent.com"
+        });
+
+        if(response?.type === 'success'){
+            console.log(response.authentication.accessToken)
+        }
+    }
+
+    //Twitter Login
     
 
     return(
@@ -56,7 +65,8 @@ export default () => {
                 <TextInput
                     style={styles.input}
                     placeholderTextColor={`rgba(255,255,255,0.7)`}
-                    onChangeText={(info) => setUsername(info)}
+                    onChangeText={(info) => setEmail(info)}
+                    autoCapitalize = 'none'
                 />
             </View>
             <View style={styles.inputContainer}>
@@ -65,21 +75,35 @@ export default () => {
                     style={styles.input}
                     placeholderTextColor={`rgba(255,255,255,0.7)`}
                     onChangeText={(info) => setPassword(info)}
+                    autoCapitalize = 'none'
                     secureTextEntry
                 />
             </View>
-            <TouchableOpacity style={styles.btn} onPress={() => {loginAuth()}}>
-                    <Text style={styles.btnText}>Login</Text>
+            <TouchableOpacity style={styles.btn} onPress={
+                () => {
+                    fetchUser({variables:{loginInput: {email,password}}}) //fetch user
+                    if(!loading){
+                        if(data){
+                            navigation.navigate('Movies')
+                            reset()
+                        } else {
+                            Alert.alert(`${error}`);
+                        }
+                    } else {
+                        Alert.alert(`${error}`);
+                    }
+                }}>
+                <Text style={styles.btnText}>Login</Text>
             </TouchableOpacity>
             <Text style={{textAlign:'center', paddingTop: 20}}>or continue with</Text>
             <View style={styles.loginBtnContainer}>
                 <View style={styles.loginBtnRow}>
-                    <TouchableOpacity onPress={()=>{facebookAuth()}}>
+                    <TouchableOpacity onPress={facebookAuth}>
                         <View style={styles.loginBtn}>
                             <FontAwesomeIcon icon={faFacebook} size={50} color={"#4267B2"}/>
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={googleAuth}>
                         <View style={styles.loginBtn}>
                             <FontAwesomeIcon icon={faGoogle} size={50} color={"#1aa260"}/>
                         </View>
@@ -92,7 +116,7 @@ export default () => {
                 </View>
             </View>
             <Text style={{textAlign:'center', paddingTop: 20}}>Don't have an account?</Text>
-            <Text style={{color:'white'}} onPress={() => {}}>Sign up here!</Text>
+            <Text style={{color:'black', textDecorationLine: 'underline'}} onPress={() => {}}>Sign up here!</Text>
         </View>
     )
 }
@@ -101,13 +125,13 @@ export default () => {
 const {width, height} = Dimensions.get('window')
 const styles = StyleSheet.create({
     container: {
-        flex: 1, 
         alignItems: 'center',
-        width: '100%'
+        width: '100%',
+        backgroundColor: `rgba(164,198,156,1)`
     },
     logo:{
         marginTop:0,
-        width: '90%'
+        height: height * 0.45
     },
     textStyle:{
         backgroundColor: "#A4C69C",

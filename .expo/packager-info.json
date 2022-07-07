@@ -3,9 +3,12 @@
   "expoServerPort": null,
   "packagerPort": null,
   "webpackServerPort": null,
+<<<<<<< HEAD
   "expoServerPort": 19000,
   "packagerPort": 19000,
   "webpackServerPort": 19006,
+=======
+>>>>>>> 84910115771ee9b08716ca9b3c8cb0dc3c724bee
   "packagerPid": null,
   "expoServerNgrokUrl": null,
   "packagerNgrokUrl": null,

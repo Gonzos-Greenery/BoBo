@@ -13,11 +13,21 @@ import GenrePreferences from './src/GenrePreferences';
 import { NativeBaseProvider } from 'native-base';
 import { screenOptions } from './src/styles.js';
 import { NativeBaseProvider } from 'native-base';
-import 'react-native-gesture-handler';
 
+<<<<<<< HEAD
 import Register from './src/Register';
 
 import { screenOptions } from './src/styles.js';
+=======
+import { screenOptions } from './src/styles.js';
+import 'react-native-gesture-handler';
+
+import Register from './src/Register';
+import AllMovies from './src/AllMovies';
+import Login from './src/Login';
+import MovieCard from './src/MovieSwipe/MovieCard';
+import SingleMovie from './src/SingleMovie';
+>>>>>>> 84910115771ee9b08716ca9b3c8cb0dc3c724bee
 
 const Stack = createStackNavigator();
 
@@ -26,19 +36,24 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
+
 export default function App() {
   return (
     <ApolloProvider client={client}>
       <NativeBaseProvider>
         <NavigationContainer>
           <Stack.Navigator
+<<<<<<< HEAD
             initialRouteName='Login'
             screenOptions={screenOptions}
           >
             {/* <Stack.Navigator
             initialRouteName="Register"
+=======
+            initialRouteName="Login"
+>>>>>>> 84910115771ee9b08716ca9b3c8cb0dc3c724bee
             screenOptions={screenOptions}
-          > */}
+          >
             <Stack.Screen
               name='Movies'
               component={AllMovies}
@@ -50,6 +65,7 @@ export default function App() {
               options={{ title: 'BoBo Reg' }}
             />
             <Stack.Screen
+<<<<<<< HEAD
               name='GenrePreferences'
               component={GenrePreferences}
               options={{ title: 'Choose Preferred Genres' }}
@@ -61,6 +77,14 @@ export default function App() {
         /> */}
             <Stack.Screen
               name='SingleMovie'
+=======
+            name="Login"
+            component={Login}
+            options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="SingleMovie"
+>>>>>>> 84910115771ee9b08716ca9b3c8cb0dc3c724bee
               component={SingleMovie}
               options={({
                 route: {
@@ -73,9 +97,15 @@ export default function App() {
               })}
             />
             <Stack.Screen
+<<<<<<< HEAD
               name='MovieCard'
               component={MovieCard}
               options={{ title: 'Netflix and Chill' }}
+=======
+              name="MovieCard"
+              component={MovieCard}
+              options={{ title: "Netflix and Chill" }}
+>>>>>>> 84910115771ee9b08716ca9b3c8cb0dc3c724bee
             />
           </Stack.Navigator>
           <StatusBar style='light' />

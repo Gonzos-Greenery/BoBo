@@ -11,7 +11,7 @@ const resolvers = {
       return 'Welcome to Bobo';
     },
     getMovies: async () => {
-      const movies = await Movie.find();
+      const movies = await Movie.find().limit(100);
       return movies;
     },
     getMovie: async (root, args) => {
@@ -54,6 +54,7 @@ const resolvers = {
       });
       return movie;
     },
+<<<<<<< HEAD
     addGenre: async (root, args) => {
       const newGenre = new Genre({
         action: args.action,
@@ -76,6 +77,22 @@ const resolvers = {
       });
       await newGenre.save();
       return newGenre;
+=======
+    loginUser: async (root, {LoginInput: {email, password}}) => {
+      const user = await User.findOne({email});
+      if(user && (await bcrypt.compare(password, user.password))){
+        const token = jwt.sign(
+          {email}, 'JWT',
+          {
+            expiresIn: '7d'
+          }
+        )
+        user.token = token
+        return {...user, password: ''}
+      } else {
+        throw new ApolloError('Invalid email or password, try again')
+      }
+>>>>>>> 84910115771ee9b08716ca9b3c8cb0dc3c724bee
     },
     registerUser: async (
       _,
@@ -109,6 +126,7 @@ const resolvers = {
       const res = await newUser.save();
       return { id: res.id, ...res._doc };
     },
+<<<<<<< HEAD
     updateUser: async (root, args) => {
       const {
         id,
@@ -121,20 +139,30 @@ const resolvers = {
         hbo,
         disney,
       } = args;
-      const updatedUser = {
-        name,
-        username,
-        password,
-        hulu,
-        netflix,
-        prime,
-        hbo,
-        disney,
-      };
+=======
+    updateUser: async (_, {updateUserInput:{id, name, username, password, hulu, netflix, prime, hbo, disney}}) => {
 
-      const user = await User.findByIdAndUpdate(id, updatedUser, {
-        new: true,
-      });
+>>>>>>> 84910115771ee9b08716ca9b3c8cb0dc3c724bee
+      const updatedUser = {
+        name:name,
+        username:username,
+        password:password,
+        hulu:hulu,
+        netflix:netflix,
+        prime:prime,
+        hbo:hbo,
+        disney:disney,
+      };
+      const user = await User.findById(id);
+
+      let samePassword= await bcrypt.compare(password,user.password);
+      if (samePassword){
+        updatedUser.password=user.password
+      } else{
+        updatedUser.password=await bcrypt.hash(password,5)
+      }
+
+      await user.update(updatedUser)
       return user;
     },
   },

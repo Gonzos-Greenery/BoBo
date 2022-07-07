@@ -8,7 +8,7 @@ const movieSchema = new Schema({
   imdb_id: String,
 });
 
-// const Movie = mongoose.model("movie", movieSchema);
-const Movie = mongoose.model("movie-limited", movieSchema);
+const Movie = mongoose.model("movie", movieSchema);
+// const Movie = mongoose.model("movie-limited", movieSchema);
 
 export default Movie;
