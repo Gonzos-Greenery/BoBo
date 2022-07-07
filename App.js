@@ -4,16 +4,15 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import { NativeBaseProvider } from 'native-base';
+
+import { screenOptions } from './src/styles.js';
 import 'react-native-gesture-handler';
 
-
 import Register from './src/Register';
-import AllMovies from "./src/AllMovies";
-import Login from "./src/Login";
-import MovieCard from "./src/MovieSwipe/MovieCard";
-import SingleMovie from "./src/SingleMovie";
-
-import { screenOptions } from "./src/styles.js";
+import AllMovies from './src/AllMovies';
+import Login from './src/Login';
+import MovieCard from './src/MovieSwipe/MovieCard';
+import SingleMovie from './src/SingleMovie';
 
 const Stack = createStackNavigator();
 
