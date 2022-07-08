@@ -13,8 +13,7 @@ import {
 import * as Facebook from 'expo-facebook';
 import * as Google from 'expo-auth-session/providers/google';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faFacebook, faTwitter, faGoogle} from '@fortawesome/free-brands-svg-icons';
-import { useQuery, useLazyQuery, useMutation} from '@apollo/client';
+import { useQuery, useLazyQuery, useMutation } from '@apollo/client';
 import { LOGIN_AUTH } from './graphql/Mutation';
 import {
     Input,
@@ -34,8 +33,6 @@ import {
   faTwitter,
   faGoogle,
 } from '@fortawesome/free-brands-svg-icons';
-import { useQuery, useLazyQuery, useMutation } from '@apollo/client';
-import { LoginAuth } from './graphql/Mutation';
 
 export default ({ navigation }) => {
   const [email, setEmail] = useState('');
@@ -45,7 +42,7 @@ export default ({ navigation }) => {
   //useQuery -> takes in a lot of parameters -> returns a lot of data and actions
   //useLazyQuery -> stops the automatic render of useQuery. It allows for execution upon event
   //reset will void the data so that each time the page rerenders, the information isn't persistent
-  const [fetchUser, { reset }] = useMutation(LoginAuth);
+  const [fetchUser, { reset }] = useMutation(LOGIN_AUTH);
 
   //Facebook Login + Need to hide appId
   const facebookAuth = async function () {

@@ -28,7 +28,7 @@ export default function App() {
       <NativeBaseProvider>
         <NavigationContainer>
           <Stack.Navigator
-            initialRouteName='Login'
+            initialRouteName='RegisterMovies'
             screenOptions={screenOptions}
           >
             <Stack.Screen
