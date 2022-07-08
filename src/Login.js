@@ -5,8 +5,20 @@ import * as Google from 'expo-auth-session/providers/google'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faFacebook, faTwitter, faGoogle} from '@fortawesome/free-brands-svg-icons';
 import { useQuery, useLazyQuery, useMutation} from '@apollo/client';
-import { LoginAuth } from './graphql/Mutation';
-
+import { LOGIN_AUTH } from './graphql/Mutation';
+import {
+    Input,
+    Icon,
+    MaterialIcons,
+    Label,
+    Button,
+    VStack,
+    FormControl,
+    Center,
+    Stack,
+    useToast,
+    WarningOutlineIcon,
+} from 'native-base';
 
 export default ({navigation}) => {
     const [email, setEmail] = useState('');
@@ -16,7 +28,7 @@ export default ({navigation}) => {
     //useQuery -> takes in a lot of parameters -> returns a lot of data and actions 
     //useLazyQuery -> stops the automatic render of useQuery. It allows for execution upon event
     //reset will void the data so that each time the page rerenders, the information isn't persistent
-    const [fetchUser, {data, error, loading, reset}] = useMutation(LoginAuth)
+    const [fetchUser, {data, reset}] = useMutation(LOGIN_AUTH)
 
     //Facebook Login + Need to hide appId
     const facebookAuth = async function (){
@@ -60,37 +72,46 @@ export default ({navigation}) => {
                 style={styles.logo}
                 source={require('../public/logo.png')} 
             />
-            <View style={styles.inputContainer}>
-                <Text style={styles.textStyle}>Email</Text>
-                <TextInput
-                    style={styles.input}
-                    placeholderTextColor={`rgba(255,255,255,0.7)`}
-                    onChangeText={(info) => setEmail(info)}
-                    autoCapitalize = 'none'
-                />
-            </View>
-            <View style={styles.inputContainer}>
-                <Text style={styles.textStyle}>Password</Text>
-                <TextInput
-                    style={styles.input}
-                    placeholderTextColor={`rgba(255,255,255,0.7)`}
-                    onChangeText={(info) => setPassword(info)}
-                    autoCapitalize = 'none'
-                    secureTextEntry
-                />
-            </View>
+            <VStack space={2} w="100%" alignItems="center">
+                <FormControl>
+                    <Stack mx="4" alignItems="center">
+                        <FormControl.Label py="1" w="75%">
+                            Email
+                        </FormControl.Label>
+                        <Input 
+                            size="lg"
+                            variant="underlined"
+                            maxW="300px"
+                            w="75%"
+                            onChangeText={(info) => setEmail(info)}
+                            autoCapitaliz='none'
+                        />
+                        <FormControl.Label py="1" w="75%">
+                            Password
+                        </FormControl.Label>
+                        <Input 
+                            size="lg"
+                            variant="underlined"
+                            maxW="300px"
+                            w="75%"
+                            onChangeText={(info) => setPassword(info)}
+                            secureTextEntry
+                            autoCapitalize='none'
+                        />
+                    </Stack>
+                </FormControl>
+            </VStack>
             <TouchableOpacity style={styles.btn} onPress={
-                () => {
-                    fetchUser({variables:{loginInput: {email,password}}}) //fetch user
-                    if(!loading){
-                        if(data){
-                            navigation.navigate('Movies')
-                            reset()
-                        } else {
-                            Alert.alert(`${error}`);
-                        }
+                async () => {
+                    const {data} = await fetchUser({
+                        variables:{loginInput: {email,password}},
+                        errorPolicy: 'all'
+                    });
+                    if(data.loginUser){
+                        reset()
+                        navigation.navigate('Movies')
                     } else {
-                        Alert.alert(`${error}`);
+                        Alert.alert('Incorrect Email/Password, Try Again')
                     }
                 }}>
                 <Text style={styles.btnText}>Login</Text>
@@ -115,23 +136,29 @@ export default ({navigation}) => {
                     </TouchableOpacity>
                 </View>
             </View>
-            <Text style={{textAlign:'center', paddingTop: 20}}>Don't have an account?</Text>
-            <Text style={{color:'black', textDecorationLine: 'underline'}} onPress={() => {}}>Sign up here!</Text>
+            <Text style={{textAlign:'center', paddingTop: 20, fontSize:16}}>Don't have an account?</Text>
+            <Button 
+                style={styles.btn} 
+                _text={{ color: 'black' }}
+                onPress={() => {
+                    navigation.navigate('Register')
+                }}
+                >Sign Up Here</Button>
         </View>
     )
 }
-//icons are not images
-//imgs -> always use just width
+
 const {width, height} = Dimensions.get('window')
 const styles = StyleSheet.create({
     container: {
         alignItems: 'center',
+        height:'100%',
         width: '100%',
         backgroundColor: `rgba(164,198,156,1)`
     },
     logo:{
         marginTop:0,
-        height: height * 0.45
+        height: height * 0.40
     },
     textStyle:{
         backgroundColor: "#A4C69C",
@@ -154,11 +181,12 @@ const styles = StyleSheet.create({
     },
     btn:{
         width: width * 0.75,
+        color: 'black',
         height:55,
         borderRadius:10,
         backgroundColor: '#d5e7d0',
         justifyContent: 'center',
-        marginTop:20,
+        marginTop:10,
         shadowColor: 'rgba(0, 0, 0, 0.1)',
         shadowOpacity: 0.8,
         elevation: 6,
@@ -172,7 +200,6 @@ const styles = StyleSheet.create({
     loginBtnContainer:{
         width: width,
         maxWidth:280,
-        marginTop:20
     },
     loginBtnRow:{
         flexDirection: 'row',

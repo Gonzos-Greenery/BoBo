@@ -6,6 +6,10 @@ const typeDefs = gql`
     title: String
     description: String
     imdb_id: ID
+    genres: [String]
+  }
+  type Genre {
+    name: String
   }
   type User {
     id: ID
@@ -25,8 +29,10 @@ const typeDefs = gql`
     password: String
   }
   input RegisterInput {
-    name: String
+    email: String
+    password: String
     username: String
+    name: String
   }
 
   input UpdateUserInput {

@@ -1,6 +1,6 @@
 import Movie from './models/Model.js';
 import User from './models/User.js';
-import { ApolloError } from 'apollo-server-errors';
+import { ApolloError} from 'apollo-server-errors';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
@@ -60,9 +60,9 @@ const resolvers = {
           }
         )
         user.token = token
-        return {...user, password: ''}
+        return user
       } else {
-        throw new ApolloError('Invalid email or password, try again')
+        throw new ApolloError('Bad Input')
       }
     },
     registerUser: async (

@@ -7,6 +7,7 @@ export const MOVIES_QUERY = gql`
     title
     description
     imdb_id
+    genres
   }
 }`
 

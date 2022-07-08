@@ -13,6 +13,7 @@ import AllMovies from './src/AllMovies';
 import Login from './src/Login';
 import MovieCard from './src/MovieSwipe/MovieCard';
 import SingleMovie from './src/SingleMovie';
+import RegisterMoviesList from './src/RegisterMoviesList.js';
 
 const Stack = createStackNavigator();
 
@@ -28,7 +29,7 @@ export default function App() {
       <NativeBaseProvider>
         <NavigationContainer>
           <Stack.Navigator
-            initialRouteName="Login"
+            initialRouteName="RegisterMovies"
             screenOptions={screenOptions}
           >
             <Stack.Screen
@@ -63,6 +64,11 @@ export default function App() {
               name="MovieCard"
               component={MovieCard}
               options={{ title: "Netflix and Chill" }}
+            />
+            <Stack.Screen
+              name="RegisterMovies"
+              component={RegisterMoviesList}
+              options={{title: "Select Movies You've Seen"}}
             />
           </Stack.Navigator>
           <StatusBar style="light" />
