@@ -34,11 +34,6 @@ const StreamingOptions = ({ navigation, route }) => {
   };
 
   const [services, setServices] = useState(servicesObj);
-  // const [netflix, setNetflix] = useState(false);
-  // const [hbo, setHbo] = useState(false);
-  // const [hulu, setHulu] = useState(false);
-  // const [prime, setPrime] = useState(false);
-  // const [disney, setDisney] = useState(false);
 
   const handleSubmit = async () => {
     const user = {
