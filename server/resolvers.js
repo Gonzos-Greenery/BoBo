@@ -1,9 +1,9 @@
-import Movie from './models/Model.js';
+import Movie from './models/Movie.js';
 import User from './models/User.js';
-import { ApolloError} from 'apollo-server-errors';
+import Genre from './models/Genre.js';
+import { ApolloError } from 'apollo-server-errors';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-
 
 const resolvers = {
   Query: {
@@ -22,6 +22,10 @@ const resolvers = {
       const user = await User.findById(args.id);
       return user;
     },
+    // getGenre: async (root, args) => {
+    //   const genre = await Genre.findOne({ where: { userId: args.userId } });
+    //   return genre;
+    // },
   },
   Mutation: {
     addMovie: async (root, args) => {
@@ -50,19 +54,63 @@ const resolvers = {
       });
       return movie;
     },
-    loginUser: async (root, {LoginInput: {email, password}}) => {
-      const user = await User.findOne({email});
-      if(user && (await bcrypt.compare(password, user.password))){
-        const token = jwt.sign(
-          {email}, 'JWT',
-          {
-            expiresIn: '7d'
-          }
-        )
-        user.token = token
-        return user
+    addGenre: async (
+      _,
+      {
+        genreInput: {
+          action,
+          animation,
+          comedy,
+          crime,
+          documentation,
+          drama,
+          european,
+          family,
+          fantasy,
+          history,
+          horror,
+          music,
+          romance,
+          scifi,
+          thriller,
+          war,
+          western,
+        },
+      }
+    ) => {
+      const newGenre = new Genre({
+        action: action,
+        animation: animation,
+        comedy: comedy,
+        crime: crime,
+        documentation: documentation,
+        drama: drama,
+        european: european,
+        family: family,
+        fantasy: fantasy,
+        history: history,
+        horror: horror,
+        music: music,
+        romance: romance,
+        scifi: scifi,
+        thriller: thriller,
+        war: war,
+        western: western,
+      });
+
+      await newGenre.save();
+      return newGenre;
+    },
+    loginUser: async (root, { LoginInput: { email, password } }) => {
+      const user = await User.findOne({ email });
+      if (user && (await bcrypt.compare(password, user.password))) {
+        const token = jwt.sign({ email }, 'JWT', {
+          expiresIn: '7d',
+        });
+        user.token = token;
+        return user;
       } else {
-        throw new ApolloError('Bad Input')
+        throw new ApolloError('Invalid email or password, try again');
       }
     },
     registerUser: async (
@@ -97,28 +145,42 @@ const resolvers = {
       const res = await newUser.save();
       return { id: res.id, ...res._doc };
     },
-    updateUser: async (_, {updateUserInput:{id, name, username, password, hulu, netflix, prime, hbo, disney}}) => {
-
+    updateUser: async (
+      _,
+      {
+        updateUserInput: {
+          id,
+          name,
+          username,
+          password,
+          hulu,
+          netflix,
+          prime,
+          hbo,
+          disney,
+        },
+      }
+    ) => {
       const updatedUser = {
-        name:name,
-        username:username,
-        password:password,
-        hulu:hulu,
-        netflix:netflix,
-        prime:prime,
-        hbo:hbo,
-        disney:disney,
+        name: name,
+        username: username,
+        password: password,
+        hulu: hulu,
+        netflix: netflix,
+        prime: prime,
+        hbo: hbo,
+        disney: disney,
       };
       const user = await User.findById(id);
 
-      let samePassword= await bcrypt.compare(password,user.password);
-      if (samePassword){
-        updatedUser.password=user.password
-      } else{
-        updatedUser.password=await bcrypt.hash(password,5)
+      let samePassword = await bcrypt.compare(password, user.password);
+      if (samePassword) {
+        updatedUser.password = user.password;
+      } else {
+        updatedUser.password = await bcrypt.hash(password, 5);
       }
 
-      await user.update(updatedUser)
+      await user.update(updatedUser);
       return user;
     },
   },

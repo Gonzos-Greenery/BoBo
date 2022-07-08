@@ -1,7 +1,17 @@
-import React, {useState, useEffect} from 'react';
-import { StyleSheet, Text, View, Alert, Image, TextInput, Dimensions, TouchableOpacity, NativeModules} from 'react-native';
-import * as Facebook from 'expo-facebook'
-import * as Google from 'expo-auth-session/providers/google'
+import React, { useState, useEffect } from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Alert,
+  Image,
+  TextInput,
+  Dimensions,
+  TouchableOpacity,
+  NativeModules,
+} from 'react-native';
+import * as Facebook from 'expo-facebook';
+import * as Google from 'expo-auth-session/providers/google';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faFacebook, faTwitter, faGoogle} from '@fortawesome/free-brands-svg-icons';
 import { useQuery, useLazyQuery, useMutation} from '@apollo/client';
@@ -19,52 +29,61 @@ import {
     useToast,
     WarningOutlineIcon,
 } from 'native-base';
+import {
+  faFacebook,
+  faTwitter,
+  faGoogle,
+} from '@fortawesome/free-brands-svg-icons';
+import { useQuery, useLazyQuery, useMutation } from '@apollo/client';
+import { LoginAuth } from './graphql/Mutation';
 
-export default ({navigation}) => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+export default ({ navigation }) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-    //Regular Authentication with User Database + Auth state 
-    //useQuery -> takes in a lot of parameters -> returns a lot of data and actions 
-    //useLazyQuery -> stops the automatic render of useQuery. It allows for execution upon event
-    //reset will void the data so that each time the page rerenders, the information isn't persistent
-    const [fetchUser, {data, reset}] = useMutation(LOGIN_AUTH)
+  //Regular Authentication with User Database + Auth state
+  //useQuery -> takes in a lot of parameters -> returns a lot of data and actions
+  //useLazyQuery -> stops the automatic render of useQuery. It allows for execution upon event
+  //reset will void the data so that each time the page rerenders, the information isn't persistent
+  const [fetchUser, { reset }] = useMutation(LoginAuth);
 
-    //Facebook Login + Need to hide appId
-    const facebookAuth = async function (){
-        try{
-            await Facebook.initializeAsync({
-                appId: '1385087768668468'
-            });
+  //Facebook Login + Need to hide appId
+  const facebookAuth = async function () {
+    try {
+      await Facebook.initializeAsync({
+        appId: '1385087768668468',
+      });
 
-            const { type, token, expirationDate, permissions, declinedPermissions } =
-            await Facebook.logInWithReadPermissionsAsync({
-            permissions: ['public_profile'],
-            });
-            if (type === 'success') {
-                const response = await fetch(`https://graph.facebook.com/me?access_token=${token}`);
-                Alert.alert('Logged in!', `Hi ${(await response.json()).name}!`);
-            } else {
-                Alert.alert('Login Unsuccessful');
-            }
-        } catch({message}){
-            alert(`Facebook Login Error Message: ${message}`);
-        }
-    }
-
-    //Google Login 
-    const googleAuth = () => {
-        const [request, response, promptAsync] = Google.useAuthRequest({
-            iosClientId: "616067821868-rq45l8ujq8vr2n7atj3ekc617uadg6ce.apps.googleusercontent.com"
+      const { type, token, expirationDate, permissions, declinedPermissions } =
+        await Facebook.logInWithReadPermissionsAsync({
+          permissions: ['public_profile'],
         });
-
-        if(response?.type === 'success'){
-            console.log(response.authentication.accessToken)
-        }
+      if (type === 'success') {
+        const response = await fetch(
+          `https://graph.facebook.com/me?access_token=${token}`
+        );
+        Alert.alert('Logged in!', `Hi ${(await response.json()).name}!`);
+      } else {
+        Alert.alert('Login Unsuccessful');
+      }
+    } catch ({ message }) {
+      alert(`Facebook Login Error Message: ${message}`);
     }
+  };
 
-    //Twitter Login
-    
+  //Google Login
+  const googleAuth = () => {
+    const [request, response, promptAsync] = Google.useAuthRequest({
+      iosClientId:
+        '616067821868-rq45l8ujq8vr2n7atj3ekc617uadg6ce.apps.googleusercontent.com',
+    });
+
+    if (response?.type === 'success') {
+      console.log(response.authentication.accessToken);
+    }
+  };
+
+  //Twitter Login
 
     return(
         <View style={styles.container}>

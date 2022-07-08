@@ -23,8 +23,29 @@ const typeDefs = gql`
     prime: Boolean
     disney: Boolean
     hbo: Boolean
+    genre: [Genre!]
   }
-  input LoginInput{
+  type Genre {
+    action: Boolean
+    animation: Boolean
+    comedy: Boolean
+    crime: Boolean
+    documentation: Boolean
+    drama: Boolean
+    european: Boolean
+    family: Boolean
+    fantasy: Boolean
+    history: Boolean
+    horror: Boolean
+    music: Boolean
+    romance: Boolean
+    scifi: Boolean
+    thriller: Boolean
+    war: Boolean
+    western: Boolean
+    user: [User!]
+  }
+  input LoginInput {
     email: String
     password: String
   }
@@ -34,7 +55,6 @@ const typeDefs = gql`
     username: String
     name: String
   }
-
   input UpdateUserInput {
     id: String
     name: String
@@ -46,6 +66,25 @@ const typeDefs = gql`
     prime: Boolean
     disney: Boolean
     hbo: Boolean
+  }
+  input GenreInput {
+    action: Boolean
+    animation: Boolean
+    comedy: Boolean
+    crime: Boolean
+    documentation: Boolean
+    drama: Boolean
+    european: Boolean
+    family: Boolean
+    fantasy: Boolean
+    history: Boolean
+    horror: Boolean
+    music: Boolean
+    romance: Boolean
+    scifi: Boolean
+    thriller: Boolean
+    war: Boolean
+    western: Boolean
   }
 
   type Query {
@@ -60,6 +99,7 @@ const typeDefs = gql`
     updateMovie(id: ID, title: String, description: String): Movie
     loginUser(LoginInput: LoginInput): User
     registerUser(registerInput: RegisterInput): User
+    addGenre(genreInput: GenreInput): Genre
     updateUser(updateUserInput: UpdateUserInput): User
   }
 `;

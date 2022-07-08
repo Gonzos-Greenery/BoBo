@@ -3,17 +3,17 @@ import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
-import { NativeBaseProvider } from 'native-base';
 
-import { screenOptions } from './src/styles.js';
-import 'react-native-gesture-handler';
-
-import Register from './src/Register';
 import AllMovies from './src/AllMovies';
 import Login from './src/Login';
 import MovieCard from './src/MovieSwipe/MovieCard';
 import SingleMovie from './src/SingleMovie';
 import RegisterMoviesList from './src/RegisterMoviesList.js';
+import StreamingOptions from './src/StreamingOptions';
+import GenrePreferences from './src/GenrePreferences';
+import { NativeBaseProvider } from 'native-base';
+import { screenOptions } from './src/styles.js';
+import Register from './src/Register';
 
 const Stack = createStackNavigator();
 
@@ -22,33 +22,42 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-
 export default function App() {
   return (
     <ApolloProvider client={client}>
       <NativeBaseProvider>
         <NavigationContainer>
           <Stack.Navigator
-            initialRouteName="RegisterMovies"
+            initialRouteName='Login'
             screenOptions={screenOptions}
           >
             <Stack.Screen
-              name="Movies"
+              name='Movies'
               component={AllMovies}
               options={{ title: 'BoBo' }}
             />
             <Stack.Screen
-              name="Register"
+              name='Register'
               component={Register}
               options={{ title: 'BoBo Reg' }}
             />
             <Stack.Screen
-            name="Login"
-            component={Login}
-            options={{ headerShown: false }}
+              name='StreamingOptions'
+              component={StreamingOptions}
+              options={{ title: 'Choose Streaming Services' }}
             />
             <Stack.Screen
-              name="SingleMovie"
+              name='GenrePreferences'
+              component={GenrePreferences}
+              options={{ title: 'Choose Preferred Genres' }}
+            />
+            <Stack.Screen
+              name='Login'
+              component={Login}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name='SingleMovie'
               component={SingleMovie}
               options={({
                 route: {
@@ -61,9 +70,9 @@ export default function App() {
               })}
             />
             <Stack.Screen
-              name="MovieCard"
+              name='MovieCard'
               component={MovieCard}
-              options={{ title: "Netflix and Chill" }}
+              options={{ title: 'Netflix and Chill' }}
             />
             <Stack.Screen
               name="RegisterMovies"
@@ -71,7 +80,7 @@ export default function App() {
               options={{title: "Select Movies You've Seen"}}
             />
           </Stack.Navigator>
-          <StatusBar style="light" />
+          <StatusBar style='light' />
         </NavigationContainer>
       </NativeBaseProvider>
     </ApolloProvider>
