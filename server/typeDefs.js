@@ -41,6 +41,33 @@ const typeDefs = gql`
     western: Boolean
     user: [User!]
   }
+  type Party {
+    date: String
+    host: [User!]
+    invitedGuests: [User!]
+    acceptedGuests: [User]
+    deniedGuests: [User!]
+    potentialMovies: [Movie]
+    pickedMovie: [Movie!]
+    partyRating: [Party_Rating]
+  }
+  type Friend {
+    user: [User!]
+    friend: [User!]
+  }
+  type UserRating {
+    rating: Number
+    watchAgain: Boolean
+    wantToWatch: Boolean
+    movie: [Movie!]
+    user: [User!]
+  }
+  type PartyRating {
+    rating: Number
+    movie: [Movie!]
+    user: [User!]
+    party: [Party!]
+  }
   input LoginInput {
     email: String
     password: String
@@ -82,12 +109,19 @@ const typeDefs = gql`
     war: Boolean
     western: Boolean
   }
-
+  input UserRatingInput{
+    rating: Number
+    watchAgain: Boolean
+    wantToWatch: Boolean
+    movie: [Movie!]
+    user: [User!]
+  }
   type Query {
     welcome: String
     getMovies: [Movie]
     getMovie(id: ID): Movie
     getUser(id: ID): User
+    getUserRating (id:ID):User_Rating
   }
   type Mutation {
     addMovie(title: String, description: String): Movie
@@ -97,6 +131,7 @@ const typeDefs = gql`
     registerUser(registerInput: RegisterInput): User
     addGenre(genreInput: GenreInput): Genre
     updateUser(updateUserInput: UpdateUserInput): User
+    addUserRating(userRatingInput: UserRatingInput) : User_Rating
   }
 `;
 

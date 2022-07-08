@@ -1,6 +1,10 @@
 import Movie from './models/Movie.js';
 import User from './models/User.js';
 import Genre from './models/Genre.js';
+import Friend from '.models/Friend.js';
+import Party from '.models/Party.js'
+import User_Rating from '.models/User_rating.js'
+import Party_Rating from '.models/Party_rating.js'
 import { ApolloError } from 'apollo-server-errors';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
@@ -183,6 +187,7 @@ const resolvers = {
       await user.update(updatedUser);
       return user;
     },
+    addUserRating: async()
   },
 };
 
