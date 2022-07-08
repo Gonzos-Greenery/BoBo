@@ -42,9 +42,15 @@ const StreamingOptions = ({ navigation, route }) => {
 
   return (
     <View style={{ flex: 1 }}>
-      <VStack space={2} w='100%' alignItems='center'>
+      <VStack space={5} w='100%' alignItems='center' justifyContent='center'>
         <Stack mx='4' alignItems='center'>
-          <HStack space={2} w='100%' alignItems='center'>
+          <HStack
+            space={2}
+            w='100%'
+            alignItems='center'
+            flexWrap='wrap'
+            justifyContent='center'
+          >
             <Stack>
               <Pressable
                 onPress={() => {
@@ -160,7 +166,6 @@ const StreamingOptions = ({ navigation, route }) => {
         <Stack>
           <Button
             _text={{ color: 'white' }}
-            w='100%'
             bg='primary.900'
             shadow='4'
             onPress={handleSubmit}

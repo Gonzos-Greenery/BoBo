@@ -19,6 +19,10 @@ const genreSchema = new Schema({
   thriller: Boolean,
   war: Boolean,
   western: Boolean,
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+  },
 });
 
 const Genre = mongoose.model('genre', genreSchema);
