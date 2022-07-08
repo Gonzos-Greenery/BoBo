@@ -4,6 +4,7 @@ const Schema = mongoose.Schema
 const userRatingSchema = new Schema({
   rating: Number,
   watchAgain: Boolean,
+  wantToWatch: Boolean,
   movie:{type: Schema.Types.ObjectId,
   ref: 'Movie'},
   user: {type:Schema.Types.ObjectId,
