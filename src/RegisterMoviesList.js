@@ -20,12 +20,11 @@ import { MOVIES_QUERY } from './graphql/Query';
 
 //Need to run a function to create specific genres that are available 
 //It then populates individual movies in the list for each one
-// const genreList = ['thriller', 'comedy', 'action', 'romance', 'fantasy', 'horror']
 
 export default ({navigation}) => {
     const {data} = useQuery(MOVIES_QUERY);
     const [movies, setMovies] = useState()
-    
+    const [types, setTypes] = useState()
     const genres = {
         action: [],
         animation: [],
@@ -45,8 +44,9 @@ export default ({navigation}) => {
         war: [],
         western: [],
     }
+    
     const editMovies = async (info) => {
-        const newMovies = info.getMovies.map(movie => {
+        const newMovies = await Promise.all(info.getMovies.map(movie => {
             const imdbId = movie.imdb_id;
             const API_KEY = "api_key=1cf50e6248dc270629e802686245c2c8";
             const BASE_URL = "https://api.themoviedb.org/3";
@@ -57,27 +57,34 @@ export default ({navigation}) => {
                 API_KEY +
                 "&language=en-US&external_source=imdb_id";
             const IMG_URL = "https://image.tmdb.org/t/p/w500";
-            const newMovie = {...movie}
-            fetch(API_URL)
-                .then((res) => res.json())
-                .then((data) => {
-                    console.log(data)
-                    if(!data.success && data.movie_results && data.movie_results.length>0){
-                        newMovie.link = `${IMG_URL + data.movie_results[0].poster_path}`
-                    } else {
-                        newMovie.link = "https://media.comicbook.com/files/img/default-movie.png"
+            
+            let res = fetch(API_URL)
+            .then(res => res.json())
+            .then(({movie_results}) => {
+                if(movie_results && movie_results.length>0){
+                    return {
+                        link: `${IMG_URL + movie_results[0].poster_path}`,
+                        genres: movie.genres,
+                        id: movie.imdb_id
                     }
-                })
-            return newMovie
-        })
+                } else {
+                    return {
+                        link: "https://img.freepik.com/premium-vector/movie-night-cinema-flat-poster_118124-966.jpg",
+                        genres: movie.genres,
+                        id: movie.imdb_id
+                    }
+                }
+            })
+            return res;
+        }))
+        setMovies(newMovies)
         //At this point movies image links have been added. 
         //Filter for each genre
         for(let type in genres){
             const filteredMovies = newMovies.filter(movie => movie.genres[0].includes(type))
             genres[type] = filteredMovies;
         }
-        console.log(newMovies)
-        setMovies(genres)
+        setTypes(genres)
     }
 
     useEffect(() => {
@@ -85,6 +92,9 @@ export default ({navigation}) => {
             editMovies(data)
         }
     }, [data])
+
+    //tried to mutate the queried information to add link -> It appears above but when you try to access it, its undefined.
+    //tested mutating over a key that was already there -> It shows up as the link but when you console log it in render -> Its the original info
 
     return (
         <View>
@@ -95,53 +105,43 @@ export default ({navigation}) => {
                 w="1/6"
             >Skip</Button>
             <View>
-                {movies === undefined ? <Loading style={styles.loading}/> : 
-                    Object.keys(movies).map((type,idx) => {
-                        const listOfMoviesWithType = movies[type]
-                        if(type === 'comedy'){
-                            // console.log(listOfMoviesWithType.every(movie => movie.genres[0].includes(type)))
-                            // console.log(listOfMoviesWithType)
-                        }
-                        return (
-                            <View style={styles.genreRow} key={idx}>
-                                <Text style={{fontSize: 16}}>{type}</Text>
-                                <FlatList 
-                                    horizontal
-                                    ItemSeparatorComponent={() => <View style={{width:5}}/>}
-                                    renderItem = {movie => (
+                {movies === undefined ? <Loading /> : 
+                    <View style={styles.genreRow}>
+                        <Text style={{fontSize: 16}}>ALL MOVIES</Text>
+                            <FlatList 
+                                horizontal
+                                ItemSeparatorComponent={() => <View style={{width:5}}/>}
+                                renderItem = {(movie) => (
+                                    <View key={movie}>
                                         <Image style={styles.image} source={{uri: movie.item.link}}/>
-                                    )}
-                                    data = {listOfMoviesWithType}
-                                />
+                                    </View>
+                                )}
+                                keyExtractor={(movie,idx) => idx.toString()}
+                                data = {movies}
+                            />
+                    </View>
+                }
+                
+                {types === undefined ? <Loading /> : 
+                    Object.keys(types).map((genre,idx) => {
+                        return (
+                            <View key={idx} style={styles.genreRow}>
+                                <Text style={{fontSize: 16}}>{genre.toUpperCase()}</Text>
+                                <FlatList 
+                                horizontal
+                                ItemSeparatorComponent={() => <View style={{width:5}}/>}
+                                renderItem = {(movie) => (
+                                    <View key={movie}>
+                                        <Image style={styles.image} source={{uri: movie.item.link}}/>
+                                    </View>
+                                )}
+                                keyExtractor={(movie,idx) => idx.toString()}
+                                data = {types[genre]}
+                            />
                             </View>
                         )
                     })
                 }
-                {/* {movies === undefined ? <Loading /> : 
-                    <View style={styles.genreRow} key={200}>
-                        <Text style={{fontSize: 16}}>{'Comedy 2.0'}</Text>
-                        <FlatList 
-                            horizontal
-                            ItemSeparatorComponent={() => <View style={{width:5}}/>}
-                            renderItem = {movie => (
-                                <Image style={styles.image} source={{uri: "https://media.comicbook.com/files/img/default-movie.png"}}/>
-                            )}
-                            data = {movies.action}
-                        />
-                        {console.log(movies.action)}
-                        <Image style={styles.image} source={{uri: "https://media.comicbook.com/files/img/default-movie.png"}}/>
-                    </View>
-                } */}
-                {/* {movies === undefined ? <Loading /> : 
-                    movies.action.map((movie,idx) => {
-                        console.log(movie)
-                        return (
-                            <View key={idx}>
-                                <Image style={styles.image} source={{uri: "https://media.comicbook.com/files/img/default-movie.png"}}/>
-                            </View>
-                        )
-                    })
-                } */}
             </View>
         </View>
     )
@@ -149,8 +149,8 @@ export default ({navigation}) => {
 
 const styles = StyleSheet.create({
     image: {
-      width: 100,
-      height: 100,
+      width: 160,
+      height: 240,
     },
     genreRow: {
         marginTop: 20,
@@ -161,3 +161,30 @@ const styles = StyleSheet.create({
     }
 });
 
+ // const newMovies = await Promise.all(info.getMovies.map(movie => {
+        //     const imdbId = movie.imdb_id;
+        //     const API_KEY = "api_key=1cf50e6248dc270629e802686245c2c8";
+        //     const BASE_URL = "https://api.themoviedb.org/3";
+
+        //     const API_URL =
+        //         BASE_URL +
+        //         `/find/${imdbId}?` +
+        //         API_KEY +
+        //         "&language=en-US&external_source=imdb_id";
+        //     const IMG_URL = "https://image.tmdb.org/t/p/w500";
+        //     const newMovie = {...movie}
+
+        //     const res = fetch(API_URL)
+        //         .then(res => res.json())
+        //         .then((data) => {
+        //             if(!data.success && data.movie_results && data.movie_results.length>0){
+        //                 return `${IMG_URL + data.movie_results[0].poster_path}`
+        //             } else {
+        //                 return "https://media.comicbook.com/files/img/default-movie.png"
+        //             }
+        //     }).then(info => {
+        //         newMovie.link = info
+        //     })
+        //     console.log(newMovie.link)
+        //     return newMovie
+        // }))

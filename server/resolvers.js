@@ -11,7 +11,7 @@ const resolvers = {
       return 'Welcome to Bobo';
     },
     getMovies: async () => {
-      const movies = await Movie.find().limit(20);
+      const movies = await Movie.find().limit(100);
       return movies;
     },
     getMovie: async (root, args) => {
