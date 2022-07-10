@@ -5,12 +5,13 @@ const userRatingSchema = new Schema({
   rating: Number,
   watchAgain: Boolean,
   wantToWatch: Boolean,
-  movie:{type: Schema.Types.ObjectId,
-  ref: 'Movie'},
+  // movie:{type: Schema.Types.ObjectId,
+  // ref: 'Movie'},
+  //add back into typeDef once uncommented
   user: {type:Schema.Types.ObjectId,
   ref:'User'}
 })
 
-const User_Rating = mongoose.model('user_rating', userRatingSchema)
+const UserRating = mongoose.model('userRating', userRatingSchema)
 
-export default User_Rating
+export default UserRating

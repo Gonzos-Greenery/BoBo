@@ -1,6 +1,8 @@
 import { ApolloServer, gql } from 'apollo-server-express';
 
 const typeDefs = gql`
+  scalar Date
+
   type Movie {
     id: ID
     title: String
@@ -42,28 +44,27 @@ const typeDefs = gql`
     user: [User!]
   }
   type Party {
-    date: String
+    date: Date
     host: [User!]
     invitedGuests: [User!]
     acceptedGuests: [User]
     deniedGuests: [User!]
-    potentialMovies: [Movie]
-    pickedMovie: [Movie!]
-    partyRating: [Party_Rating]
+    potentialMovies: [Movie!]
+    pickedMovie: Movie!
+    partyRating: [PartyRating!]
   }
   type Friend {
-    user: [User!]
-    friend: [User!]
+    user: User!
+    friend: User!
   }
   type UserRating {
-    rating: Number
+    rating: Float
     watchAgain: Boolean
     wantToWatch: Boolean
-    movie: [Movie!]
-    user: [User!]
+    user: User!
   }
   type PartyRating {
-    rating: Number
+    rating: Float
     movie: [Movie!]
     user: [User!]
     party: [Party!]
@@ -109,19 +110,18 @@ const typeDefs = gql`
     war: Boolean
     western: Boolean
   }
-  input UserRatingInput{
-    rating: Number
+  input UserRatingInput {
+    rating: Float
     watchAgain: Boolean
     wantToWatch: Boolean
-    movie: [Movie!]
-    user: [User!]
+    user: String!
   }
   type Query {
     welcome: String
     getMovies: [Movie]
     getMovie(id: ID): Movie
     getUser(id: ID): User
-    getUserRating (id:ID):User_Rating
+    getUserRating(id: ID): UserRating
   }
   type Mutation {
     addMovie(title: String, description: String): Movie
@@ -131,7 +131,7 @@ const typeDefs = gql`
     registerUser(registerInput: RegisterInput): User
     addGenre(genreInput: GenreInput): Genre
     updateUser(updateUserInput: UpdateUserInput): User
-    addUserRating(userRatingInput: UserRatingInput) : User_Rating
+    addUserRating(userRatingInput: UserRatingInput): UserRating
   }
 `;
 

@@ -13,6 +13,7 @@ import GenrePreferences from './src/GenrePreferences';
 import { NativeBaseProvider } from 'native-base';
 import { screenOptions } from './src/styles.js';
 import Register from './src/Register';
+import theme from './src/theme.js';
 
 const Stack = createStackNavigator();
 
@@ -24,39 +25,39 @@ const client = new ApolloClient({
 export default function App() {
   return (
     <ApolloProvider client={client}>
-      <NativeBaseProvider>
+      <NativeBaseProvider theme={theme}>
         <NavigationContainer>
           <Stack.Navigator
-            initialRouteName='Login'
+            initialRouteName="Login"
             screenOptions={screenOptions}
           >
             <Stack.Screen
-              name='Movies'
+              name="Movies"
               component={AllMovies}
               options={{ title: 'BoBo' }}
             />
             <Stack.Screen
-              name='Register'
+              name="Register"
               component={Register}
               options={{ title: 'BoBo Reg' }}
             />
             <Stack.Screen
-              name='StreamingOptions'
+              name="StreamingOptions"
               component={StreamingOptions}
               options={{ title: 'Choose Streaming Services' }}
             />
             <Stack.Screen
-              name='GenrePreferences'
+              name="GenrePreferences"
               component={GenrePreferences}
               options={{ title: 'Choose Preferred Genres' }}
             />
             <Stack.Screen
-              name='Login'
+              name="Login"
               component={Login}
               options={{ headerShown: false }}
             />
             <Stack.Screen
-              name='SingleMovie'
+              name="SingleMovie"
               component={SingleMovie}
               options={({
                 route: {
@@ -69,12 +70,12 @@ export default function App() {
               })}
             />
             <Stack.Screen
-              name='MovieCard'
+              name="MovieCard"
               component={MovieCard}
               options={{ title: 'Netflix and Chill' }}
             />
           </Stack.Navigator>
-          <StatusBar style='light' />
+          <StatusBar style="light" />
         </NavigationContainer>
       </NativeBaseProvider>
     </ApolloProvider>

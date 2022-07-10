@@ -8,6 +8,6 @@ const partyRatingSchema = new Schema({
   party: { type: Schema.Types.ObjectId, ref: 'Party' },
 });
 
-const Party_Rating = mongoose.model('party_rating', partyRatingSchema);
+const PartyRating = mongoose.model('partyRating', partyRatingSchema);
 
-export default Party_Rating;
+export default PartyRating;

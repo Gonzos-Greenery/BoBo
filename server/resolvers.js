@@ -1,13 +1,55 @@
 import Movie from './models/Movie.js';
 import User from './models/User.js';
 import Genre from './models/Genre.js';
-import Friend from '.models/Friend.js';
-import Party from '.models/Party.js'
-import User_Rating from '.models/User_rating.js'
-import Party_Rating from '.models/Party_rating.js'
+import Friend from './models/Friend.js';
+import Party from './models/Party.js';
+import UserRating from './models/UserRating.js';
+import PartyRating from './models/PartyRating.js';
 import { ApolloError } from 'apollo-server-errors';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import { GraphQLScalarType, Kind } from 'graphql';
+
+const dateScalar = new GraphQLScalarType({
+  name: 'Date',
+  description: 'Date custom scalar type',
+  serialize(value) {
+    return value.getTime(); // Convert outgoing Date to integer for JSON
+  },
+  parseValue(value) {
+    return new Date(value); // Convert incoming integer to Date
+  },
+  parseLiteral(ast) {
+    if (ast.kind === Kind.INT) {
+      return new Date(parseInt(ast.value, 10)); // Convert hard-coded AST string to integer and then to Date
+    }
+    return null; // Invalid hard-coded value (not an integer)
+  },
+});
+
+const userRatings = async (userRatingId) => {
+  try {
+    const userRatings = await UserRating.find({ _id: { $in: userRatingId } });
+    return userRatings.map((rating) => ({
+      ...rating._doc,
+      user: user.bind(this, user._doc.userRatings),
+    }));
+  } catch (err) {
+    throw err;
+  }
+};
+
+const users = async (userId) => {
+  try {
+    const user = await User.findById(userId);
+    return {
+      ...user._doc,
+      userRatings: userRatings.bind(this.user._doc.userRatings),
+    };
+  } catch (err) {
+    throw err;
+  }
+};
 
 const resolvers = {
   Query: {
@@ -142,6 +184,8 @@ const resolvers = {
         email: email.toLowerCase(),
         password: encryptedPassword,
       });
+      /*may want to update the 'JWT' to something more secure
+      (once we have a chance)*/
       const token = jwt.sign({ user_id: newUser._id }, 'JWT', {
         expiresIn: '7d',
       });
@@ -187,7 +231,23 @@ const resolvers = {
       await user.update(updatedUser);
       return user;
     },
-    addUserRating: async()
+    addUserRating: async (
+      root,
+      { userRatingInput: { rating, watchAgain, wantToWatch, userId } }
+    ) => {
+      const user = await User.findById(userId);
+      /* add movieId back into parameters when uncommenting this
+      const movie = await Movie.findById(movieId);*/
+      const newRating = new UserRating({
+        rating,
+        watchAgain,
+        wantToWatch,
+        movie,
+        user,
+      });
+      await newRating.save();
+      return newRating;
+    },
   },
 };
 
