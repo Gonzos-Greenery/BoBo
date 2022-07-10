@@ -124,6 +124,7 @@ export default ({ navigation }) => {
                         errorPolicy: 'all'
                     });
                     if(data.loginUser){
+                        window.localStorage.setItem('username', data.loginUser.username)
                         reset()
                         navigation.navigate('Movies')
                     } else {

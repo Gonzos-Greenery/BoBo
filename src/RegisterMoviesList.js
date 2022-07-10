@@ -104,12 +104,13 @@ export default ({navigation}) => {
                 size="lg"
                 w="1/6"
             >Skip</Button>
-            <View>
+            <ScrollView>
                 {movies === undefined ? <Loading /> : 
                     <View style={styles.genreRow}>
                         <Text style={{fontSize: 16}}>ALL MOVIES</Text>
                             <FlatList 
                                 horizontal
+                                pagingEnabled
                                 ItemSeparatorComponent={() => <View style={{width:5}}/>}
                                 renderItem = {(movie) => (
                                     <View key={movie}>
@@ -122,11 +123,10 @@ export default ({navigation}) => {
                     </View>
                 }
                 
-                {types === undefined ? <Loading /> : 
+                {types === undefined ? <View /> : 
                     Object.keys(types).map((genre,idx) => {
                         return (
                             <View key={idx} style={styles.genreRow}>
-                                <Text style={{fontSize: 16}}>{genre.toUpperCase()}</Text>
                                 <FlatList 
                                 horizontal
                                 ItemSeparatorComponent={() => <View style={{width:5}}/>}
@@ -142,15 +142,16 @@ export default ({navigation}) => {
                         )
                     })
                 }
-            </View>
+            </ScrollView>
         </View>
     )
 }
 
 const styles = StyleSheet.create({
     image: {
-      width: 160,
-      height: 240,
+      width: 120,
+      height: 200,
+      borderRadius: 10,
     },
     genreRow: {
         marginTop: 20,
