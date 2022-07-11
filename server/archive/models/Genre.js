@@ -19,6 +19,7 @@ const genreSchema = new Schema({
   thriller: Boolean,
   war: Boolean,
   western: Boolean,
+  foreign, mystery
 });
 
 const Genre = mongoose.model('genre', genreSchema);

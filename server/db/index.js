@@ -8,19 +8,25 @@ const PartyRating = require('./models/PartyRating');
 const Genre = require('./models/Genre');
 
 User.hasMany(UserRating);
-User.hasMany(Genre);
+User.belongsToMany(Genre);
 User.belongsToMany(User, {as: 'friends', foreignKey: 'user_id', through: UsersFriends});
 User.belongsToMany(User, {as: 'userFriends', foreignKey: 'friend_id', through: UsersFriends});
 User.belongsToMany(Party)
 User.hasMany(PartyRating);
-Movie.hasMany(Genre);
+Movie.belongsToMany(Genre);
 Movie.hasMany(UserRating);
 Movie.hasMany(PartyRating);
 Movie.belongsToMany(Party);
 Party.belongsToMany(User);
 Party.belongsToMany(Movie);
 Party.hasMany(PartyRating);
-
+UserRating.belongsTo(User);
+UserRating.belongsTo(Movie);
+PartyRating.belongsTo(Party);
+PartyRating.belongsTo(Movie);
+PartyRating.belongsTo(User);
+Genre.belongsToMany(Movie);
+Genre.belongsToMany(User)
 
 
 module.exports = {
