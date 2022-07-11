@@ -14,6 +14,7 @@ import GenrePreferences from './src/GenrePreferences';
 import { NativeBaseProvider } from 'native-base';
 import { screenOptions } from './src/styles.js';
 import Register from './src/Register';
+import PartyView from './src/PartyView';
 
 const Stack = createStackNavigator();
 
@@ -28,7 +29,7 @@ export default function App() {
       <NativeBaseProvider>
         <NavigationContainer>
           <Stack.Navigator
-            initialRouteName='Login'
+            initialRouteName='PartyView'
             screenOptions={screenOptions}
           >
             <Stack.Screen
@@ -78,6 +79,11 @@ export default function App() {
               name="RegisterMovies"
               component={RegisterMoviesList}
               options={{title: "Select Movies You've Seen"}}
+            />
+            <Stack.Screen
+              name="PartyView"
+              component={PartyView}
+              options={{title: "Party"}}
             />
           </Stack.Navigator>
           <StatusBar style='light' />
