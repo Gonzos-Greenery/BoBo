@@ -82,18 +82,6 @@ router.put('/movieswatched/add/:userid/:movieid', async (req, res, next) => {
   }
 });
 
-router.put('/movieswatched/add/:userid/:movieid', async (req, res, next) => {
-  try {
-    const user = await User.findByPk(req.params.userid);
-    const movie = await Movie.findByPk(req.params.movieid);
-    await user.addMovie(movie);
-    await movie.addUser(user);
-    res.json(user);
-  } catch (error) {
-    next(error);
-  }
-});
-
 router.put('/genres/add/:userid/:genreid', async (req, res, next) => {
   try {
     const user = await User.findByPk(req.params.userid);
