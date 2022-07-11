@@ -125,8 +125,8 @@ export default ({ navigation }) => {
                     });
                     if(data.loginUser){
                         window.localStorage.setItem('username', data.loginUser.username)
+                        navigation.navigate('Movies', {user: data.loginUser})
                         reset()
-                        navigation.navigate('Movies')
                     } else {
                         Alert.alert('Incorrect Email/Password, Try Again')
                     }

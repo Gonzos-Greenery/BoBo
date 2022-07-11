@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { ScrollView, Text, View, Image, Alert, TextInput, FlatList, StyleSheet} from 'react-native';
+import { ScrollView, Text, View, Image, Pressable, FlatList, StyleSheet} from 'react-native';
 import { useQuery, useLazyQuery, useMutation} from '@apollo/client';
 import {
     Input,
@@ -17,14 +17,16 @@ import {
 import Loading from './Loading';
 
 import { MOVIES_QUERY } from './graphql/Query';
-
+import { ADD_WATCHED } from './graphql/Mutation';
 //Need to run a function to create specific genres that are available 
 //It then populates individual movies in the list for each one
 
 export default ({navigation}) => {
     const {data} = useQuery(MOVIES_QUERY);
-    const [movies, setMovies] = useState()
-    const [types, setTypes] = useState()
+    const [addWatched] = useMutation(ADD_WATCHED);
+    const [movies, setMovies] = useState();
+    const [types, setTypes] = useState();
+    const [seen, setSeen] = useState();
     const genres = {
         action: [],
         animation: [],
@@ -45,6 +47,7 @@ export default ({navigation}) => {
         western: [],
     }
     
+
     const editMovies = async (info) => {
         const newMovies = await Promise.all(info.getMovies.map(movie => {
             const imdbId = movie.imdb_id;
@@ -57,21 +60,21 @@ export default ({navigation}) => {
                 API_KEY +
                 "&language=en-US&external_source=imdb_id";
             const IMG_URL = "https://image.tmdb.org/t/p/w500";
-            
+
             let res = fetch(API_URL)
             .then(res => res.json())
             .then(({movie_results}) => {
-                if(movie_results && movie_results.length>0){
+                if(movie_results && movie_results.length>0 && movie_results[0].poster_path){
                     return {
                         link: `${IMG_URL + movie_results[0].poster_path}`,
                         genres: movie.genres,
-                        id: movie.imdb_id
+                        id: movie.id
                     }
                 } else {
                     return {
                         link: "https://img.freepik.com/premium-vector/movie-night-cinema-flat-poster_118124-966.jpg",
                         genres: movie.genres,
-                        id: movie.imdb_id
+                        id: movie.id
                     }
                 }
             })
@@ -107,14 +110,19 @@ export default ({navigation}) => {
             <ScrollView>
                 {movies === undefined ? <Loading /> : 
                     <View style={styles.genreRow}>
-                        <Text style={{fontSize: 16}}>ALL MOVIES</Text>
+                        <Text style={{fontSize: 16, fontWeight: 'bold'}}>ALL MOVIES</Text>
                             <FlatList 
                                 horizontal
                                 pagingEnabled
                                 ItemSeparatorComponent={() => <View style={{width:5}}/>}
                                 renderItem = {(movie) => (
                                     <View key={movie}>
-                                        <Image style={styles.image} source={{uri: movie.item.link}}/>
+                                        <Pressable onPress={() => {navigation.navigate('SingleMovie', {movie: movie.item})}}>
+                                            <Image 
+                                            style={styles.image} 
+                                            source={{uri: movie.item.link}}
+                                            />
+                                      </Pressable>
                                     </View>
                                 )}
                                 keyExtractor={(movie,idx) => idx.toString()}
@@ -127,12 +135,18 @@ export default ({navigation}) => {
                     Object.keys(types).map((genre,idx) => {
                         return (
                             <View key={idx} style={styles.genreRow}>
+                                <Text style={{fontSize: 16, fontWeight: 'bold'}}>{genre.toUpperCase()}</Text>
                                 <FlatList 
                                 horizontal
                                 ItemSeparatorComponent={() => <View style={{width:5}}/>}
                                 renderItem = {(movie) => (
                                     <View key={movie}>
-                                        <Image style={styles.image} source={{uri: movie.item.link}}/>
+                                        <Pressable onPress={() => {navigation.navigate('SingleMovie', {movie: movie.item})}}>
+                                            <Image 
+                                            style={styles.image} 
+                                            source={{uri: movie.item.link}}
+                                            />
+                                      </Pressable>
                                     </View>
                                 )}
                                 keyExtractor={(movie,idx) => idx.toString()}

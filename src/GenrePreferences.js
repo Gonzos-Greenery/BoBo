@@ -39,7 +39,7 @@ const GenrePreferences = ({ navigation, route }) => {
 
   const handleSubmit = () => {
     addGenre({ variables: { genreInput: genres } });
-    navigation.push('Movies');
+    navigation.push('RegisterMovies');
   };
 
   return (

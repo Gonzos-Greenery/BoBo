@@ -5,7 +5,10 @@ const typeDefs = gql`
     id: ID
     title: String
     description: String
-    imdb_id: ID
+    imdb_id: ID,
+    imdb_score: Float
+    production_countries: String
+    release_year: Int
     genres: [String]
   }
   type Genre {
@@ -24,6 +27,7 @@ const typeDefs = gql`
     disney: Boolean
     hbo: Boolean
     genre: [Genre!]
+    watched: [String]
   }
   type Genre {
     action: Boolean
@@ -50,10 +54,10 @@ const typeDefs = gql`
     password: String
   }
   input RegisterInput {
-    email: String
-    password: String
-    username: String
     name: String
+    username: String
+    password: String
+    email: String
   }
   input UpdateUserInput {
     id: String
@@ -86,6 +90,10 @@ const typeDefs = gql`
     war: Boolean
     western: Boolean
   }
+  input AddWatched {
+    id: String
+    watched: [String]
+  }
 
   type Query {
     welcome: String
@@ -101,6 +109,7 @@ const typeDefs = gql`
     registerUser(registerInput: RegisterInput): User
     addGenre(genreInput: GenreInput): Genre
     updateUser(updateUserInput: UpdateUserInput): User
+    addWatched(addWatched: AddWatched): User
   }
 `;
 

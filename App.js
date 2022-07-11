@@ -34,7 +34,7 @@ export default function App() {
             <Stack.Screen
               name='Movies'
               component={AllMovies}
-              options={{ title: 'BoBo' }}
+              options={{ title: 'BoBo'}}
             />
             <Stack.Screen
               name='Register'

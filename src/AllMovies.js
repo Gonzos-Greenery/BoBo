@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import { ScrollView, Text, View, Image, Alert, TextInput, FlatList, StyleSheet} from 'react-native';
+import { ScrollView, Text, View, Image, Alert, Pressable, FlatList, StyleSheet} from 'react-native';
 import { gql, useQuery } from "@apollo/client";
 import { MOVIES_QUERY } from "./graphql/Query";
 import {
@@ -18,13 +18,12 @@ import {
 import MovieCard from "./MovieSwipe/MovieCard";
 import Loading from './Loading'
 
-// import styles from "./styles";
 
-export default ({navigation}) => {
+export default ({navigation, route}) => {
   const {data} = useQuery(MOVIES_QUERY);
   const [movies, setMovies] = useState()
   const [types, setTypes] = useState()
-  
+
   const editMovies = async (info) => {
       const genres = {
         action: [],
@@ -46,35 +45,35 @@ export default ({navigation}) => {
         western: [],
       }
       const newMovies = await Promise.all(info.getMovies.map(movie => {
-          const imdbId = movie.imdb_id;
-          const API_KEY = "api_key=1cf50e6248dc270629e802686245c2c8";
-          const BASE_URL = "https://api.themoviedb.org/3";
+        const imdbId = movie.imdb_id;
+        const API_KEY = "api_key=1cf50e6248dc270629e802686245c2c8";
+        const BASE_URL = "https://api.themoviedb.org/3";
 
-          const API_URL =
-              BASE_URL +
-              `/find/${imdbId}?` +
-              API_KEY +
-              "&language=en-US&external_source=imdb_id";
-          const IMG_URL = "https://image.tmdb.org/t/p/w500";
-          
-          let res = fetch(API_URL)
-          .then(res => res.json())
-          .then(({movie_results}) => {
-              if(movie_results && movie_results.length>0){
-                  return {
-                      link: `${IMG_URL + movie_results[0].poster_path}`,
-                      genres: movie.genres,
-                      id: movie.imdb_id
-                  }
-              } else {
-                  return {
-                      link: "https://img.freepik.com/premium-vector/movie-night-cinema-flat-poster_118124-966.jpg",
-                      genres: movie.genres,
-                      id: movie.imdb_id
-                  }
-              }
-          })
-          return res;
+        const API_URL =
+            BASE_URL +
+            `/find/${imdbId}?` +
+            API_KEY +
+            "&language=en-US&external_source=imdb_id";
+        const IMG_URL = "https://image.tmdb.org/t/p/w500";
+        
+        let res = fetch(API_URL)
+        .then(res => res.json())
+        .then(({movie_results}) => {
+            if(movie_results && movie_results.length>0 && movie_results[0].poster_path){
+            return {
+                link: `${IMG_URL + movie_results[0].poster_path}`,
+                genres: movie.genres,
+                id: movie.id
+            }
+            } else {
+                return {
+                link: "https://img.freepik.com/premium-vector/movie-night-cinema-flat-poster_118124-966.jpg",
+                genres: movie.genres,
+                id: movie.id
+            }
+        }
+        })
+        return res;
       }))
       setMovies(newMovies)
       for(let type in genres){
@@ -94,47 +93,50 @@ export default ({navigation}) => {
   //tested mutating over a key that was already there -> It shows up as the link but when you console log it in render -> Its the original info
 
   return (
-      <View>
-          <Text style={{fontSize: 20}}>{`Welcome Back, ${window.localStorage.getItem('username')}`}</Text>
+      <View style={styles.container}>
+          {window.localStorage.getItem('username') ? <Text style={{fontSize: 20, fontWeight: 'bold'}}>{`Welcome Back, ${window.localStorage.getItem('username')}`}</Text> : <Text>Welcome!</Text> }
           <ScrollView>
-              {movies === undefined ? <Loading /> : 
-                  <View style={styles.genreRow}>
-                      <Text style={{fontSize: 16}}>ALL MOVIES</Text>
-                          <FlatList 
-                              horizontal
-                              pagingEnabled
-                              ItemSeparatorComponent={() => <View style={{width:5}}/>}
-                              renderItem = {(movie) => (
-                                  <View key={movie}>
-                                      <Image style={styles.image} source={{uri: movie.item.link}}/>
-                                  </View>
-                              )}
-                              keyExtractor={(movie,idx) => idx.toString()}
-                              data = {movies}
-                          />
-                  </View>
-              }
-              
-              {types === undefined ? <View /> : 
-                  Object.keys(types).map((genre,idx) => {
-                      return (
-                          <View key={idx} style={styles.genreRow}>
-                              <Text style={{fontSize: 16}}>{genre.toUpperCase()}</Text>
-                              <FlatList 
-                              horizontal
-                              ItemSeparatorComponent={() => <View style={{width:5}}/>}
-                              renderItem = {(movie) => (
-                                  <View key={movie}>
-                                      <Image style={styles.image} source={{uri: movie.item.link}}/>
-                                  </View>
-                              )}
-                              keyExtractor={(movie,idx) => idx.toString()}
-                              data = {types[genre]}
-                          />
-                          </View>
-                      )
-                  })
-              }
+            {route.params.user.watched === undefined ? <Text style={{fontSize: 16}}>Nothing watched previously</Text> :
+            <View style={styles.genreRow}>
+                <Text style={{fontSize:16, fontWeight: 'bold'}}>Previously Watched...</Text>
+                <FlatList 
+                    horizontal
+                    ItemSeparatorComponent={() => <View style={{width:5}}/>}
+                    data={movies === undefined ? [] : movies.filter(movie => route.params.user.watched.includes(movie.id))}
+                    renderItem={(movie) => (
+                        <View>
+                            <Image style={styles.image} source={movie.item.link}/>
+                        </View>
+                    )}
+                />
+            </View>
+            }
+            {types === undefined ? <Loading /> : 
+                Object.keys(types).map((genre,idx) => {
+                    return (
+                        <View key={idx} style={styles.genreRow}>
+                            <Text style={{fontSize: 16, fontWeight: 'bold'}}>{genre.toUpperCase()}</Text>
+                            <FlatList 
+                            horizontal
+                            ItemSeparatorComponent={() => <View style={{width:5}}/>}
+                            renderItem = {(movie) => (
+                                <View key={movie}>
+                                    <Pressable onPress={() => {
+                                    navigation.navigate('SingleMovie', {movie: movie.item})}}>
+                                    <Image 
+                                        style={styles.image} 
+                                        source={{uri: movie.item.link}}
+                                    />
+                                    </Pressable>
+                                </View>
+                            )}
+                            keyExtractor={(movie,idx) => idx.toString()}
+                            data = {types[genre]}
+                        />
+                        </View>
+                    )
+                })
+            }
           </ScrollView>
       </View>
   )
@@ -145,6 +147,10 @@ const styles = StyleSheet.create({
     width: 120,
     height: 200,
     borderRadius: 10,
+    shadowColor: 'rgba(0, 0, 0, 0.1)',
+    shadowOpacity: 0.2,
+    elevation: 6,
+    shadowRadius: 15 ,
   },
   genreRow: {
       marginTop: 20,
@@ -152,7 +158,12 @@ const styles = StyleSheet.create({
   loading:{
       width:'100%',
       height:'100%'
-  }
+  },
+  container: {
+    height:'100%',
+    width: '100%',
+    backgroundColor: `rgba(164,198,156,1)`
+}
 });
 
 
