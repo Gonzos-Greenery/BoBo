@@ -2,7 +2,6 @@
   "name": "bobo",
   "version": "1.0.0",
   "main": "index.js",
-  "type": "module",
   "scripts": {
     "start": "expo start --dev-client",
     "seed": "node script/seed.js",
@@ -43,6 +42,7 @@
     "graphql-tag": "^2.12.6",
     "jsonwebtoken": "^8.5.1",
     "native-base": "^3.4.7",
+    "pg": "^8.7.3",
     "qs": "^6.11.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
@@ -55,7 +55,8 @@
     "react-native-svg": "^12.3.0",
     "react-native-web": "0.17.7",
     "react-spring": "^8.0.27",
-    "react-tinder-card": "^1.4.0"
+    "react-tinder-card": "^1.4.0",
+    "sequelize": "^6.21.3"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

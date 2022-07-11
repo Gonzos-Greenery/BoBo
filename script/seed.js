@@ -1,9 +1,8 @@
 'use strict';
 
-import {db} from '../server/db';
-import { Movie, Genre, User } from '../server/db/model';
-import movieSeed from './movieSeed';
-import fs from 'fs';
+const { db, models: {Movie} } = require('../server/db');
+const movieSeed = require('./movieSeed');
+const fs = require('fs');
 
 async function seed() {
   await db.sync({ force: true });

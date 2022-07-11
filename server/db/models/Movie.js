@@ -29,12 +29,12 @@ const Movie = db.define('movie', {
     type: Sequelize.STRING,
 
   },
-  genres: {
+  genres_arr: {
     type: Sequelize.STRING,
 
   },
   production_countries:{
-    tyoe: Sequelize.STRING
+    type: Sequelize.STRING
   },
   seasons:{
     type: Sequelize.STRING

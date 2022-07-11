@@ -17,12 +17,12 @@ const MovieSeed = [
     imdb_votes: 117,
     tmdb_popularity: 6.135,
     tmdb_score: 3.8,
-    netflix: '',
-    hulu: '',
-    hbo: '',
-    disney: '',
-    prime: 'TRUE',
+    netflix: false,
+    hulu: false,
+    hbo: false,
+    disney: false,
+    prime: true,
   },
 ];
 
-module.exports = MovieSeed
+module.exports = MovieSeed;
