@@ -27,24 +27,26 @@ const dateScalar = new GraphQLScalarType({
   },
 });
 
-const userRatings = async (userRatingId) => {
+const userRatings = async function (userRatingIds) {
   try {
-    const userRatings = await UserRating.find({ _id: { $in: userRatingId } });
+    const userRatings = await UserRating.find({ _id: { $in: userRatingIds } });
+    console.log('in rating function')
     return userRatings.map((rating) => ({
       ...rating._doc,
-      user: user.bind(this, user._doc.userRatings),
+      user: user.bind(this, rating._doc.user),
     }));
   } catch (err) {
     throw err;
   }
 };
 
-const users = async (userId) => {
+const user = async function (userId) {
   try {
     const user = await User.findById(userId);
+    console.log('in user function')
     return {
       ...user._doc,
-      userRatings: userRatings.bind(this.user._doc.userRatings),
+      userRatings: userRatings.bind(this, user._doc.userRatings),
     };
   } catch (err) {
     throw err;
@@ -58,15 +60,39 @@ const resolvers = {
     },
     getMovies: async () => {
       const movies = await Movie.find().limit(100);
+
       return movies;
     },
     getMovie: async (root, args) => {
       const movie = await Movie.findById(args.id);
+
       return movie;
     },
     getUser: async (root, args) => {
       const user = await User.findById(args.id);
       return user;
+    },
+    users: async function () {
+      try {
+        const users = await User.find();
+        return users.map((user) => ({
+          ...user._doc,
+          userRatings: userRatings.bind(this, user._doc.userRatings),
+        }));
+      } catch (error) {
+        throw error;
+      }
+    },
+    userRatings: async function () {
+      try {
+        const userRatings = await UserRating.find();
+        return userRatings.map((rating) => ({
+          ...rating._doc,
+          user: user.bind(this, rating._doc.user),
+        }));
+      } catch (error) {
+        throw error;
+      }
     },
     // getGenre: async (root, args) => {
     //   const genre = await Genre.findOne({ where: { userId: args.userId } });
@@ -98,6 +124,7 @@ const resolvers = {
       const movie = await Movie.findByIdAndUpdate(id, updatedMovie, {
         new: true,
       });
+      console.log(movie);
       return movie;
     },
     addGenre: async (
@@ -154,6 +181,7 @@ const resolvers = {
           expiresIn: '7d',
         });
         user.token = token;
+
         return { ...user, password: '' };
       } else {
         throw new ApolloError('Invalid email or password, try again');
@@ -177,6 +205,7 @@ const resolvers = {
           'USER_ALREADY_EXISTS'
         );
       }
+      console.log('input', name, username, email, password);
       let encryptedPassword = await bcrypt.hash(password, 5);
       const newUser = new User({
         name: name,
@@ -191,7 +220,7 @@ const resolvers = {
       });
       newUser.token = token;
       const res = await newUser.save();
-      return { id: res.id, ...res._doc };
+      return { ...res._doc, id: res._doc._id, password: null };
     },
     updateUser: async (
       _,
@@ -220,33 +249,64 @@ const resolvers = {
         disney: disney,
       };
       const user = await User.findById(id);
-
-      let samePassword = await bcrypt.compare(password, user.password);
-      if (samePassword) {
-        updatedUser.password = user.password;
+      if (password) {
+        let samePassword = await bcrypt.compare(password, user.password);
+        if (samePassword) {
+          updatedUser.password = user.password;
+        } else {
+          updatedUser.password = await bcrypt.hash(password, 5);
+        }
       } else {
-        updatedUser.password = await bcrypt.hash(password, 5);
+        delete updatedUser.password;
       }
 
       await user.update(updatedUser);
       return user;
     },
-    addUserRating: async (
+    addUserRating: async function (
       root,
-      { userRatingInput: { rating, watchAgain, wantToWatch, userId } }
-    ) => {
-      const user = await User.findById(userId);
-      /* add movieId back into parameters when uncommenting this
-      const movie = await Movie.findById(movieId);*/
-      const newRating = new UserRating({
+      { userRatingInput: { rating, watchAgain, wantToWatch } }
+    ) {
+      if (!wantToWatch) {
+        wantToWatch = watchAgain;
+      }
+
+      const userRating = new UserRating({
         rating,
         watchAgain,
         wantToWatch,
-        movie,
-        user,
+        user: '62cbb46a3a2a574f93a2f141',
       });
-      await newRating.save();
-      return newRating;
+      try {
+        const savedRating = await userRating.save();
+        let userRecord1 = await User.findById('62cbb46a3a2a574f93a2f141');
+        let userRecord = userRecord1._doc;
+        delete userRecord._id;
+        console.log('updating item', userRecord1);
+        if (userRecord.userRatings) {
+          userRecord.userRatings.push(userRating);
+          console.log('adding rating to array', userRecord);
+        } else {
+          // delete userRecord._id;
+          userRecord = {
+            $set: { ...userRecord, userRatings: [userRating] },
+          };
+          // console.log('rating', userRecord.userRatings);
+          console.log('adding rating', userRecord);
+        }
+        userRecord1._doc._id='62cbb46a3a2a574f93a2f141'
+        userRecord1._id='62cbb46a3a2a574f93a2f141'
+        await userRecord1.update(userRecord);
+        console.log('updated');
+        let res1 = await User.findById('62cbb46a3a2a574f93a2f141');
+        console.log('after update', res1);
+        return {
+          ...savedRating._doc,
+          user: user.bind(this, '62cbb46a3a2a574f93a2f141'),
+        };
+      } catch (error) {
+        throw error;
+      }
     },
   },
 };

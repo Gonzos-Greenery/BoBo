@@ -22,6 +22,7 @@ const typeDefs = gql`
     disney: Boolean
     hbo: Boolean
     genre: [Genre!]
+    userRatings: [UserRating]!
   }
   type Genre {
     action: Boolean
@@ -61,7 +62,7 @@ const typeDefs = gql`
     rating: Float
     watchAgain: Boolean
     wantToWatch: Boolean
-    user: User!
+    user: User
   }
   type PartyRating {
     rating: Float
@@ -72,6 +73,7 @@ const typeDefs = gql`
   input LoginInput {
     email: String
     password: String
+
   }
   input RegisterInput {
     name: String
@@ -80,7 +82,7 @@ const typeDefs = gql`
     email: String
   }
   input UpdateUserInput {
-    id: String
+    id: ID
     name: String
     username: String
     email: String
@@ -114,7 +116,7 @@ const typeDefs = gql`
     rating: Float
     watchAgain: Boolean
     wantToWatch: Boolean
-    user: String!
+
   }
   type Query {
     welcome: String
@@ -122,6 +124,8 @@ const typeDefs = gql`
     getMovie(id: ID): Movie
     getUser(id: ID): User
     getUserRating(id: ID): UserRating
+    users: [User]
+    userRatings: [UserRating]
   }
   type Mutation {
     addMovie(title: String, description: String): Movie

@@ -2,6 +2,8 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
+  name: String,
+  token: String,
   username: { type: String, unique: true },
   email: { type: String, unique: true },
   password: String,
@@ -12,8 +14,10 @@ const userSchema = new Schema({
   hbo: Boolean,
   genre: {
     type: Schema.Types.ObjectId,
-    ref: 'Genre',
+    ref: 'genre',
   },
+  userRating: {type: Schema.Types.ObjectId,
+  ref: 'userRating'}
 });
 
 const User = mongoose.model('user', userSchema);

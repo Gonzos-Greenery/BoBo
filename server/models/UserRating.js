@@ -9,7 +9,7 @@ const userRatingSchema = new Schema({
   // ref: 'Movie'},
   //add back into typeDef once uncommented
   user: {type:Schema.Types.ObjectId,
-  ref:'User'}
+  ref:'user'}
 })
 
 const UserRating = mongoose.model('userRating', userRatingSchema)

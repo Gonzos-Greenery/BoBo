@@ -4,11 +4,11 @@ const Schema = mongoose.Schema;
 const friendSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId,
-    ref: 'User',
+    ref: 'user',
   },
   friend: {
     type: Schema.Types.ObjectId,
-    ref: 'User',
+    ref: 'user',
   },
 });
 
