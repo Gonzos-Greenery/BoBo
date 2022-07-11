@@ -94,8 +94,8 @@ export default ({navigation, route}) => {
 
   return (
       <View style={styles.container}>
-          {window.localStorage.getItem('username') ? <Text style={{fontSize: 20, fontWeight: 'bold'}}>{`Welcome Back, ${window.localStorage.getItem('username')}`}</Text> : <Text>Welcome!</Text> }
-          <ScrollView>
+        {window.localStorage.getItem('username') ? <Text style={{fontSize: 20, fontWeight: 'bold'}}>{`Welcome Back, ${window.localStorage.getItem('username')}`}</Text> : <Text>Welcome!</Text> }
+        <ScrollView>
             {route.params.user.watched === undefined ? <Text style={{fontSize: 16}}>Nothing watched previously</Text> :
             <View style={styles.genreRow}>
                 <Text style={{fontSize:16, fontWeight: 'bold'}}>Previously Watched...</Text>
@@ -111,6 +111,22 @@ export default ({navigation, route}) => {
                 />
             </View>
             }
+            <View style={styles.genreRow}>
+                <Text style={{fontSize:16, fontWeight: 'bold'}}>Upcoming Parties</Text>
+                <FlatList 
+                    horizontal
+                    ItemSeparatorComponent={() => <View style={{width:5}}/>}
+                    data={[1,2]}
+                    renderItem={() => (
+                        <View>
+                            <Pressable 
+                                onPress={() => navigation.navigate('PartyView')}>
+                                <Image style={styles.image} source={"https://thumbs.dreamstime.com/b/film-strip-video-camera-vector-icon-cinema-symbol-film-strip-video-camera-vector-icon-cinema-symbol-photographic-film-135692148.jpg"}/>        
+                            </Pressable>
+                        </View>
+                    )}
+                />
+            </View>
             {types === undefined ? <Loading /> : 
                 Object.keys(types).map((genre,idx) => {
                     return (
@@ -137,7 +153,7 @@ export default ({navigation, route}) => {
                     )
                 })
             }
-          </ScrollView>
+            </ScrollView>
       </View>
   )
 }

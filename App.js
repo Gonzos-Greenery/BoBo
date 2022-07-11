@@ -15,6 +15,7 @@ import { NativeBaseProvider } from 'native-base';
 import { screenOptions } from './src/styles.js';
 import Register from './src/Register';
 import PartyView from './src/PartyView';
+import PartyAddForm from './src/PartyAddForm';
 
 const Stack = createStackNavigator();
 
@@ -29,7 +30,7 @@ export default function App() {
       <NativeBaseProvider>
         <NavigationContainer>
           <Stack.Navigator
-            initialRouteName='PartyView'
+            initialRouteName='Login'
             screenOptions={screenOptions}
           >
             <Stack.Screen
@@ -84,6 +85,11 @@ export default function App() {
               name="PartyView"
               component={PartyView}
               options={{title: "Party"}}
+            />
+            <Stack.Screen
+              name="PartyAddForm"
+              component={PartyAddForm}
+              options={{title: "Add Someone"}}
             />
           </Stack.Navigator>
           <StatusBar style='light' />

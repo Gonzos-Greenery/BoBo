@@ -1449,11 +1449,12 @@ const userX = {
 }
 
 
-export default ({navigation}) => {
+export default ({navigation, route}) => {
     const [votingStatus, setVotingStatus] = useState() //state of voting period, state of users list, state of users voted status
     const [users, setUsers] = useState() //keeps track of users + adding new users 
     const [films, setFilms] = useState() //storing a collection of 10 films with top scorings that are not seen or is "will watch again movie"
     
+    //needs to take an a parameter for party ID to load in the information. 
 
     //pull in list -> check different attributes to see for that party
     //voted + not yet will be checked in status for each user
@@ -1490,9 +1491,11 @@ export default ({navigation}) => {
             </View>
             <View style={styles.btnRow}>
                 <Button 
-                    onPress={() => {navigation.push('MovieCard', {movies: movies})}}
+                    onPress={() => navigation.push('MovieCard', {movies: movies})}
                 >Press to Vote</Button>
-                <Button>Add to group</Button>
+                <Button
+                    onPress={() => navigation.push('PartyAddForm', {attendees: attendees})}
+                >Add to group</Button>
             </View>
             {user !== undefined && user.host ? 
             <Button style={{height: 55, borderRadius: 10, width: '75%', alignSelf:'center', marginTop: 20}}>Recommend</Button> : 
