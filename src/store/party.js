@@ -25,7 +25,7 @@ const setParty = (party) => {
 export const fetchParty = (partyId) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.get(`/api/parties/party/${partyId}`);
+      const { data } = await axios.get(`/api/party/${partyId}`);
       dispatch(setParty(data));
     } catch (error) {
       console.log(error);
@@ -36,7 +36,7 @@ export const fetchParty = (partyId) => {
 export const addParty = (userId, username, name, location, date) => {
   return async (dispatch) => {
     try {
-      const newParty = await axios.post(`/api/parties/`, {
+      const newParty = await axios.post(`/api/party/`, {
         name,
         location,
         date,

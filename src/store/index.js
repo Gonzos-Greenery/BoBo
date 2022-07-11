@@ -9,7 +9,8 @@ import movies from './movies';
 import genrePref from './genrePref';
 import moviesWatched from './moviesWatched';
 import userParties from './parties';
-import userRatings from './ratings';
+import userRatings from './userRatings';
+import partyRatings from './partyRatings';
 import party from './party';
 
 const reducer = combineReducers({
@@ -21,7 +22,9 @@ const reducer = combineReducers({
   moviesWatched,
   userParties,
   userRatings,
+  partyRatings,
   party,
+  //Friends list
 });
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({ collapsed: true }))

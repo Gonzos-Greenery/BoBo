@@ -1,40 +1,58 @@
 import axios from 'axios';
 
 // Action constants
-const SET_GENRE_PREF = 'SET_GENRE_PREF';
-const GET_GENRE_PREF = 'GET_GENRE_PREF';
+const SET_USER_GENRE = 'SET_USER_GENRE';
+const GET_USER_GENRE = 'GET_USER_GENRE';
+const GET_MOVIE_GENRE = 'GET_MOVIE_GENRE';
 
 // Action creators
-const setGenrePref = (genres) => {
+const setUserGenre = (genres) => {
   return {
-    type: SET_GENRE_PREF,
+    type: SET_USER_GENRE,
     genres,
   };
 };
-const getGenrePref = (genres) => {
+const getUserGenre = (genres) => {
   return {
-    type: GET_GENRE_PREF,
+    type: GET_USER_GENRE,
+    genres,
+  };
+};
+const getMovieGenre = (genres) => {
+  return {
+    type: GET_MOVIE_GENRE,
     genres,
   };
 };
 
 // Thunks
-export const fetchGenrePref = (userId) => {
+export const fetchUserGenre = (userId) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.get(`/api/genre/${userId}`);
-      dispatch(getGenrePref(data));
+      const { data } = await axios.get(`/api/users/genre/${userId}`);
+      dispatch(getUserGenre(data));
     } catch (error) {
       console.log(error);
     }
   };
 };
 
-export const addGenrePref = (userId) => {
+export const addUserGenre = (userId, genre) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.post(`/api/genre/${userId}`);
-      dispatch(setGenrePref(data));
+      const { data } = await axios.post(`/api/users/genre/${userId}`, genre);
+      dispatch(setUserGenre(data));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const fetchMovieGenre = (movieId) => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.get(`/api/movies/genre/${movieId}`);
+      dispatch(getMovieGenre(data));
     } catch (error) {
       console.log(error);
     }
@@ -45,9 +63,11 @@ const initialState = [];
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case SET_GENRE_PREF:
+    case SET_USER_GENRE:
       return action.genres;
-    case GET_GENRE_PREF:
+    case GET_USER_GENRE:
+      return action.genres;
+    case GET_MOVIE_GENRE:
       return action.genres;
     default:
       return state;

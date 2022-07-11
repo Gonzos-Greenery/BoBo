@@ -23,7 +23,7 @@ const addMovieWatched = (moviesWatched) => {
 export const fetchMoviesWatched = (userId) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.get(`/api/moviesWatched/${userId}`);
+      const { data } = await axios.get(`/api/users/movieswatched/${userId}`);
       dispatch(setMovies(data));
     } catch (error) {
       console.log(error);
@@ -31,10 +31,10 @@ export const fetchMoviesWatched = (userId) => {
   };
 };
 
-export const addExistingGame = (userId, movieId) => {
+export const addMovieToUser = (userId, movieId) => {
   return async (dispatch) => {
     try {
-      await axios.put(`/api/moviesWatched/add/${userId}/${movieId}`);
+      await axios.put(`/api/users/movieswatched/add/${userId}/${movieId}`);
       const { data: updatedMoviesWatched } = await axios.get(
         `/api/moviesWatched/${userId}`
       );

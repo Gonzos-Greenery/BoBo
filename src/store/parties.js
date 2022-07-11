@@ -23,7 +23,7 @@ const _deleteParty = (party) => {
 export const fetchParties = (userId) => {
   return async (dispatch) => {
     try {
-      const { data: allParties } = await axios.get(`/api/parties/${userId}`);
+      const { data: allParties } = await axios.get(`/api/party/${userId}`);
       const partiesWithUser = allParties.map((party) => {
         let userIds = party.users.map((user) => user.id);
         if (userIds.includes(userId)) {
@@ -40,7 +40,7 @@ export const fetchParties = (userId) => {
 export const deleteParty = (id) => {
   return async (dispatch) => {
     try {
-      const { data: party } = await axios.delete(`/api/parties/${id}`);
+      const { data: party } = await axios.delete(`/api/party/${id}`);
       dispatch(_deleteParty(party));
     } catch (error) {
       console.log(error);
