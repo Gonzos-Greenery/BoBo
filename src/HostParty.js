@@ -12,6 +12,8 @@ import {
   FormControl,
   Center,
   Stack,
+  Pressable,
+  Box,
 } from 'native-base';
 
 const HostParty = ({ navigation }) => {
@@ -19,13 +21,25 @@ const HostParty = ({ navigation }) => {
   const [address, setAddress] = React.useState('');
   const [date, setDate] = React.useState(new Date());
   const [time, setTime] = React.useState(new Date(Date.now()));
+  const [timePicker, setTimePicker] = React.useState(false);
+  const [datePicker, setDatePicker] = React.useState(false);
+
+  const showDatePicker = () => {
+    setDatePicker(true);
+  };
+
+  const showTimePicker = () => {
+    setTimePicker(true);
+  };
 
   const onDateSelected = (event, value) => {
     setDate(value);
+    setDatePicker(false);
   };
 
   const onTimeSelected = (event, value) => {
     setTime(value);
+    setTimePicker(false);
   };
 
   const handleSubmit = async () => {
@@ -70,32 +84,71 @@ const HostParty = ({ navigation }) => {
             ></Input>
           </Stack>
         </FormControl>
-        <SafeAreaView style={{ flex: 1 }}>
-          <View style={styleSheet.MainContainer}>
-            <Text style={styleSheet.text}>Date = {date.toDateString()}</Text>
-            <Text style={styleSheet.text}>
-              Time = {time.toLocaleTimeString('en-US')}
-            </Text>
-            <DateTimePicker
-              value={date}
-              mode={'date'}
-              display={Platform.OS === 'ios' ? 'spinner' : 'default'}
-              is24Hour={true}
-              onChange={onDateSelected}
-              style={styleSheet.datePicker}
-            />
-            )}
-            <DateTimePicker
-              value={time}
-              mode={'time'}
-              display={Platform.OS === 'ios' ? 'spinner' : 'default'}
-              is24Hour={false}
-              onChange={onTimeSelected}
-              style={styleSheet.datePicker}
-            />
-          </View>
-        </SafeAreaView>
-
+        <FormControl isRequired>
+          <Stack mx='4' alignItems='center'>
+            <FormControl.Label pb='0' w='50%'>
+              Date
+            </FormControl.Label>
+            <Pressable onPress={() => setDatePicker(!datePicker)}>
+              <Box
+                borderWidth='1'
+                borderColor='coolGray.300'
+                shadow='3'
+                bg='coolGray.100'
+                p='5'
+                rounded='8'
+                minW='50%'
+                alignItems='center'
+              >
+                {date.toDateString()}
+              </Box>
+            </Pressable>
+          </Stack>
+        </FormControl>
+        {datePicker && (
+          <DateTimePicker
+            value={date}
+            mode={'date'}
+            display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+            is24Hour={true}
+            onChange={onDateSelected}
+            style={styleSheet.datePicker}
+          />
+        )}
+        <FormControl isRequired>
+          <Stack mx='4' alignItems='center'>
+            <FormControl.Label pb='0' w='50%'>
+              Time
+            </FormControl.Label>
+            <Pressable onPress={() => setTimePicker(!timePicker)}>
+              <Box
+                borderWidth='1'
+                borderColor='coolGray.300'
+                shadow='3'
+                bg='coolGray.100'
+                p='5'
+                rounded='8'
+                minW='50%'
+                alignItems='center'
+              >
+                {time.toLocaleTimeString('en-US', {
+                  hour: '2-digit',
+                  minute: '2-digit',
+                })}
+              </Box>
+            </Pressable>
+          </Stack>
+        </FormControl>
+        {timePicker && (
+          <DateTimePicker
+            value={time}
+            mode={'time'}
+            display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+            is24Hour={false}
+            onChange={onTimeSelected}
+            style={styleSheet.datePicker}
+          />
+        )}
         <Button
           _text={{ color: '#F7F6D4' }}
           w='70%'
