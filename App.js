@@ -13,6 +13,7 @@ import GenrePreferences from './src/GenrePreferences';
 import { NativeBaseProvider } from 'native-base';
 import { screenOptions } from './src/styles.js';
 import Register from './src/Register';
+import HostParty from './src/HostParty';
 
 const Stack = createStackNavigator();
 
@@ -30,7 +31,7 @@ export default function App() {
             initialRouteName='Login'
             screenOptions={screenOptions}
           >
-            <Stack.Screen
+            {/* <Stack.Screen
               name='Movies'
               component={AllMovies}
               options={{ title: 'BoBo' }}
@@ -43,12 +44,12 @@ export default function App() {
             <Stack.Screen
               name='StreamingOptions'
               component={StreamingOptions}
-              options={{ title: 'Choose Streaming Services' }}
+              options={{ headerShown: false }}
             />
             <Stack.Screen
               name='GenrePreferences'
               component={GenrePreferences}
-              options={{ title: 'Choose Preferred Genres' }}
+              options={{ headerShown: false }}
             />
             <Stack.Screen
               name='Login'
@@ -72,6 +73,11 @@ export default function App() {
               name='MovieCard'
               component={MovieCard}
               options={{ title: 'Netflix and Chill' }}
+            /> */}
+            <Stack.Screen
+              name='HostParty'
+              component={HostParty}
+              options={{ headerShown: false }}
             />
           </Stack.Navigator>
           <StatusBar style='light' />
