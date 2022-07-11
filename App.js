@@ -30,7 +30,7 @@ export default function App() {
             initialRouteName='Login'
             screenOptions={screenOptions}
           >
-            <Stack.Screen
+            {/* <Stack.Screen
               name='Movies'
               component={AllMovies}
               options={{ title: 'BoBo' }}
@@ -39,13 +39,13 @@ export default function App() {
               name='Register'
               component={Register}
               options={{ title: 'BoBo Reg' }}
-            />
+            /> */}
             <Stack.Screen
               name='StreamingOptions'
               component={StreamingOptions}
               options={{ title: 'Choose Streaming Services' }}
             />
-            <Stack.Screen
+            {/* <Stack.Screen
               name='GenrePreferences'
               component={GenrePreferences}
               options={{ title: 'Choose Preferred Genres' }}
@@ -72,7 +72,7 @@ export default function App() {
               name='MovieCard'
               component={MovieCard}
               options={{ title: 'Netflix and Chill' }}
-            />
+            /> */}
           </Stack.Navigator>
           <StatusBar style='light' />
         </NavigationContainer>
