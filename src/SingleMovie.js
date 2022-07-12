@@ -1,5 +1,6 @@
 import React from "react";
 import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import {
   StyleSheet,
   Text,
@@ -8,138 +9,162 @@ import {
   TouchableOpacity,
   Button,
 } from "react-native";
-import { SINGLE_MOVIES_QUERY } from "./graphql/Query";
-import { gql, useQuery } from "@apollo/client";
+// import { SINGLE_MOVIES_QUERY } from "./graphql/Query";
+// import { gql, useQuery } from "@apollo/client";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faThumbsUp, faThumbsDown } from "@fortawesome/free-regular-svg-icons";
+import axios from "axios";
+import { fetchMovie } from "./store/movie";
 
 import styles from "./styles";
 import Loading from "./Loading";
 
 export default ({ route }) => {
+  const [data, setData] = useState();
   const [posterUrl, setPosterUrl] = useState("");
   const [defaultRating, setDefaultRating] = useState(0);
   const [maxRating, setMaxRating] = useState([1, 2, 3, 4, 5]);
   const [thumbsUp, setThumbsUp] = useState(false);
   const [thumbsDown, setThumbsDown] = useState(false);
   const [seen, setSeen] = useState(false);
+  const dispatch = useDispatch();
+  // const singleMovie = useSelector((state) => state.movie);
+  // console.log(singleMovie);
 
-  const { data, loading } = useQuery(SINGLE_MOVIES_QUERY, {
-    variables: { id: route.params.movie.id },
-  });
+  useEffect(() => {
+    // dispatch(fetchMovie(route.params.movie.id));
+    const getMovie = async (id) => {
+      const res = await axios
+        .get(`http://localhost:8080/api/movies/${id}`)
+        .catch((err) => {
+          console.log(err);
+        });
+      // const res = dispatch(fetchMovies());
+      console.log("res is", res);
+      setData(res);
+      console.log("data is", data)
+    };
 
-  if (loading) {
-    return <Loading />;
-  }
-  const imdbId = data.getMovie.imdb_id;
+    getMovie(route.params.movie.id);
+  }, []);
 
-  const API_KEY = "api_key=1cf50e6248dc270629e802686245c2c8";
-  const BASE_URL = "https://api.themoviedb.org/3";
 
-  const API_URL =
-    BASE_URL +
-    `/find/${imdbId}?` +
-    API_KEY +
-    "&language=en-US&external_source=imdb_id";
-  const IMG_URL = "https://image.tmdb.org/t/p/w500";
-  const searchURL = BASE_URL + "/search/movie?" + API_KEY;
+  // const { data, loading } = useQuery(SINGLE_MOVIES_QUERY, {
+  //   variables: { id: route.params.movie.id },
+  // });
 
-  function getMovie(url) {
-    fetch(url)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.length !== 0) {
-          return showMovies(data.movie_results[0]);
-        }
-      });
-  }
+  // if (loading) {
+  //   return <Loading />;
+  // }
+  // const imdbId = data.getMovie.imdb_id;
 
-  function showMovies(data) {
-    const { poster_path } = data;
-    setPosterUrl(
-      `${
-        poster_path
-          ? IMG_URL + poster_path
-          : "http://via.placeholder.com/1080x1580"
-      }`
-    );
-  }
+  // const API_KEY = "api_key=1cf50e6248dc270629e802686245c2c8";
+  // const BASE_URL = "https://api.themoviedb.org/3";
 
-  getMovie(API_URL);
+  // const API_URL =
+  //   BASE_URL +
+  //   `/find/${imdbId}?` +
+  //   API_KEY +
+  //   "&language=en-US&external_source=imdb_id";
+  // const IMG_URL = "https://image.tmdb.org/t/p/w500";
+  // const searchURL = BASE_URL + "/search/movie?" + API_KEY;
 
-  const starImgFilled =
-    "https://github.com/tranhonghan/images/blob/main/star_filled.png?raw=true";
-  const starImgEmpty =
-    "https://github.com/tranhonghan/images/blob/main/star_corner.png?raw=true";
+  // function getMovie(url) {
+  //   fetch(url)
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       if (data.length !== 0) {
+  //         return showMovies(data.movie_results[0]);
+  //       }
+  //     });
+  // }
 
-  const RatingBar = () => {
-    return (
-      <View style={iconstyles.ratingBar}>
-        {maxRating.map((item, key) => {
-          return (
-            <TouchableOpacity
-              activeOpacity={0.7}
-              key={item}
-              onPress={() => setDefaultRating(item)}
-            >
-              <Image
-                style={iconstyles.stars}
-                source={
-                  item <= defaultRating
-                    ? { uri: starImgFilled }
-                    : { uri: starImgEmpty }
-                }
-              />
-            </TouchableOpacity>
-          );
-        })}
-      </View>
-    );
-  };
+  // function showMovies(data) {
+  //   const { poster_path } = data;
+  //   setPosterUrl(
+  //     `${
+  //       poster_path
+  //         ? IMG_URL + poster_path
+  //         : "http://via.placeholder.com/1080x1580"
+  //     }`
+  //   );
+  // }
 
-  const ThumbsUpHandler = () => {
-    if (thumbsUp === false) {
-      setThumbsDown(false);
-    }
-    setThumbsUp(!thumbsUp);
-  };
-  const ThumbsDownHandler = () => {
-    if (thumbsDown === false) {
-      setThumbsUp(false);
-    }
-    setThumbsDown(!thumbsDown);
-  };
-  const ThumbsRating = () => {
-    return (
-      <View style={iconstyles.ratingBar}>
-        <TouchableOpacity activeOpacity={0.7} onPress={() => ThumbsUpHandler()}>
-          <FontAwesomeIcon
-            icon={faThumbsUp}
-            size={32}
-            color={thumbsUp === true ? "green" : "grey"}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity
-          activeOpacity={0.7}
-          onPress={() => ThumbsDownHandler()}
-        >
-          <FontAwesomeIcon
-            icon={faThumbsDown}
-            size={32}
-            color={thumbsDown === true ? "red" : "grey"}
-          />
-        </TouchableOpacity>
-      </View>
-    );
-  };
+  // getMovie(API_URL);
 
-  const seenHandler = () => {
-    setSeen(!seen);
-  };
+  // const starImgFilled =
+  //   "https://github.com/tranhonghan/images/blob/main/star_filled.png?raw=true";
+  // const starImgEmpty =
+  //   "https://github.com/tranhonghan/images/blob/main/star_corner.png?raw=true";
+
+  // const RatingBar = () => {
+  //   return (
+  //     <View style={iconstyles.ratingBar}>
+  //       {maxRating.map((item, key) => {
+  //         return (
+  //           <TouchableOpacity
+  //             activeOpacity={0.7}
+  //             key={item}
+  //             onPress={() => setDefaultRating(item)}
+  //           >
+  //             <Image
+  //               style={iconstyles.stars}
+  //               source={
+  //                 item <= defaultRating
+  //                   ? { uri: starImgFilled }
+  //                   : { uri: starImgEmpty }
+  //               }
+  //             />
+  //           </TouchableOpacity>
+  //         );
+  //       })}
+  //     </View>
+  //   );
+  // };
+
+  // const ThumbsUpHandler = () => {
+  //   if (thumbsUp === false) {
+  //     setThumbsDown(false);
+  //   }
+  //   setThumbsUp(!thumbsUp);
+  // };
+  // const ThumbsDownHandler = () => {
+  //   if (thumbsDown === false) {
+  //     setThumbsUp(false);
+  //   }
+  //   setThumbsDown(!thumbsDown);
+  // };
+  // const ThumbsRating = () => {
+  //   return (
+  //     <View style={iconstyles.ratingBar}>
+  //       <TouchableOpacity activeOpacity={0.7} onPress={() => ThumbsUpHandler()}>
+  //         <FontAwesomeIcon
+  //           icon={faThumbsUp}
+  //           size={32}
+  //           color={thumbsUp === true ? "green" : "grey"}
+  //         />
+  //       </TouchableOpacity>
+  //       <TouchableOpacity
+  //         activeOpacity={0.7}
+  //         onPress={() => ThumbsDownHandler()}
+  //       >
+  //         <FontAwesomeIcon
+  //           icon={faThumbsDown}
+  //           size={32}
+  //           color={thumbsDown === true ? "red" : "grey"}
+  //         />
+  //       </TouchableOpacity>
+  //     </View>
+  //   );
+  // };
+
+  // const seenHandler = () => {
+  //   setSeen(!seen);
+  // };
 
   return (
     <View style={iconstyles.imageContainer}>
-      <Text style={styles.header}> {data.getMovie.title}</Text>
+      {/* <Text style={styles.header}> {data.getMovie.title}</Text>
       <Image style={iconstyles.image} source={{ uri: posterUrl }} />
 
       {seen === true ? (
@@ -166,7 +191,7 @@ export default ({ route }) => {
           title="I've seen this movie"
           onPress={() => seenHandler()}
         />
-      )}
+      )} */}
     </View>
   );
 };

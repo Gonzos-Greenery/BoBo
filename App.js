@@ -8,8 +8,8 @@ import store from './src/store';
 
 import AllMovies from './src/AllMovies';
 // import Login from './src/Login';
-// import MovieCard from './src/MovieSwipe/MovieCard';
-// import SingleMovie from './src/SingleMovie';
+import MovieCard from './src/MovieSwipe/MovieCard';
+import SingleMovie from './src/SingleMovie';
 // import StreamingOptions from './src/StreamingOptions';
 // import GenrePreferences from './src/GenrePreferences';
 import { NativeBaseProvider } from 'native-base';
@@ -58,6 +58,7 @@ export default function App() {
             component={Login}
             options={{ headerShown: false }}
           />
+             */}
           <Stack.Screen
             name="SingleMovie"
             component={SingleMovie}
@@ -71,11 +72,12 @@ export default function App() {
               title: title,
             })}
           />
+
           <Stack.Screen
             name="MovieCard"
             component={MovieCard}
             options={{ title: 'Netflix and Chill' }}
-          /> */}
+          />
           </Stack.Navigator>
           <StatusBar style='light' />
         </NavigationContainer>

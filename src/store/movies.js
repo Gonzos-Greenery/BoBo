@@ -1,7 +1,8 @@
-import axios from 'axios';
+import axios from "axios";
+const url = "https://reqres.in";
 
 // Action constants
-const SET_MOVIES = 'SET_MOVIES';
+const SET_MOVIES = "SET_MOVIES";
 
 // Action creators
 const setMovies = (movies) => {
@@ -16,7 +17,11 @@ const setMovies = (movies) => {
 export const fetchMovies = () => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.get(`/api/movies`);
+      const { data } = await axios({
+        method: "get",
+        url: `${url}/api/movies`,
+      });
+      // const { data } = await axios.get(`http://localhost:8080/api/movies`);
       dispatch(setMovies(data));
     } catch (error) {
       console.log(error);
