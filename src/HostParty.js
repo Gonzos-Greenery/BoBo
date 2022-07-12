@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, SafeAreaView, StyleSheet } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { gql, useMutation } from '@apollo/client';
+// import { gql, useMutation } from '@apollo/client';
 import {
   Input,
   Icon,
@@ -14,6 +14,9 @@ import {
   Stack,
   Pressable,
   Box,
+  Heading,
+  HStack,
+  SearchIcon,
 } from 'native-base';
 
 const HostParty = ({ navigation }) => {
@@ -23,14 +26,6 @@ const HostParty = ({ navigation }) => {
   const [time, setTime] = React.useState(new Date(Date.now()));
   const [timePicker, setTimePicker] = React.useState(false);
   const [datePicker, setDatePicker] = React.useState(false);
-
-  const showDatePicker = () => {
-    setDatePicker(true);
-  };
-
-  const showTimePicker = () => {
-    setTimePicker(true);
-  };
 
   const onDateSelected = (event, value) => {
     setDate(value);
@@ -50,17 +45,17 @@ const HostParty = ({ navigation }) => {
 
   return (
     <View style={{ flex: 1 }}>
-      <VStack space={2} w='100%' alignItems='center'>
+      <VStack space={5} w='100%' alignItems='center'>
         <Center>Host a BOBO Party</Center>
         <FormControl isRequired>
           <Stack mx='4' alignItems='center'>
-            <FormControl.Label py='1' w='50%'>
+            <FormControl.Label py='1' w='75%'>
               Party Name
             </FormControl.Label>
             <Input
               size='2xl'
               variant='underlined'
-              w='50%'
+              w='75%'
               value={partyName}
               onChangeText={setPartyName}
               label='partyName'
@@ -70,13 +65,13 @@ const HostParty = ({ navigation }) => {
         </FormControl>
         <FormControl isRequired>
           <Stack mx='4' alignItems='center'>
-            <FormControl.Label pb='0' w='50%'>
+            <FormControl.Label pb='0' w='75%'>
               Where
             </FormControl.Label>
             <Input
               size='2xl'
               variant='underlined'
-              w='50%'
+              w='75%'
               value={address}
               onChangeText={setAddress}
               label='address'
@@ -86,7 +81,7 @@ const HostParty = ({ navigation }) => {
         </FormControl>
         <FormControl isRequired>
           <Stack mx='4' alignItems='center'>
-            <FormControl.Label pb='0' w='50%'>
+            <FormControl.Label pb='0' w='75%'>
               Date
             </FormControl.Label>
             <Pressable onPress={() => setDatePicker(!datePicker)}>
@@ -97,7 +92,7 @@ const HostParty = ({ navigation }) => {
                 bg='coolGray.100'
                 p='5'
                 rounded='8'
-                minW='50%'
+                minW='75%'
                 alignItems='center'
               >
                 {date.toDateString()}
@@ -117,7 +112,7 @@ const HostParty = ({ navigation }) => {
         )}
         <FormControl isRequired>
           <Stack mx='4' alignItems='center'>
-            <FormControl.Label pb='0' w='50%'>
+            <FormControl.Label pb='0' w='75%'>
               Time
             </FormControl.Label>
             <Pressable onPress={() => setTimePicker(!timePicker)}>
@@ -128,7 +123,7 @@ const HostParty = ({ navigation }) => {
                 bg='coolGray.100'
                 p='5'
                 rounded='8'
-                minW='50%'
+                minW='75%'
                 alignItems='center'
               >
                 {time.toLocaleTimeString('en-US', {
@@ -149,9 +144,23 @@ const HostParty = ({ navigation }) => {
             style={styleSheet.datePicker}
           />
         )}
+        <VStack w='75%' space={3} alignSelf='center' alignItems='center'>
+          <Heading fontSize='lg'>Invite Friends</Heading>
+          <HStack alignItems='center'>
+            <SearchIcon size='3xl' />
+            <Input
+              placeholder='Search Friends List'
+              width='80%'
+              borderRadius='4'
+              py='3'
+              px='1'
+              fontSize='14'
+            />
+          </HStack>
+        </VStack>
         <Button
           _text={{ color: '#F7F6D4' }}
-          w='70%'
+          w='80%'
           bg='primary.900'
           shadow='4'
           onPress={handleSubmit}
