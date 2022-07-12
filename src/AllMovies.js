@@ -96,7 +96,7 @@ export default ({navigation, route}) => {
       <View style={styles.container}>
         {window.localStorage.getItem('username') ? <Text style={{fontSize: 20, fontWeight: 'bold'}}>{`Welcome Back, ${window.localStorage.getItem('username')}`}</Text> : <Text>Welcome!</Text> }
         <ScrollView>
-            {route.params.user.watched === undefined ? <Text style={{fontSize: 16}}>Nothing watched previously</Text> :
+            {/* {route.params.user.watched === undefined ? <Text style={{fontSize: 16}}>Nothing watched previously</Text> :
             <View style={styles.genreRow}>
                 <Text style={{fontSize:16, fontWeight: 'bold'}}>Previously Watched...</Text>
                 <FlatList 
@@ -110,7 +110,7 @@ export default ({navigation, route}) => {
                     )}
                 />
             </View>
-            }
+            } */}
             <View style={styles.genreRow}>
                 <Text style={{fontSize:16, fontWeight: 'bold'}}>Upcoming Parties</Text>
                 <FlatList 

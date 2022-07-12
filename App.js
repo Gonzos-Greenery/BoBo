@@ -17,6 +17,7 @@ import Register from './src/Register';
 import PartyView from './src/PartyView';
 import PartyAddForm from './src/PartyAddForm';
 import User from './src/User';
+import Footer from './src/Footer';
 
 const Stack = createStackNavigator();
 
@@ -31,7 +32,7 @@ export default function App() {
       <NativeBaseProvider>
         <NavigationContainer>
           <Stack.Navigator
-            initialRouteName='User'
+            initialRouteName='Login'
             screenOptions={screenOptions}
           >
             <Stack.Screen
@@ -97,8 +98,8 @@ export default function App() {
               component={User}
             />
           </Stack.Navigator>
-          <StatusBar style='light' />
         </NavigationContainer>
+        < Footer />
       </NativeBaseProvider>
     </ApolloProvider>
   );
