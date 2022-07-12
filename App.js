@@ -7,16 +7,15 @@ import { Provider } from 'react-redux';
 import store from './src/store';
 
 import AllMovies from './src/AllMovies';
-// import Login from './src/Login';
-// import MovieCard from './src/MovieSwipe/MovieCard';
-// import SingleMovie from './src/SingleMovie';
-// import StreamingOptions from './src/StreamingOptions';
-// import GenrePreferences from './src/GenrePreferences';
+import Login from './src/Login';
+import MovieCard from './src/MovieSwipe/MovieCard';
+import SingleMovie from './src/SingleMovie';
+import StreamingOptions from './src/StreamingOptions';
+import GenrePreferences from './src/GenrePreferences';
 import { NativeBaseProvider } from 'native-base';
 import { screenOptions } from './src/styles.js';
 import Register from './src/Register';
 import HostParty from './src/HostParty';
-// import Register from './src/Register';
 
 const Stack = createStackNavigator();
 
