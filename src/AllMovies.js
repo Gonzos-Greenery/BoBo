@@ -44,9 +44,12 @@ export default ({ navigation }) => {
 
   useEffect(() => {
     const getMovies = async () => {
-      const res = await axios.get(`http://localhost:8080/api/movies`);
+      const res = await axios(`http://localhost:8080/api/movies`).catch(
+        (err) => {
+          console.log(err);
+        }
+      );
       // const res = dispatch(fetchMovies());
-
       setInfo(res.data);
     };
 
