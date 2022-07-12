@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import { gql, useMutation } from '@apollo/client';
-import { REGISTER_USER_MUTATION } from './graphql/Mutation';
+// import { REGISTER_USER_MUTATION } from './graphql/Mutation';
 import {
   Input,
   Icon,
@@ -25,7 +25,7 @@ const Register = ({ navigation }) => {
   const [errors, setErrors] = React.useState('');
   const handleClick = () => setShow(!show);
   const toast = useToast();
-  const [registerUser, { data }] = useMutation(REGISTER_USER_MUTATION);
+  // const [registerUser, { data }] = useMutation(REGISTER_USER_MUTATION);
 
   const validate = () => {
     if (!email.includes('@') || !email.includes('.')) {
