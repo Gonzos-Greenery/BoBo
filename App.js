@@ -3,6 +3,8 @@ import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 // import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
+import { Provider } from 'react-redux';
+import store from './src/store';
 
 import AllMovies from './src/AllMovies';
 // import Login from './src/Login';
@@ -25,14 +27,18 @@ const client = new ApolloClient({
 export default function App() {
   return (
     <NativeBaseProvider>
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName="Movies" screenOptions={screenOptions}>
-          <Stack.Screen
-            name="Movies"
-            component={AllMovies}
-            options={{ title: 'BoBo' }}
-          />
-          {/* <Stack.Screen
+      <Provider store={store}>
+        <NavigationContainer>
+          <Stack.Navigator
+            initialRouteName='Movies'
+            screenOptions={screenOptions}
+          >
+            <Stack.Screen
+              name='Movies'
+              component={AllMovies}
+              options={{ title: 'BoBo' }}
+            />
+            {/* <Stack.Screen
             name="Register"
             component={Register}
             options={{ title: 'BoBo Reg' }}
@@ -70,9 +76,10 @@ export default function App() {
             component={MovieCard}
             options={{ title: 'Netflix and Chill' }}
           /> */}
-        </Stack.Navigator>
-        <StatusBar style="light" />
-      </NavigationContainer>
+          </Stack.Navigator>
+          <StatusBar style='light' />
+        </NavigationContainer>
+      </Provider>
     </NativeBaseProvider>
   );
 }
