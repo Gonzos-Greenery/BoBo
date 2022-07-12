@@ -116,6 +116,7 @@ export default ({navigation, route}) => {
                 <FlatList 
                     horizontal
                     ItemSeparatorComponent={() => <View style={{width:5}}/>}
+                    keyExtractor={(movie,idx) => idx.toString()}
                     data={[1,2]}
                     renderItem={() => (
                         <View>
