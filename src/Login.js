@@ -1,30 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   Text,
   View,
-  Alert,
   Image,
-  TextInput,
   Dimensions,
   TouchableOpacity,
-  NativeModules,
 } from 'react-native';
 import * as Facebook from 'expo-facebook';
 import * as Google from 'expo-auth-session/providers/google';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import {
     Input,
-    Icon,
-    MaterialIcons,
-    Label,
     Button,
     VStack,
     FormControl,
-    Center,
     Stack,
     useToast,
-    WarningOutlineIcon,
 } from 'native-base';
 import {
   faFacebook,
@@ -37,7 +29,7 @@ import { authenticate } from './store';
 export default ({ navigation }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-
+    const toast = useToast()
     const dispatch = useDispatch();
     const {auth} = useSelector((state) => {
         return state
@@ -80,8 +72,15 @@ export default ({ navigation }) => {
     };
 
     
-    const handleSubmit = () => {
-        dispatch(authenticate(email,password,'login'))
+    const handleSubmit = async () => {
+        const result = await dispatch(authenticate(email,password,'login'))
+        if(!result){
+            toast.show({
+                description: 'Incorrect Username Or Password'
+            })
+        } else {
+            navigation.navigate('Movies')
+        }
     }
 
     return(

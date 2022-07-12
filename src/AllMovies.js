@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Text, FlatList, Pressable, View, Button, StyleSheet } from 'react-native';
+import { Text, FlatList, Pressable, View, Image, Button, StyleSheet, ScrollView} from 'react-native';
 // import { gql, useQuery } from '@apollo/client';
 // import { MOVIES_QUERY } from './graphql/Query';
 import { fetchMovies } from './store/movies';
@@ -9,7 +9,6 @@ import Loading from './Loading';
 
 
 export default ({navigation, route}) => {
-  const {data} = useQuery(MOVIES_QUERY);
   const [movies, setMovies] = useState()
   const [types, setTypes] = useState()
 
@@ -72,11 +71,11 @@ export default ({navigation, route}) => {
       setTypes(genres)
   }
 
-  useEffect(() => {
-      if(data){
-          editMovies(data)
-      }
-  }, [data])
+//   useEffect(() => {
+//       if(data){
+//           editMovies(data)
+//       }
+//   }, [data])
 
   //tried to mutate the queried information to add link -> It appears above but when you try to access it, its undefined.
   //tested mutating over a key that was already there -> It shows up as the link but when you console log it in render -> Its the original info

@@ -38,12 +38,16 @@ export default function App() {
             initialRouteName='Login'
             screenOptions={screenOptions}
           >
-            {/* ons={{ title: 'BoBo'}}
-            />
-            /* <Stack.Screen
-            name="Register"
-            component={Register}
-            options={{ title: 'BoBo Reg' }}
+            
+          <Stack.Screen
+            name='Movies'
+            component={AllMovies}
+            options={{ title: 'BoBo'}}
+          />
+          <Stack.Screen
+          name="Register"
+          component={Register}
+          options={{ title: 'BoBo Reg' }}
           />
           <Stack.Screen
             name="StreamingOptions"
@@ -54,7 +58,7 @@ export default function App() {
             name="GenrePreferences"
             component={GenrePreferences}
             options={{ title: 'Choose Preferred Genres' }}
-          /> */}
+          />
           <Stack.Screen
             name="Login"
             component={Login}

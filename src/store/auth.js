@@ -13,10 +13,12 @@ const setAuth = (auth) => ({ type: SET_AUTH, auth });
 export const me = () => async (dispatch) => {
   const token = window.localStorage.getItem(TOKEN);
   if (token) {
-    const res = await axios.get('/auth/me', {
-      headers: {
-        authorization: token,
-      },
+    const res = await axios({
+      method: 'get',
+      url: `http://localhost:8080/auth/me`,
+      headers:{
+        authorization: token
+      }
     });
     return dispatch(setAuth(res.data));
   }
@@ -25,7 +27,6 @@ export const me = () => async (dispatch) => {
 export const authenticate =
   (username, password, method) => async (dispatch) => {
     try {
-      // const res = await axios.post(`/auth/${method}`, { email, password });
       const res = await axios({
         method: 'post',
         url: `http://localhost:8080/auth/${method}`,
@@ -36,8 +37,9 @@ export const authenticate =
       });
       window.localStorage.setItem(TOKEN, res.data.token);
       dispatch(me());
+      return true;
     } catch (authError) {
-      return dispatch(setAuth({ error: authError }));
+      return false;
     }
   };
 
