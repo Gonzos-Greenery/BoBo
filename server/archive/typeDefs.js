@@ -47,7 +47,7 @@ const typeDefs = gql`
     thriller: Boolean
     war: Boolean
     western: Boolean
-    user: [User!]
+    user: User!
   }
   input LoginInput {
     email: String
@@ -107,7 +107,7 @@ const typeDefs = gql`
     updateMovie(id: ID, title: String, description: String): Movie
     loginUser(LoginInput: LoginInput): User
     registerUser(registerInput: RegisterInput): User
-    addGenre(genreInput: GenreInput): Genre
+    addGenre(genreInput: GenreInput): Genre!
     updateUser(updateUserInput: UpdateUserInput): User
     addWatched(addWatched: AddWatched): User
   }
