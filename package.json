@@ -56,14 +56,11 @@
     "react-native-web": "0.17.7",
     "react-spring": "^8.0.27",
     "react-tinder-card": "^1.4.0",
-<<<<<<< HEAD
     "redux": "^4.2.0",
     "redux-devtools-extension": "^2.13.9",
     "redux-logger": "^3.0.6",
-    "redux-thunk": "^2.4.1"
-=======
+    "redux-thunk": "^2.4.1",
     "sequelize": "^6.21.3"
->>>>>>> 391bae31ef8e44bdbf7d3557211ab8009bc454b0
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

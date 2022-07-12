@@ -4108,17 +4108,7 @@
   dependencies:
     "@iarna/toml" "^2.2.5"
 
-"cosmiconfig@^5.0.5":
-  "integrity" "sha512-H65gsXo1SKjf8zmrJ67eJk8aIRKV5ff2D4uKZIBZShbhGSpEmsQOPW/SKMKYhSTrqR7ufy6RP69rPogdaPh/kA=="
-  "resolved" "https://registry.npmjs.org/cosmiconfig/-/cosmiconfig-5.2.1.tgz"
-  "version" "5.2.1"
-  dependencies:
-    "import-fresh" "^2.0.0"
-    "is-directory" "^0.3.1"
-    "js-yaml" "^3.13.1"
-    "parse-json" "^4.0.0"
-
-"cosmiconfig@^5.1.0":
+"cosmiconfig@^5.0.5", "cosmiconfig@^5.1.0":
   "integrity" "sha512-H65gsXo1SKjf8zmrJ67eJk8aIRKV5ff2D4uKZIBZShbhGSpEmsQOPW/SKMKYhSTrqR7ufy6RP69rPogdaPh/kA=="
   "resolved" "https://registry.npmjs.org/cosmiconfig/-/cosmiconfig-5.2.1.tgz"
   "version" "5.2.1"
