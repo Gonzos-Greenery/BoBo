@@ -46,7 +46,7 @@ const GenrePreferences = ({ navigation, route }) => {
     <View style={{ flex: 1 }}>
       <VStack space={2} w='100%' alignItems='center'>
         <Stack>
-          <HStack space={10} justifyContent='center' flexWrap='wrap'>
+          <HStack space={5} flexWrap='wrap' justifyContent='space-between'>
             {Object.keys(genreObject).map((genre) => {
               return (
                 <Stack key={genre}>
@@ -59,14 +59,14 @@ const GenrePreferences = ({ navigation, route }) => {
                   >
                     <Center
                       bg={genres[genre] ? 'primary.300' : 'primary.900'}
-                      h='30px'
-                      w='110px'
+                      height='50px'
+                      width='125px'
                       rounded='md'
+                      margin='5'
                       _text={{
                         color: 'white',
                         fontWeight: 'bold',
                       }}
-                      marginTop='15px'
                     >
                       {genre}
                     </Center>
@@ -79,11 +79,9 @@ const GenrePreferences = ({ navigation, route }) => {
         <Stack>
           <Button
             _text={{ color: 'white' }}
-            w='100%'
             bg='primary.300'
             shadow='4'
             onPress={handleSubmit}
-            marginTop='50px'
           >
             Next
           </Button>
