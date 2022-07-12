@@ -1,4 +1,4 @@
-Router();
+const router = require('express').Router();
 const {
   models: { User, Party, Genre },
 } = require('../db');
