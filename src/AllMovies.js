@@ -1,13 +1,12 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Text, FlatList, Pressable, View, Button } from 'react-native';
+import { Text, FlatList, Pressable, View, Button, StyleSheet } from 'react-native';
 // import { gql, useQuery } from '@apollo/client';
 // import { MOVIES_QUERY } from './graphql/Query';
 import { fetchMovies } from './store/movies';
 import MovieCard from './MovieSwipe/MovieCard';
 import Loading from './Loading';
 
-import styles from './styles';
 
 export default ({navigation, route}) => {
   const {data} = useQuery(MOVIES_QUERY);

@@ -9,8 +9,6 @@ import {
   Box,
   Center,
 } from 'native-base';
-import { gql, useMutation } from '@apollo/client';
-import { ADD_GENRE_MUTATION } from './graphql/Mutation';
 
 const GenrePreferences = ({ navigation, route }) => {
   const [addGenre, { data }] = useMutation(ADD_GENRE_MUTATION);

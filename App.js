@@ -35,13 +35,10 @@ export default function App() {
       <Provider store={store}>
         <NavigationContainer>
           <Stack.Navigator
-            initialRouteName='Movies'
+            initialRouteName='Login'
             screenOptions={screenOptions}
           >
-            <Stack.Screen
-              name='Movies'
-              component={AllMovies}
-              options={{ title: 'BoBo'}}
+            {/* ons={{ title: 'BoBo'}}
             />
             /* <Stack.Screen
             name="Register"
@@ -57,13 +54,13 @@ export default function App() {
             name="GenrePreferences"
             component={GenrePreferences}
             options={{ title: 'Choose Preferred Genres' }}
-          />
+          /> */}
           <Stack.Screen
             name="Login"
             component={Login}
             options={{ headerShown: false }}
           />
-          <Stack.Screen
+          {/* <Stack.Screen
             name="SingleMovie"
             component={SingleMovie}
             options={({
@@ -98,7 +95,7 @@ export default function App() {
             <Stack.Screen
               name="User"
               component={User}
-            />
+            /> */}
           </Stack.Navigator>
         </NavigationContainer>
       </Provider>

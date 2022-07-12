@@ -13,8 +13,6 @@ import {
 import * as Facebook from 'expo-facebook';
 import * as Google from 'expo-auth-session/providers/google';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { useQuery, useLazyQuery, useMutation } from '@apollo/client';
-import { LOGIN_AUTH } from './graphql/Mutation';
 import {
     Input,
     Icon,
@@ -33,54 +31,58 @@ import {
   faTwitter,
   faGoogle,
 } from '@fortawesome/free-brands-svg-icons';
+import { useSelector, useDispatch} from 'react-redux';
+import { authenticate } from './store';
 
 export default ({ navigation }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
-  //Regular Authentication with User Database + Auth state
-  //useQuery -> takes in a lot of parameters -> returns a lot of data and actions
-  //useLazyQuery -> stops the automatic render of useQuery. It allows for execution upon event
-  //reset will void the data so that each time the page rerenders, the information isn't persistent
-  const [fetchUser, { reset }] = useMutation(LOGIN_AUTH);
-
-  //Facebook Login + Need to hide appId
-  const facebookAuth = async function () {
-    try {
-      await Facebook.initializeAsync({
-        appId: '1385087768668468',
-      });
-
-      const { type, token, expirationDate, permissions, declinedPermissions } =
-        await Facebook.logInWithReadPermissionsAsync({
-          permissions: ['public_profile'],
-        });
-      if (type === 'success') {
-        const response = await fetch(
-          `https://graph.facebook.com/me?access_token=${token}`
-        );
-        Alert.alert('Logged in!', `Hi ${(await response.json()).name}!`);
-      } else {
-        Alert.alert('Login Unsuccessful');
-      }
-    } catch ({ message }) {
-      alert(`Facebook Login Error Message: ${message}`);
-    }
-  };
-
-  //Google Login
-  const googleAuth = () => {
-    const [request, response, promptAsync] = Google.useAuthRequest({
-      iosClientId:
-        '616067821868-rq45l8ujq8vr2n7atj3ekc617uadg6ce.apps.googleusercontent.com',
+    const dispatch = useDispatch();
+    const {auth} = useSelector((state) => {
+        return state
     });
 
-    if (response?.type === 'success') {
-      console.log(response.authentication.accessToken);
-    }
-  };
+    //Facebook Login + Need to hide appId
+    const facebookAuth = async function () {
+        try {
+        await Facebook.initializeAsync({
+            appId: '1385087768668468',
+        });
 
-  //Twitter Login
+        const { type, token, expirationDate, permissions, declinedPermissions } =
+            await Facebook.logInWithReadPermissionsAsync({
+            permissions: ['public_profile'],
+            });
+        if (type === 'success') {
+            const response = await fetch(
+            `https://graph.facebook.com/me?access_token=${token}`
+            );
+            Alert.alert('Logged in!', `Hi ${(await response.json()).name}!`);
+        } else {
+            Alert.alert('Login Unsuccessful');
+        }
+        } catch ({ message }) {
+        alert(`Facebook Login Error Message: ${message}`);
+        }
+    };
+
+    //Google Login
+    const googleAuth = () => {
+        const [request, response, promptAsync] = Google.useAuthRequest({
+        iosClientId:
+            '616067821868-rq45l8ujq8vr2n7atj3ekc617uadg6ce.apps.googleusercontent.com',
+        });
+
+        if (response?.type === 'success') {
+        console.log(response.authentication.accessToken);
+        }
+    };
+
+    
+    const handleSubmit = () => {
+        dispatch(authenticate(email,password,'login'))
+    }
 
     return(
         <View style={styles.container}>
@@ -117,20 +119,7 @@ export default ({ navigation }) => {
                     </Stack>
                 </FormControl>
             </VStack>
-            <TouchableOpacity style={styles.btn} onPress={
-                async () => {
-                    const {data} = await fetchUser({
-                        variables:{loginInput: {email,password}},
-                        errorPolicy: 'all'
-                    });
-                    if(data.loginUser){
-                        window.localStorage.setItem('username', data.loginUser.username)
-                        navigation.navigate('Movies', {user: data.loginUser})
-                        reset()
-                    } else {
-                        Alert.alert('Incorrect Email/Password, Try Again')
-                    }
-                }}>
+            <TouchableOpacity style={styles.btn} onPress={handleSubmit}>
                 <Text style={styles.btnText}>Login</Text>
             </TouchableOpacity>
             <Text style={{textAlign:'center', paddingTop: 20}}>or continue with</Text>

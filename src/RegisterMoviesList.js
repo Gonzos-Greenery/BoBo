@@ -15,9 +15,6 @@ import {
     WarningOutlineIcon,
 } from 'native-base';
 import Loading from './Loading';
-
-import { MOVIES_QUERY } from './graphql/Query';
-import { ADD_WATCHED } from './graphql/Mutation';
 //Need to run a function to create specific genres that are available 
 //It then populates individual movies in the list for each one
 
