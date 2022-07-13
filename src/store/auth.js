@@ -24,16 +24,15 @@ export const me = () => async (dispatch) => {
     const res = await axios({
       method: 'get',
       url: `http://localhost:8080/auth/me`,
-      headers: {
-        authorization: token,
-      },
+      headers:{
+        authorization: token
+      }
     });
     const watched = await axios({
       method: 'get',
-      url: `http://localhost:8080/api/users/${res.data.id}`,
-    });
-    watched.data.movies = watched.data.movies.map((movie) => movie.id);
-    console.log(watched.data);
+      url: `http://localhost:8080/api/users/${res.data.id}`
+    })
+    watched.data.movies = watched.data.movies.map(movie => movie.id)
     return dispatch(setAuth(watched.data));
   }
 };

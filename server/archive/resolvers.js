@@ -11,7 +11,8 @@ const resolvers = {
       return 'Welcome to Bobo';
     },
     getMovies: async () => {
-      const movies = await Movie.find().limit(100);
+      const movies = await Movie.find({imdb_score: {$gt:7}}).limit(200);
+      // const movies = await Movie.find({imdb_score: {$gt: 7}, release_year: {$gt: 2019}, production_countries: "['US']"}).limit(200);
       return movies;
     },
     getMovie: async (root, args) => {
@@ -108,7 +109,7 @@ const resolvers = {
           expiresIn: '7d',
         });
         user.token = token;
-        return { ...user, password: '' };
+        return user;
       } else {
         throw new ApolloError('Invalid email or password, try again');
       }
@@ -120,7 +121,7 @@ const resolvers = {
       const exEmail = await User.findOne({ email });
       if (exEmail) {
         throw new ApolloError(
-          'A user is already registered with the email' + email,
+          'A user is already registered with the email ' + email,
           'USER_ALREADY_EXISTS'
         );
       }
@@ -131,6 +132,7 @@ const resolvers = {
           'USER_ALREADY_EXISTS'
         );
       }
+      console.log('input', name, username, email, password);
       let encryptedPassword = await bcrypt.hash(password, 5);
       const newUser = new User({
         name: name,
@@ -138,12 +140,14 @@ const resolvers = {
         email: email.toLowerCase(),
         password: encryptedPassword,
       });
+      /*may want to update the 'JWT' to something more secure
+      (once we have a chance)*/
       const token = jwt.sign({ user_id: newUser._id }, 'JWT', {
         expiresIn: '7d',
       });
       newUser.token = token;
       const res = await newUser.save();
-      return { id: res.id, ...res._doc };
+      return { ...res._doc, id: res._doc._id, password: null };
     },
     updateUser: async (
       _,
@@ -172,17 +176,27 @@ const resolvers = {
         disney: disney,
       };
       const user = await User.findById(id);
-
-      let samePassword = await bcrypt.compare(password, user.password);
-      if (samePassword) {
-        updatedUser.password = user.password;
+      if (password) {
+        let samePassword = await bcrypt.compare(password, user.password);
+        if (samePassword) {
+          updatedUser.password = user.password;
+        } else {
+          updatedUser.password = await bcrypt.hash(password, 5);
+        }
       } else {
-        updatedUser.password = await bcrypt.hash(password, 5);
+        delete updatedUser.password;
       }
 
       await user.update(updatedUser);
       return user;
     },
+    addWatched: async (root, {addWatched: {id,watched}}) => {
+      await User.findByIdAndUpdate(id, {
+        $set: {
+          watched: watched
+        }
+      })
+    }
   },
 };
 
