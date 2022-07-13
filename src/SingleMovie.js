@@ -46,6 +46,7 @@ export default ({ route }) => {
       setData(res.data);
       setImdbUrl(res.data.imdb_id);
       setTitle(res.data.title);
+      // showMovies(res.data);
     };
 
     getMovie(route.params.movie.id);
@@ -73,8 +74,7 @@ export default ({ route }) => {
     fetch(url)
       .then((res) => res.json())
       .then((data) => {
-        if (data.length !== 0) {
-          console.log(data)
+        if (data.length !== 0 && data.movie_results.length !== 0) {
           return showMovies(data.movie_results[0]);
         }
       });
@@ -162,17 +162,15 @@ export default ({ route }) => {
   const seenHandler = () => {
     setSeen(!seen);
   };
-  console.log(data);
+
   return (
     <View style={iconstyles.imageContainer}>
-      {/* <Text style={styles.header}> {data.title}</Text>
+      <Text style={styles.header}> {title}</Text>
       <Image style={iconstyles.image} source={{ uri: posterUrl }} />
 
       {seen === true ? (
         <View style={iconstyles.imageContainer}>
-          <Text style={styles.header}>
-            How did you like {data.title}?
-          </Text>
+          <Text style={styles.header}>How did you like {title}?</Text>
           <View style={iconstyles.stars}>
             <RatingBar />
           </View>
@@ -180,11 +178,6 @@ export default ({ route }) => {
           <View style={iconstyles.thumbs}>
             <ThumbsRating />
           </View>
-          <Button
-          style={styles.subheader}
-          title="I haven't seen this movie"
-          onPress={() => seenHandler()}
-        />
         </View>
       ) : (
         <Button
@@ -192,7 +185,7 @@ export default ({ route }) => {
           title="I've seen this movie"
           onPress={() => seenHandler()}
         />
-      )} */}
+      )}
     </View>
   );
 };
