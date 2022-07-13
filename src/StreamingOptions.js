@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
-import { View, Text } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { SafeAreaView } from 'react-native';
 import {
   Pressable,
+  Text,
+  Box,
   Stack,
   VStack,
   Circle,
@@ -11,6 +14,7 @@ import {
   Button,
   Heading,
 } from 'native-base';
+import { updateUser } from './store/user';
 // import { gql, useMutation } from '@apollo/client';
 // import { UPDATE_USER_MUTATION } from './graphql/Mutation';
 
@@ -36,6 +40,8 @@ const StreamingOptions = ({ navigation, route }) => {
 
   const [services, setServices] = useState(servicesObj);
 
+  const dispatch = useDispatch();
+
   const handleSubmit = async () => {
     const user = {
       id: route.params.id,
@@ -49,17 +55,26 @@ const StreamingOptions = ({ navigation, route }) => {
       prime: services.prime,
       disney: services.disney,
     };
-
-    await updateUser({ variables: { updateUserInput: user } });
+    dispatch(updateUser(user));
     navigation.push('GenrePreferences');
   };
 
   return (
-    <View style={{ flex: 1 }}>
-      <VStack space={5} w='100%' alignItems='center' justifyContent='center'>
-        <Heading>
-          Please select all streaming services that you subscribe to:
-        </Heading>
+    <SafeAreaView style={{ flex: 1 }}>
+      <VStack space={5} w='75%' alignItems='center'>
+        <Box
+          bg='primary.900'
+          alignContent='center'
+          justifyItems='center'
+          w='75%'
+          h='30%'
+          p='4'
+          rounded='8'
+        >
+          <Text color='white' fontSize='xl' textAlign='center'>
+            Please select all streaming services that you subscribe to:
+          </Text>
+        </Box>
         <Stack mx='4' alignItems='center'>
           <HStack
             space={2}
@@ -115,7 +130,7 @@ const StreamingOptions = ({ navigation, route }) => {
           </Button>
         </Stack>
       </VStack>
-    </View>
+    </SafeAreaView>
   );
 };
 
