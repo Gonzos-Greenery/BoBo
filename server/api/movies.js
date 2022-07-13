@@ -7,7 +7,7 @@ module.exports = router;
 
 router.get('/', async (req, res, next) => {
   try {
-    const movies = await Movie.findAll();
+    const movies = await Movie.findAll({limit: 100});
     res.json(movies);
   } catch (error) {
     next(error);

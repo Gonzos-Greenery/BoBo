@@ -14,48 +14,48 @@ import {
 // import { UPDATE_USER_MUTATION } from './graphql/Mutation';
 
 const StreamingOptions = ({ navigation, route }) => {
-  const [updateUser, { data }] = useMutation(UPDATE_USER_MUTATION);
-  const servicesObj = {
-    netflix: false,
-    hbo: false,
-    hulu: false,
-    prime: false,
-    disney: false,
-  };
-  const logos = {
-    netflix:
-      'https://www.designmantic.com/blog/wp-content/uploads/2016/07/Netflix-Revamps-Logo.jpg',
-    hbo: 'https://hbomax-images.warnermediacdn.com/2020-05/square%20social%20logo%20400%20x%20400_0.png',
-    hulu: 'https://media.glassdoor.com/sqll/43242/hulu-squarelogo-1561078825650.png',
-    prime:
-      'https://cdn.wezift.com/assets/apps/amazon-prime-video/logo/_imgSingle/208890/512x512bb.png?mtime=20220129040734',
-    disney:
-      'https://media.wdwnt.com/2020/05/2_disney_logo_29e79241_fbd045f0.png',
-  };
+  // const [updateUser, { data }] = useMutation(UPDATE_USER_MUTATION);
+  // const servicesObj = {
+  //   netflix: false,
+  //   hbo: false,
+  //   hulu: false,
+  //   prime: false,
+  //   disney: false,
+  // };
+  // const logos = {
+  //   netflix:
+  //     'https://www.designmantic.com/blog/wp-content/uploads/2016/07/Netflix-Revamps-Logo.jpg',
+  //   hbo: 'https://hbomax-images.warnermediacdn.com/2020-05/square%20social%20logo%20400%20x%20400_0.png',
+  //   hulu: 'https://media.glassdoor.com/sqll/43242/hulu-squarelogo-1561078825650.png',
+  //   prime:
+  //     'https://cdn.wezift.com/assets/apps/amazon-prime-video/logo/_imgSingle/208890/512x512bb.png?mtime=20220129040734',
+  //   disney:
+  //     'https://media.wdwnt.com/2020/05/2_disney_logo_29e79241_fbd045f0.png',
+  // };
 
-  const [services, setServices] = useState(servicesObj);
+  // const [services, setServices] = useState(servicesObj);
 
-  const handleSubmit = async () => {
-    const user = {
-      id: route.params.id,
-      name: route.params.name,
-      username: route.params.username,
-      password: route.params.password,
-      email: route.params.username,
-      netflix: services.netflix,
-      hbo: services.hbo,
-      hulu: services.hulu,
-      prime: services.prime,
-      disney: services.disney,
-    };
+  // const handleSubmit = async () => {
+  //   const user = {
+  //     id: route.params.id,
+  //     name: route.params.name,
+  //     username: route.params.username,
+  //     password: route.params.password,
+  //     email: route.params.username,
+  //     netflix: services.netflix,
+  //     hbo: services.hbo,
+  //     hulu: services.hulu,
+  //     prime: services.prime,
+  //     disney: services.disney,
+  //   };
 
-    await updateUser({ variables: { updateUserInput: user } });
-    navigation.push('GenrePreferences');
-  };
+  //   await updateUser({ variables: { updateUserInput: user } });
+  //   navigation.push('GenrePreferences');
+  // };
 
   return (
     <View style={{ flex: 1 }}>
-      <VStack space={5} w='100%' alignItems='center' justifyContent='center'>
+      {/* <VStack space={5} w='100%' alignItems='center' justifyContent='center'>
         <Stack mx='4' alignItems='center'>
           <HStack
             space={2}
@@ -110,7 +110,7 @@ const StreamingOptions = ({ navigation, route }) => {
             Next
           </Button>
         </Stack>
-      </VStack>
+      </VStack> */}
     </View>
   );
 };

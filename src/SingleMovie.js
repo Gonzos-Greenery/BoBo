@@ -1,11 +1,6 @@
-<<<<<<< HEAD
 import React from "react";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-=======
-import React from 'react';
-import { useEffect, useState } from 'react';
->>>>>>> ff68609b7dfadd3fdff622d019b6b8c7f15063eb
 import {
   StyleSheet,
   Text,
@@ -13,7 +8,6 @@ import {
   Image,
   TouchableOpacity,
   Button,
-<<<<<<< HEAD
 } from "react-native";
 // import { SINGLE_MOVIES_QUERY } from "./graphql/Query";
 // import { gql, useQuery } from "@apollo/client";
@@ -21,37 +15,33 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faThumbsUp, faThumbsDown } from "@fortawesome/free-regular-svg-icons";
 import axios from "axios";
 import { fetchMovie } from "./store/movie";
-=======
-} from 'react-native';
-// import { SINGLE_MOVIES_QUERY } from "./graphql/Query";
-// import { gql, useQuery } from "@apollo/client";
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faThumbsUp, faThumbsDown } from '@fortawesome/free-regular-svg-icons';
->>>>>>> ff68609b7dfadd3fdff622d019b6b8c7f15063eb
+import { addUserRating } from "./store/userRatings";
 
-import styles from './styles';
-import Loading from './Loading';
+import styles from "./styles";
+import Loading from "./Loading";
 
-export default ({ route }) => {
-<<<<<<< HEAD
+export default ({ route, navigation }) => {
+  const [userID, setUserID] = useState();
   const [data, setData] = useState();
   const [imdbUrl, setImdbUrl] = useState();
   const [title, setTitle] = useState();
   const [posterUrl, setPosterUrl] = useState("");
-=======
-  const [posterUrl, setPosterUrl] = useState('');
->>>>>>> ff68609b7dfadd3fdff622d019b6b8c7f15063eb
   const [defaultRating, setDefaultRating] = useState(0);
   const [maxRating, setMaxRating] = useState([1, 2, 3, 4, 5]);
   const [thumbsUp, setThumbsUp] = useState(false);
   const [thumbsDown, setThumbsDown] = useState(false);
+  const [updatedRating, setUpdatedRating] = useState(0);
+  const [userRatingID, setUserRatingID] = useState()
   const [seen, setSeen] = useState(false);
+  const [update, setUpdate] = useState(false);
   const dispatch = useDispatch();
+  const { username } = route.params;
   // const singleMovie = useSelector((state) => state.movie);
   // console.log(singleMovie);
 
   useEffect(() => {
     // dispatch(fetchMovie(route.params.movie.id));
+
     const getMovie = async (id) => {
       const res = await axios
         .get(`http://localhost:8080/api/movies/${id}`)
@@ -59,15 +49,42 @@ export default ({ route }) => {
           console.log(err);
         });
       // const res = dispatch(fetchMovies());
-
       setData(res.data);
       setImdbUrl(res.data.imdb_id);
       setTitle(res.data.title);
       // showMovies(res.data);
     };
+    const getUser = async (username) => {
+      const res = await axios
+        .get(`http://localhost:8080/api/users/username/${username}`)
+        .catch((err) => {
+          console.log(err);
+        });
+      setUserID(res.data.id);
+    };
 
+    getUser(username);
     getMovie(route.params.movie.id);
   }, []);
+
+  const getUserRating = async (userid, movieid) => {
+    const res = await axios
+      .get(`http://localhost:8080/api/userRating/${userid}/${movieid}`)
+      .catch((err) => {
+        console.log(err);
+      });
+    if (res && res.data[0]) {
+      setUserRatingID(res.data[0].id)
+      setUpdate(true);
+      setDefaultRating(res.data[0].rating);
+      if (res.data[0].watchAgain === true) {
+        setThumbsUp(true);
+      } else if (res.data[0].watchAgain === false) {
+        setThumbsDown(true);
+      }
+    }
+  };
+  getUserRating(userID, route.params.movie.id);
 
   // const { data, loading } = useQuery(SINGLE_MOVIES_QUERY, {
   //   variables: { id: route.params.movie.id },
@@ -77,21 +94,15 @@ export default ({ route }) => {
   //   return <Loading />;
   // }
 
-  const API_KEY = 'api_key=1cf50e6248dc270629e802686245c2c8';
-  const BASE_URL = 'https://api.themoviedb.org/3';
+  const API_KEY = "api_key=1cf50e6248dc270629e802686245c2c8";
+  const BASE_URL = "https://api.themoviedb.org/3";
 
   const API_URL =
     BASE_URL +
     `/find/${imdbUrl}?` +
     API_KEY +
-<<<<<<< HEAD
     "&language=en-US&external_source=imdb_id";
   const IMG_URL = "https://image.tmdb.org/t/p/w500";
-=======
-    '&language=en-US&external_source=imdb_id';
-  const IMG_URL = 'https://image.tmdb.org/t/p/w500';
-  const searchURL = BASE_URL + '/search/movie?' + API_KEY;
->>>>>>> ff68609b7dfadd3fdff622d019b6b8c7f15063eb
 
   function getMovie(url) {
     fetch(url)
@@ -109,7 +120,7 @@ export default ({ route }) => {
       `${
         poster_path
           ? IMG_URL + poster_path
-          : 'http://via.placeholder.com/1080x1580'
+          : "http://via.placeholder.com/1080x1580"
       }`
     );
   }
@@ -117,10 +128,18 @@ export default ({ route }) => {
   getMovie(API_URL);
 
   const starImgFilled =
-    'https://github.com/tranhonghan/images/blob/main/star_filled.png?raw=true';
+    "https://github.com/tranhonghan/images/blob/main/star_filled.png?raw=true";
   const starImgEmpty =
-    'https://github.com/tranhonghan/images/blob/main/star_corner.png?raw=true';
+    "https://github.com/tranhonghan/images/blob/main/star_corner.png?raw=true";
 
+  const handleRatingBar = (item) => {
+    if (defaultRating === 0) {
+    setDefaultRating(item);
+    } else {
+      setUpdatedRating(item);
+      console.log("updatedRating is", updatedRating);
+    }
+  };
   const RatingBar = () => {
     return (
       <View style={iconstyles.ratingBar}>
@@ -129,7 +148,7 @@ export default ({ route }) => {
             <TouchableOpacity
               activeOpacity={0.7}
               key={item}
-              onPress={() => setDefaultRating(item)}
+              onPress={() => handleRatingBar(item)}
             >
               <Image
                 style={iconstyles.stars}
@@ -165,7 +184,7 @@ export default ({ route }) => {
           <FontAwesomeIcon
             icon={faThumbsUp}
             size={32}
-            color={thumbsUp === true ? 'green' : 'grey'}
+            color={thumbsUp === true ? "green" : "grey"}
           />
         </TouchableOpacity>
         <TouchableOpacity
@@ -175,7 +194,7 @@ export default ({ route }) => {
           <FontAwesomeIcon
             icon={faThumbsDown}
             size={32}
-            color={thumbsDown === true ? 'red' : 'grey'}
+            color={thumbsDown === true ? "red" : "grey"}
           />
         </TouchableOpacity>
       </View>
@@ -184,6 +203,62 @@ export default ({ route }) => {
 
   const seenHandler = () => {
     setSeen(!seen);
+    // const updateWatched = async () => {
+    //   await axios
+    //     .post(
+    //       `http://localhost:8080/api/users/movieswatched/register/add/${userID}`,
+    //       {
+    //         movies: route.params.movie.id,
+    //       }
+    //     )
+    //     .catch((err) => {
+    //       console.log(err);
+    //     });
+    // };
+    // updateWatched();
+  };
+
+  const submitHandler = () => {
+    let thumbsRating = null;
+    if (thumbsDown) {
+      thumbsRating = false;
+    }
+    if (thumbsUp) {
+      thumbsRating = true;
+    }
+    // addUserRating(userID, route.params.movie.id, defaultRating);
+    const updateRating = async () => {
+      if (update === false) {
+        await axios
+          .post(
+            `http://localhost:8080/api/userRating/${userID}/${route.params.movie.id}`,
+            {
+              rating: defaultRating,
+              watchAgain: thumbsRating,
+            }
+          )
+          .catch((err) => {
+            console.log(err);
+          });
+      } else {
+        console.log("hi");
+        await axios
+          .put(
+            `http://localhost:8080/api/userRating/${userID}/${route.params.movie.id}/${userRatingID}`,
+            {
+              rating: updatedRating,
+              watchAgain: thumbsRating,
+            }
+          )
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    };
+    updateRating();
+    navigation.navigate("Movies", {
+      username: username,
+    });
   };
 
   return (
@@ -201,14 +276,11 @@ export default ({ route }) => {
           <View style={iconstyles.thumbs}>
             <ThumbsRating />
           </View>
-<<<<<<< HEAD
-=======
           <Button
             style={styles.subheader}
-            title="I haven't seen this movie"
-            onPress={() => seenHandler()}
+            title="Submit"
+            onPress={() => submitHandler()}
           />
->>>>>>> ff68609b7dfadd3fdff622d019b6b8c7f15063eb
         </View>
       ) : (
         <Button
@@ -223,20 +295,20 @@ export default ({ route }) => {
 
 const iconstyles = StyleSheet.create({
   stars: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
     width: 40,
     height: 40,
-    resizeMode: 'cover',
+    resizeMode: "cover",
   },
   thumbs: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
   },
   text: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
     fontSize: 32,
   },
   image: {
@@ -244,13 +316,13 @@ const iconstyles = StyleSheet.create({
     height: 400,
   },
   imageContainer: {
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
   },
   ratingBar: {
-    justifyContent: 'center',
-    flexDirection: 'row',
+    justifyContent: "center",
+    flexDirection: "row",
     marginTop: 30,
   },
 });

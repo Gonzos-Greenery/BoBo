@@ -6,18 +6,6 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { Provider } from "react-redux";
 import store from "./src/store";
 
-<<<<<<< HEAD
-import AllMovies from "./src/AllMovies";
-// import Login from './src/Login';
-import MovieCard from "./src/MovieSwipe/MovieCard";
-import SingleMovie from "./src/SingleMovie";
-import Recommendation from "./src/MovieSwipe/Recommendation";
-// import StreamingOptions from './src/StreamingOptions';
-// import GenrePreferences from './src/GenrePreferences';
-import { NativeBaseProvider } from "native-base";
-import { screenOptions } from "./src/styles.js";
-// import Register from './src/Register';
-=======
 import AllMovies from './src/AllMovies';
 import Login from './src/Login';
 import MovieCard from './src/MovieSwipe/MovieCard';
@@ -28,7 +16,6 @@ import { NativeBaseProvider } from 'native-base';
 import { screenOptions } from './src/styles.js';
 import Register from './src/Register';
 import HostParty from './src/HostParty';
->>>>>>> ff68609b7dfadd3fdff622d019b6b8c7f15063eb
 
 const Stack = createStackNavigator();
 
@@ -52,31 +39,6 @@ export default function App() {
               component={AllMovies}
               options={{ title: "BoBo" }}
             />
-<<<<<<< HEAD
-            {/* <Stack.Screen
-            name="Register"
-            component={Register}
-            options={{ title: 'BoBo Reg' }}
-          />
-          <Stack.Screen
-            name="StreamingOptions"
-            component={StreamingOptions}
-            options={{ title: 'Choose Streaming Services' }}
-          />
-          <Stack.Screen
-            name="GenrePreferences"
-            component={GenrePreferences}
-            options={{ title: 'Choose Preferred Genres' }}
-          />
-          <Stack.Screen
-            name="Login"
-            component={Login}
-            options={{ headerShown: false }}
-          />
-             */}
-            <Stack.Screen
-              name="SingleMovie"
-=======
             <Stack.Screen
               name='Register'
               component={Register}
@@ -99,7 +61,6 @@ export default function App() {
             />
             <Stack.Screen
               name='SingleMovie'
->>>>>>> ff68609b7dfadd3fdff622d019b6b8c7f15063eb
               component={SingleMovie}
               options={({
                 route: {
@@ -111,18 +72,6 @@ export default function App() {
                 title: title,
               })}
             />
-<<<<<<< HEAD
-
-            <Stack.Screen
-              name="MovieCard"
-              component={MovieCard}
-              options={{ title: "Netflix and Chill" }}
-            />
-            <Stack.Screen
-              name="Recommendation"
-              component={Recommendation}
-              options={{ title: "Final Recommendation" }}
-=======
             <Stack.Screen
               name='MovieCard'
               component={MovieCard}
@@ -132,7 +81,6 @@ export default function App() {
               name='HostParty'
               component={HostParty}
               options={{ headerShown: false }}
->>>>>>> ff68609b7dfadd3fdff622d019b6b8c7f15063eb
             />
           </Stack.Navigator>
           <StatusBar style="light" />
