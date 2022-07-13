@@ -14,7 +14,7 @@ import AllMovies from './src/AllMovies';
 // import GenrePreferences from './src/GenrePreferences';
 import { NativeBaseProvider } from 'native-base';
 import { screenOptions } from './src/styles.js';
-// import Register from './src/Register';
+import Register from './src/Register';
 
 const Stack = createStackNavigator();
 
@@ -30,7 +30,7 @@ export default function App() {
       <Provider store={store}>
         <NavigationContainer>
           <Stack.Navigator
-            initialRouteName='Movies'
+            initialRouteName='Register'
             screenOptions={screenOptions}
           >
             <Stack.Screen
@@ -38,12 +38,12 @@ export default function App() {
               component={AllMovies}
               options={{ title: 'BoBo' }}
             />
-            {/* <Stack.Screen
+             <Stack.Screen
             name="Register"
             component={Register}
             options={{ title: 'BoBo Reg' }}
           />
-          <Stack.Screen
+          {/*<Stack.Screen
             name="StreamingOptions"
             component={StreamingOptions}
             options={{ title: 'Choose Streaming Services' }}

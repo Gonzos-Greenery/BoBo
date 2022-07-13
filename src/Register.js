@@ -1,7 +1,9 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import { gql, useMutation } from '@apollo/client';
-import { REGISTER_USER_MUTATION } from './graphql/Mutation';
+import { useSelector, useDispatch } from 'react-redux';
+import{authenticate} from './store';
+// import { REGISTER_USER_MUTATION } from './graphql/Mutation';
 import {
   Input,
   Icon,
