@@ -45,7 +45,7 @@ const GenrePreferences = ({ navigation, route }) => {
     // addGenre({ variables: { genreInput: genres } });
     const userId = userAuth.id;
     dispatch(addUserGenre(userId, genres));
-    navigation.push('RegisterMovies');
+    navigation.push('Movies');
   };
 
   return (
