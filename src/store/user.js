@@ -3,7 +3,6 @@ import axios from 'axios';
 const GET_USER = 'GET_USER';
 const UPDATE_USER = 'UPDATE_USER';
 
-
 // Action creator
 const getUser = (user) => {
   return {
@@ -19,8 +18,6 @@ const _updateUser = (user) => {
   };
 };
 
-
-
 export const fetchUser = (userId) => {
   return async (dispatch) => {
     try {
@@ -35,8 +32,15 @@ export const fetchUser = (userId) => {
 export const updateUser = (user) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.put(`/api/users/${user.id}`, user);
-      dispatch(_updateUser(data));
+      // const { data } = await axios.put(`/api/users/${user.id}`, user);
+      const { data: updatedUser } = await axios({
+        method: 'put',
+        url: `http://localhost:8080/api/users/update/${user.id}`,
+        data: {
+          user,
+        },
+      });
+      dispatch(_updateUser(updatedUser));
     } catch (error) {
       console.log(error);
     }

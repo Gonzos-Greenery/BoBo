@@ -44,33 +44,34 @@ export default function App() {
               component={AllMovies}
               options={{ title: 'BoBo' }}
             />
-             <Stack.Screen
-            name="Register"
-            component={Register}
-            options={{ title: 'BoBo Reg' }}
-          />
-          <Stack.Screen
-            name="StreamingOptions"
-            component={StreamingOptions}
-            options={{ title: 'Choose Streaming Services' }}
-          />
-          <Stack.Screen
-            name="GenrePreferences"
-            component={GenrePreferences}
-            options={{ title: 'Choose Preferred Genres' }}
-  />
-          <Stack.Screen
-            name="Login"
-            component={Login}
-            options={{ headerShown: false }}
-          />
-          {/*<Stack.Screen
-            name="SingleMovie"
-            component={SingleMovie}
-            options={({
-              route: {
-                params: {
-                  movie: { title },
+            <Stack.Screen
+              name='Register'
+              component={Register}
+              options={{ title: 'BoBo Reg' }}
+            />
+            <Stack.Screen
+              name='StreamingOptions'
+              component={StreamingOptions}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name='GenrePreferences'
+              component={GenrePreferences}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name='Login'
+              component={Login}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name='SingleMovie'
+              component={SingleMovie}
+              options={({
+                route: {
+                  params: {
+                    movie: { title },
+                  },
                 },
               }) => ({
                 title: title,
@@ -82,29 +83,26 @@ export default function App() {
               options={{ title: 'Netflix and Chill' }}
             />
             <Stack.Screen
-              name="RegisterMovies"
+              name='RegisterMovies'
               component={RegisterMoviesList}
-              options={{title: "Select Movies You've Seen"}}
+              options={{ title: "Select Movies You've Seen" }}
             />
             <Stack.Screen
-              name="PartyView"
+              name='PartyView'
               component={PartyView}
-              options={{title: "Party"}}
+              options={{ title: 'Party' }}
             />
             <Stack.Screen
-              name="PartyAddForm"
+              name='PartyAddForm'
               component={PartyAddForm}
-              options={{title: "Add Someone"}}
+              options={{ title: 'Add Someone' }}
             />
-            <Stack.Screen
-              name="User"
-              component={User}
-            />
+            <Stack.Screen name='User' component={User} />
             <Stack.Screen
               name='HostParty'
               component={HostParty}
               options={{ headerShown: false }}
-            />*/}
+            />
           </Stack.Navigator>
         </NavigationContainer>
       </Provider>
