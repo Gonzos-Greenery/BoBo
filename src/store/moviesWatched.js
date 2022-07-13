@@ -45,7 +45,6 @@ export const addMovieToUser = (userId, movies) => {
           movies
         }
       });
-      console.log(data)
       dispatch(addMovieWatched(updatedMoviesWatched));
     } catch (error) {
       console.log(error);

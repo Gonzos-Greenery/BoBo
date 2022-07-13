@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Text, FlatList, Pressable, View, Image, Button, StyleSheet, ScrollView} from 'react-native';
-// import { gql, useQuery } from '@apollo/client';
-// import { MOVIES_QUERY } from './graphql/Query';
 import { fetchMovies } from './store/movies';
 import Loading from './Loading';
 
