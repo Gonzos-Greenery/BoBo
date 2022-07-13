@@ -38,9 +38,6 @@ const Movie = db.define('movie', {
   seasons: {
     type: Sequelize.STRING,
   },
-  imdb_id: {
-    type: Sequelize.STRING,
-  },
   imdb_score: {
     type: Sequelize.DOUBLE,
   },

@@ -1,18 +1,10 @@
-import axios from 'axios';
+import axios from "axios";
 // import history from '../history';
 
-/**const { data } = await axios({
-        method: 'post',
-        url: `http://localhost:8080/api/party`,
-        data: {
-          date: '01/2/2022'
-        }
-      }) */
-
-const TOKEN = 'token';
+const TOKEN = "token";
 
 // action types
-const SET_AUTH = 'SET_AUTH';
+const SET_AUTH = "SET_AUTH";
 
 //action creators
 const setAuth = (auth) => ({ type: SET_AUTH, auth });
@@ -21,37 +13,25 @@ const setAuth = (auth) => ({ type: SET_AUTH, auth });
 export const me = () => async (dispatch) => {
   const token = window.localStorage.getItem(TOKEN);
   if (token) {
-    const res = await axios({
-      method: 'get',
-      url: `http://localhost:8080/auth/me`,
+    const res = await axios.get("/auth/me", {
       headers: {
         authorization: token,
       },
     });
-    const watched = await axios({
-      method: 'get',
-      url: `http://localhost:8080/api/users/${res.data.id}`,
-    });
-    watched.data.movies = watched.data.movies.map((movie) => movie.id);
-    return dispatch(setAuth(watched.data));
+    return dispatch(setAuth(res.data));
   }
 };
 
-export const authenticate = (userData, method) => async (dispatch) => {
-  try {
-    const res = await axios({
-      method: 'post',
-      url: `http://localhost:8080/auth/${method}`,
-      data: userData,
-      //will need to update this input parameter on the Login page from david
-    });
-    window.localStorage.setItem(TOKEN, res.data.token);
-    dispatch(me());
-    return true;
-  } catch (authError) {
-    return false;
-  }
-};
+export const authenticate =
+  (username, password, method) => async (dispatch) => {
+    try {
+      const res = await axios.post(`/auth/${method}`, { username, password });
+      window.localStorage.setItem(TOKEN, res.data.token);
+      dispatch(me());
+    } catch (authError) {
+      return dispatch(setAuth({ error: authError }));
+    }
+  };
 
 // export const logout = () => {
 //   window.localStorage.removeItem(TOKEN);
