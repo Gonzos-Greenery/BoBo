@@ -10,11 +10,16 @@ import AllMovies from './src/AllMovies';
 import Login from './src/Login';
 import MovieCard from './src/MovieSwipe/MovieCard';
 import SingleMovie from './src/SingleMovie';
+import RegisterMoviesList from './src/RegisterMoviesList.js';
 import StreamingOptions from './src/StreamingOptions';
 import GenrePreferences from './src/GenrePreferences';
 import { NativeBaseProvider } from 'native-base';
 import { screenOptions } from './src/styles.js';
 import Register from './src/Register';
+import PartyView from './src/PartyView';
+import PartyAddForm from './src/PartyAddForm';
+import User from './src/User';
+import Footer from './src/Footer';
 import HostParty from './src/HostParty';
 
 const Stack = createStackNavigator();
@@ -31,7 +36,7 @@ export default function App() {
       <Provider store={store}>
         <NavigationContainer>
           <Stack.Navigator
-            initialRouteName='Movies'
+            initialRouteName='Login'
             screenOptions={screenOptions}
           >
             {/* <Stack.Screen
@@ -78,12 +83,30 @@ export default function App() {
               options={{ title: 'Netflix and Chill' }}
             />
             <Stack.Screen
+              name="RegisterMovies"
+              component={RegisterMoviesList}
+              options={{title: "Select Movies You've Seen"}}
+            />
+            <Stack.Screen
+              name="PartyView"
+              component={PartyView}
+              options={{title: "Party"}}
+            />
+            <Stack.Screen
+              name="PartyAddForm"
+              component={PartyAddForm}
+              options={{title: "Add Someone"}}
+            />
+            <Stack.Screen
+              name="User"
+              component={User}
+            />
+            <Stack.Screen 
               name='HostParty'
               component={HostParty}
               options={{ headerShown: false }}
             /> */}
           </Stack.Navigator>
-          <StatusBar style='light' />
         </NavigationContainer>
       </Provider>
     </NativeBaseProvider>

@@ -13,23 +13,38 @@ const setAuth = (auth) => ({ type: SET_AUTH, auth });
 export const me = () => async (dispatch) => {
   const token = window.localStorage.getItem(TOKEN);
   if (token) {
-    const res = await axios.get('/auth/me', {
-      headers: {
-        authorization: token,
-      },
+    const res = await axios({
+      method: 'get',
+      url: `http://localhost:8080/auth/me`,
+      headers:{
+        authorization: token
+      }
     });
-    return dispatch(setAuth(res.data));
+    const watched = await axios({
+      method: 'get',
+      url: `http://localhost:8080/api/users/${res.data.id}`
+    })
+    watched.data.movies = watched.data.movies.map(movie => movie.id)
+    return dispatch(setAuth(watched.data));
   }
 };
 
 export const authenticate =
   (username, password, method) => async (dispatch) => {
     try {
-      const res = await axios.post(`/auth/${method}`, { username, password });
+      const res = await axios({
+        method: 'post',
+        url: `http://localhost:8080/auth/${method}`,
+        data: {
+          username,
+          password
+        }, 
+      });
       window.localStorage.setItem(TOKEN, res.data.token);
-      dispatch(me());
+      dispatch(me())
+      return true;
     } catch (authError) {
-      return dispatch(setAuth({ error: authError }));
+      return false;
     }
   };
 

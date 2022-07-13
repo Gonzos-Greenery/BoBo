@@ -94,3 +94,20 @@ router.post('/genres/add/:userid', async (req, res, next) => {
     next(error);
   }
 });
+
+router.post('/movieswatched/register/add/:userid', async (req,res,next) => {
+  try{
+    const user = await User.findByPk(req.params.userid);
+    const movies = await Movie.findAll({where: {
+      id: {
+        [Sequelize.Op.or]: [...req.body.movies]
+      }
+    }});
+    await Promise.all(movies.map(movie => {
+      user.addMovie(movie)
+    }));
+    res.json(user)
+  } catch (error) {
+    next(error)
+  }
+})

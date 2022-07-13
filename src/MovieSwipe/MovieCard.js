@@ -12,14 +12,15 @@ import {
   faHeart,
 } from "@fortawesome/free-solid-svg-icons";
 
-let cardPics = [
-  bo,
-  lobo,
-  "https://images.unsplash.com/photo-1596492784531-6e6eb5ea9993?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
-  "https://images.unsplash.com/photo-1596854407944-bf87f6fdd49e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80",
-];
+// let cardPics = [
+//   bo,
+//   lobo,
+//   "https://images.unsplash.com/photo-1596492784531-6e6eb5ea9993?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+//   "https://images.unsplash.com/photo-1596854407944-bf87f6fdd49e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80",
+// ];
 
-const MovieCard = () => {
+const MovieCard = ({route}) => {
+  const cardPics = route.params.movies
   const styles = StyleSheet.create({
     container: {
       paddingTop: 10,
@@ -68,7 +69,7 @@ const MovieCard = () => {
         </View>
         <View style={styles.container}>
           {cardPics.map((pic) => {
-            return <MovieCardItem card={pic} key={pic} />;
+            return <MovieCardItem card={pic.link} key={pic.id} />;
           })}
         </View>
         <View style={styles.heart}>
