@@ -7,11 +7,10 @@ import {
   Image,
   TouchableOpacity,
   Button,
-} from 'react-native';
-// import { SINGLE_MOVIES_QUERY } from "./graphql/Query";
-// import { gql, useQuery } from "@apollo/client";
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faThumbsUp, faThumbsDown } from '@fortawesome/free-regular-svg-icons';
+} from "react-native";
+import { gql, useQuery } from "@apollo/client";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faThumbsUp, faThumbsDown } from "@fortawesome/free-regular-svg-icons";
 
 import styles from './styles';
 import Loading from './Loading';

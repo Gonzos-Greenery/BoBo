@@ -35,8 +35,9 @@ export const REGISTER_USER_MUTATION = gql`
   }
 `;
 
-export const LoginAuth = gql`
-  mutation LoginUser($loginInput: LoginInput) {
+
+export const LOGIN_AUTH = gql`
+mutation LoginUser($loginInput: LoginInput) {
     loginUser(LoginInput: $loginInput) {
       name
       username
@@ -46,6 +47,7 @@ export const LoginAuth = gql`
       prime
       disney
       hbo
+      watched
     }
   }
 `;
@@ -66,3 +68,13 @@ export const UPDATE_USER_MUTATION = gql`
     }
   }
 `;
+
+export const ADD_WATCHED = gql`
+mutation AddWatched($addWatched: AddWatched) {
+  addWatched(addWatched: $addWatched) {
+    id,
+    username,
+    watched
+  }
+}
+`
