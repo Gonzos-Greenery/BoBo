@@ -7,14 +7,15 @@ import { Provider } from 'react-redux';
 import store from './src/store';
 
 import AllMovies from './src/AllMovies';
-// import Login from './src/Login';
-// import MovieCard from './src/MovieSwipe/MovieCard';
-// import SingleMovie from './src/SingleMovie';
-// import StreamingOptions from './src/StreamingOptions';
-// import GenrePreferences from './src/GenrePreferences';
+import Login from './src/Login';
+import MovieCard from './src/MovieSwipe/MovieCard';
+import SingleMovie from './src/SingleMovie';
+import StreamingOptions from './src/StreamingOptions';
+import GenrePreferences from './src/GenrePreferences';
 import { NativeBaseProvider } from 'native-base';
 import { screenOptions } from './src/styles.js';
 import Register from './src/Register';
+import HostParty from './src/HostParty';
 
 const Stack = createStackNavigator();
 
@@ -52,13 +53,13 @@ export default function App() {
             name="GenrePreferences"
             component={GenrePreferences}
             options={{ title: 'Choose Preferred Genres' }}
-          />
+  />*/}
           <Stack.Screen
             name="Login"
             component={Login}
             options={{ headerShown: false }}
           />
-          <Stack.Screen
+          {/*<Stack.Screen
             name="SingleMovie"
             component={SingleMovie}
             options={({
@@ -66,16 +67,20 @@ export default function App() {
                 params: {
                   movie: { title },
                 },
-              },
-            }) => ({
-              title: title,
-            })}
-          />
-          <Stack.Screen
-            name="MovieCard"
-            component={MovieCard}
-            options={{ title: 'Netflix and Chill' }}
-          /> */}
+              }) => ({
+                title: title,
+              })}
+            />
+            <Stack.Screen
+              name='MovieCard'
+              component={MovieCard}
+              options={{ title: 'Netflix and Chill' }}
+            />
+            <Stack.Screen
+              name='HostParty'
+              component={HostParty}
+              options={{ headerShown: false }}
+            />*/}
           </Stack.Navigator>
           <StatusBar style='light' />
         </NavigationContainer>

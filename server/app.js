@@ -3,6 +3,7 @@ const express = require('express');
 const morgan = require('morgan');
 const app = express();
 module.exports = app;
+const cors = require('cors');
 
 // logging middleware
 app.use(morgan('dev'));
@@ -16,9 +17,11 @@ app.use('/api', require('./api'));
 
 app.get('/', (req, res) => res.sendFile(path.join(__dirname, '..', 'App.js')));
 
-app.use(cors({
-  origin: '*'
-}))
+app.use(
+  cors({
+    origin: '*',
+  })
+);
 
 // static file-serving middleware
 app.use(express.static(path.join(__dirname, '..', 'public')));
