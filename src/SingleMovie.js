@@ -1,6 +1,11 @@
+<<<<<<< HEAD
 import React from "react";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+=======
+import React from 'react';
+import { useEffect, useState } from 'react';
+>>>>>>> ff68609b7dfadd3fdff622d019b6b8c7f15063eb
 import {
   StyleSheet,
   Text,
@@ -8,6 +13,7 @@ import {
   Image,
   TouchableOpacity,
   Button,
+<<<<<<< HEAD
 } from "react-native";
 // import { SINGLE_MOVIES_QUERY } from "./graphql/Query";
 // import { gql, useQuery } from "@apollo/client";
@@ -15,15 +21,26 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faThumbsUp, faThumbsDown } from "@fortawesome/free-regular-svg-icons";
 import axios from "axios";
 import { fetchMovie } from "./store/movie";
+=======
+} from 'react-native';
+// import { SINGLE_MOVIES_QUERY } from "./graphql/Query";
+// import { gql, useQuery } from "@apollo/client";
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faThumbsUp, faThumbsDown } from '@fortawesome/free-regular-svg-icons';
+>>>>>>> ff68609b7dfadd3fdff622d019b6b8c7f15063eb
 
-import styles from "./styles";
-import Loading from "./Loading";
+import styles from './styles';
+import Loading from './Loading';
 
 export default ({ route }) => {
+<<<<<<< HEAD
   const [data, setData] = useState();
   const [imdbUrl, setImdbUrl] = useState();
   const [title, setTitle] = useState();
   const [posterUrl, setPosterUrl] = useState("");
+=======
+  const [posterUrl, setPosterUrl] = useState('');
+>>>>>>> ff68609b7dfadd3fdff622d019b6b8c7f15063eb
   const [defaultRating, setDefaultRating] = useState(0);
   const [maxRating, setMaxRating] = useState([1, 2, 3, 4, 5]);
   const [thumbsUp, setThumbsUp] = useState(false);
@@ -60,15 +77,21 @@ export default ({ route }) => {
   //   return <Loading />;
   // }
 
-  const API_KEY = "api_key=1cf50e6248dc270629e802686245c2c8";
-  const BASE_URL = "https://api.themoviedb.org/3";
+  const API_KEY = 'api_key=1cf50e6248dc270629e802686245c2c8';
+  const BASE_URL = 'https://api.themoviedb.org/3';
 
   const API_URL =
     BASE_URL +
     `/find/${imdbUrl}?` +
     API_KEY +
+<<<<<<< HEAD
     "&language=en-US&external_source=imdb_id";
   const IMG_URL = "https://image.tmdb.org/t/p/w500";
+=======
+    '&language=en-US&external_source=imdb_id';
+  const IMG_URL = 'https://image.tmdb.org/t/p/w500';
+  const searchURL = BASE_URL + '/search/movie?' + API_KEY;
+>>>>>>> ff68609b7dfadd3fdff622d019b6b8c7f15063eb
 
   function getMovie(url) {
     fetch(url)
@@ -86,7 +109,7 @@ export default ({ route }) => {
       `${
         poster_path
           ? IMG_URL + poster_path
-          : "http://via.placeholder.com/1080x1580"
+          : 'http://via.placeholder.com/1080x1580'
       }`
     );
   }
@@ -94,9 +117,9 @@ export default ({ route }) => {
   getMovie(API_URL);
 
   const starImgFilled =
-    "https://github.com/tranhonghan/images/blob/main/star_filled.png?raw=true";
+    'https://github.com/tranhonghan/images/blob/main/star_filled.png?raw=true';
   const starImgEmpty =
-    "https://github.com/tranhonghan/images/blob/main/star_corner.png?raw=true";
+    'https://github.com/tranhonghan/images/blob/main/star_corner.png?raw=true';
 
   const RatingBar = () => {
     return (
@@ -142,7 +165,7 @@ export default ({ route }) => {
           <FontAwesomeIcon
             icon={faThumbsUp}
             size={32}
-            color={thumbsUp === true ? "green" : "grey"}
+            color={thumbsUp === true ? 'green' : 'grey'}
           />
         </TouchableOpacity>
         <TouchableOpacity
@@ -152,7 +175,7 @@ export default ({ route }) => {
           <FontAwesomeIcon
             icon={faThumbsDown}
             size={32}
-            color={thumbsDown === true ? "red" : "grey"}
+            color={thumbsDown === true ? 'red' : 'grey'}
           />
         </TouchableOpacity>
       </View>
@@ -178,6 +201,14 @@ export default ({ route }) => {
           <View style={iconstyles.thumbs}>
             <ThumbsRating />
           </View>
+<<<<<<< HEAD
+=======
+          <Button
+            style={styles.subheader}
+            title="I haven't seen this movie"
+            onPress={() => seenHandler()}
+          />
+>>>>>>> ff68609b7dfadd3fdff622d019b6b8c7f15063eb
         </View>
       ) : (
         <Button
@@ -192,20 +223,20 @@ export default ({ route }) => {
 
 const iconstyles = StyleSheet.create({
   stars: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
     width: 40,
     height: 40,
-    resizeMode: "cover",
+    resizeMode: 'cover',
   },
   thumbs: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   text: {
-    fontWeight: "bold",
+    fontWeight: 'bold',
     fontSize: 32,
   },
   image: {
@@ -213,13 +244,13 @@ const iconstyles = StyleSheet.create({
     height: 400,
   },
   imageContainer: {
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   ratingBar: {
-    justifyContent: "center",
-    flexDirection: "row",
+    justifyContent: 'center',
+    flexDirection: 'row',
     marginTop: 30,
   },
 });
