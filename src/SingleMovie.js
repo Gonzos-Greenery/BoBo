@@ -31,7 +31,7 @@ export default ({ route, navigation }) => {
   const [thumbsUp, setThumbsUp] = useState(false);
   const [thumbsDown, setThumbsDown] = useState(false);
   const [updatedRating, setUpdatedRating] = useState(0);
-  const [userRatingID, setUserRatingID] = useState()
+  const [userRatingID, setUserRatingID] = useState();
   const [seen, setSeen] = useState(false);
   const [update, setUpdate] = useState(false);
   const dispatch = useDispatch();
@@ -74,7 +74,7 @@ export default ({ route, navigation }) => {
         console.log(err);
       });
     if (res && res.data[0]) {
-      setUserRatingID(res.data[0].id)
+      setUserRatingID(res.data[0].id);
       setUpdate(true);
       setDefaultRating(res.data[0].rating);
       if (res.data[0].watchAgain === true) {
@@ -134,7 +134,7 @@ export default ({ route, navigation }) => {
 
   const handleRatingBar = (item) => {
     if (defaultRating === 0) {
-    setDefaultRating(item);
+      setDefaultRating(item);
     } else {
       setUpdatedRating(item);
       console.log("updatedRating is", updatedRating);
@@ -150,14 +150,25 @@ export default ({ route, navigation }) => {
               key={item}
               onPress={() => handleRatingBar(item)}
             >
-              <Image
-                style={iconstyles.stars}
-                source={
-                  item <= defaultRating
-                    ? { uri: starImgFilled }
-                    : { uri: starImgEmpty }
-                }
-              />
+              {!update ? (
+                <Image
+                  style={iconstyles.stars}
+                  source={
+                    item <= defaultRating
+                      ? { uri: starImgFilled }
+                      : { uri: starImgEmpty }
+                  }
+                />
+              ) : (
+                <Image
+                  style={iconstyles.stars}
+                  source={
+                    item <= defaultRating
+                      ? { uri: starImgFilled }
+                      : { uri: starImgEmpty }
+                  }
+                />
+              )}
             </TouchableOpacity>
           );
         })}
