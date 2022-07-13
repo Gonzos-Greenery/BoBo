@@ -27,7 +27,7 @@ import { useSelector, useDispatch} from 'react-redux';
 import { authenticate } from './store';
 
 export default ({ navigation }) => {
-    const [email, setEmail] = useState('');
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const toast = useToast()
     const dispatch = useDispatch();
@@ -73,7 +73,7 @@ export default ({ navigation }) => {
 
     
     const handleSubmit = async () => {
-        const result = await dispatch(authenticate(email,password,'login'))
+        const result = await dispatch(authenticate(username,password,'login'))
         if(!result){
             toast.show({
                 description: 'Incorrect Username Or Password'
@@ -93,14 +93,14 @@ export default ({ navigation }) => {
                 <FormControl>
                     <Stack mx="4" alignItems="center">
                         <FormControl.Label py="1" w="75%">
-                            Email
+                            Username
                         </FormControl.Label>
                         <Input 
                             size="lg"
                             variant="underlined"
                             maxW="300px"
                             w="75%"
-                            onChangeText={(info) => setEmail(info)}
+                            onChangeText={(info) => setUsername(info)}
                             autoCapitaliz='none'
                         />
                         <FormControl.Label py="1" w="75%">

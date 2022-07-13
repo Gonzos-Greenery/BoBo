@@ -4,101 +4,41 @@ import { Text, FlatList, Pressable, View, Image, Button, StyleSheet, ScrollView}
 // import { gql, useQuery } from '@apollo/client';
 // import { MOVIES_QUERY } from './graphql/Query';
 import { fetchMovies } from './store/movies';
-import MovieCard from './MovieSwipe/MovieCard';
 import Loading from './Loading';
 
 
 export default ({navigation, route}) => {
-  const [movies, setMovies] = useState()
-  const [types, setTypes] = useState()
+    const dispatch = useDispatch()
+    const {movies, auth} = useSelector((state) => {
+        return state
+    });
 
-  const editMovies = async (info) => {
-      const genres = {
-        action: [],
-        animation: [],
-        comedy: [],
-        crime: [],
-        documentation: [],
-        drama: [],    
-        european: [],
-        family: [],
-        fantasy: [],
-        history: [],
-        horror: [],
-        music: [],
-        romance: [],
-        scifi: [],
-        thriller: [],
-        war: [],
-        western: [],
-      }
-      const newMovies = await Promise.all(info.getMovies.map(movie => {
-        const imdbId = movie.imdb_id;
-        const API_KEY = "api_key=1cf50e6248dc270629e802686245c2c8";
-        const BASE_URL = "https://api.themoviedb.org/3";
+    useEffect(() => {
+        dispatch(fetchMovies())
+    },[])
 
-        const API_URL =
-            BASE_URL +
-            `/find/${imdbId}?` +
-            API_KEY +
-            "&language=en-US&external_source=imdb_id";
-        const IMG_URL = "https://image.tmdb.org/t/p/w500";
-        
-        let res = fetch(API_URL)
-        .then(res => res.json())
-        .then(({movie_results}) => {
-            if(movie_results && movie_results.length>0 && movie_results[0].poster_path){
-            return {
-                link: `${IMG_URL + movie_results[0].poster_path}`,
-                genres: movie.genres,
-                id: movie.id
-            }
-            } else {
-                return {
-                link: "https://img.freepik.com/premium-vector/movie-night-cinema-flat-poster_118124-966.jpg",
-                genres: movie.genres,
-                id: movie.id
-            }
-        }
-        })
-        return res;
-      }))
-      setMovies(newMovies)
-      for(let type in genres){
-          const filteredMovies = newMovies.filter(movie => movie.genres[0].includes(type))
-          genres[type] = filteredMovies;
-      }
-      setTypes(genres)
-  }
+    //tried to mutate the queried information to add link -> It appears above but when you try to access it, its undefined.
+    //tested mutating over a key that was already there -> It shows up as the link but when you console log it in render -> Its the original info
 
-//   useEffect(() => {
-//       if(data){
-//           editMovies(data)
-//       }
-//   }, [data])
-
-  //tried to mutate the queried information to add link -> It appears above but when you try to access it, its undefined.
-  //tested mutating over a key that was already there -> It shows up as the link but when you console log it in render -> Its the original info
-
-  return (
+    return (
       <View style={styles.container}>
-        {window.localStorage.getItem('username') ? <Text style={{fontSize: 20, fontWeight: 'bold'}}>{`Welcome Back, ${window.localStorage.getItem('username')}`}</Text> : <Text>Welcome!</Text> }
+        {/* {window.localStorage.getItem('username') ? <Text style={{fontSize: 20, fontWeight: 'bold'}}>{`Welcome Back, ${window.localStorage.getItem('username')}`}</Text> : <Text>Welcome!</Text> } */}
         <ScrollView>
-            {/* {route.params.user.watched === undefined ? <Text style={{fontSize: 16}}>Nothing watched previously</Text> :
+            {auth.movies === undefined ? <Text style={{fontSize: 16}}>Nothing watched previously</Text> :
             <View style={styles.genreRow}>
                 <Text style={{fontSize:16, fontWeight: 'bold'}}>Previously Watched...</Text>
                 <FlatList 
                     horizontal
                     ItemSeparatorComponent={() => <View style={{width:5}}/>}
-                    data={movies === undefined ? [] : movies.filter(movie => route.params.user.watched.includes(movie.id))}
+                    data={movies.all === undefined ? [] : movies.all.filter(movie => auth.movies.includes(movie.id))}
                     renderItem={(movie) => (
                         <View>
-                            <Image style={styles.image} source={movie.item.link}/>
+                            <Image style={styles.image} source={movie.item.image}/>
                         </View>
                     )}
                 />
             </View>
-            } */}
+            }
             <View style={styles.genreRow}>
                 <Text style={{fontSize:16, fontWeight: 'bold'}}>Upcoming Parties</Text>
                 <FlatList 
@@ -116,8 +56,8 @@ export default ({navigation, route}) => {
                     )}
                 />
             </View>
-            {types === undefined ? <Loading /> : 
-                Object.keys(types).map((genre,idx) => {
+            {movies === undefined ? <Loading /> : 
+                Object.keys(movies.sort).map((genre,idx) => {
                     return (
                         <View key={idx} style={styles.genreRow}>
                             <Text style={{fontSize: 16, fontWeight: 'bold'}}>{genre.toUpperCase()}</Text>
@@ -130,13 +70,13 @@ export default ({navigation, route}) => {
                                     navigation.navigate('SingleMovie', {movie: movie.item})}}>
                                     <Image 
                                         style={styles.image} 
-                                        source={{uri: movie.item.link}}
+                                        source={{uri: movie.item.image}}
                                     />
                                     </Pressable>
                                 </View>
                             )}
                             keyExtractor={(movie,idx) => idx.toString()}
-                            data = {types[genre]}
+                            data = {movies.sort[genre]}
                         />
                         </View>
                     )

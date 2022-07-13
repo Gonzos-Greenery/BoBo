@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { ScrollView, Text, View, Image, Pressable, FlatList, StyleSheet} from 'react-native';
-import { useQuery, useLazyQuery, useMutation} from '@apollo/client';
 import {
     Input,
     Icon,
@@ -14,96 +14,40 @@ import {
     useToast,
     WarningOutlineIcon,
 } from 'native-base';
+import { fetchMovies } from './store/movies';
 import Loading from './Loading';
 //Need to run a function to create specific genres that are available 
 //It then populates individual movies in the list for each one
 
 export default ({navigation}) => {
-    const {data} = useQuery(MOVIES_QUERY);
-    const [addWatched] = useMutation(ADD_WATCHED);
-    const [movies, setMovies] = useState();
-    const [types, setTypes] = useState();
-    const [seen, setSeen] = useState();
-    const genres = {
-        action: [],
-        animation: [],
-        comedy: [],
-        crime: [],
-        documentation: [],
-        drama: [],    
-        european: [],
-        family: [],
-        fantasy: [],
-        history: [],
-        horror: [],
-        music: [],
-        romance: [],
-        scifi: [],
-        thriller: [],
-        war: [],
-        western: [],
-    }
-    
-
-    const editMovies = async (info) => {
-        const newMovies = await Promise.all(info.getMovies.map(movie => {
-            const imdbId = movie.imdb_id;
-            const API_KEY = "api_key=1cf50e6248dc270629e802686245c2c8";
-            const BASE_URL = "https://api.themoviedb.org/3";
-
-            const API_URL =
-                BASE_URL +
-                `/find/${imdbId}?` +
-                API_KEY +
-                "&language=en-US&external_source=imdb_id";
-            const IMG_URL = "https://image.tmdb.org/t/p/w500";
-
-            let res = fetch(API_URL)
-            .then(res => res.json())
-            .then(({movie_results}) => {
-                if(movie_results && movie_results.length>0 && movie_results[0].poster_path){
-                    return {
-                        link: `${IMG_URL + movie_results[0].poster_path}`,
-                        genres: movie.genres,
-                        id: movie.id
-                    }
-                } else {
-                    return {
-                        link: "https://img.freepik.com/premium-vector/movie-night-cinema-flat-poster_118124-966.jpg",
-                        genres: movie.genres,
-                        id: movie.id
-                    }
-                }
-            })
-            return res;
-        }))
-        setMovies(newMovies)
-        //At this point movies image links have been added. 
-        //Filter for each genre
-        for(let type in genres){
-            const filteredMovies = newMovies.filter(movie => movie.genres[0].includes(type))
-            genres[type] = filteredMovies;
-        }
-        setTypes(genres)
-    }
+    const dispatch = useDispatch()
+    const {movies} = useSelector((state) => {
+        return state
+    });
+    const [selected, setSelected] = useState([])
 
     useEffect(() => {
-        if(data){
-            editMovies(data)
-        }
-    }, [data])
+        dispatch(fetchMovies())
+    },[])
 
-    //tried to mutate the queried information to add link -> It appears above but when you try to access it, its undefined.
-    //tested mutating over a key that was already there -> It shows up as the link but when you console log it in render -> Its the original info
-
+    const handleSubmit = () => {
+        navigation.navigate('Movies')
+    }
+    //onPress is delayed, missing the inital clicked movie
     return (
         <View>
-            <Button 
-                onPress={() => {navigation.navigate('Movies')}}
-                bg="grey"
-                size="lg"
-                w="1/6"
-            >Skip</Button>
+            <View style={{alignItems: 'center', flexDirection: 'row', justifyContent:'space-between'}}>
+                <Button 
+                    onPress={() => {navigation.navigate('Movies')}}
+                    size="lg"
+                    w="1/6"
+                >Skip</Button>
+                <Button 
+                    onPress={handleSubmit}
+                    size="lg"
+                    w="1/6"
+                >Submit</Button>
+            </View>
             <ScrollView>
                 {movies === undefined ? <Loading /> : 
                     <View style={styles.genreRow}>
@@ -117,19 +61,19 @@ export default ({navigation}) => {
                                         <Pressable onPress={() => {navigation.navigate('SingleMovie', {movie: movie.item})}}>
                                             <Image 
                                             style={styles.image} 
-                                            source={{uri: movie.item.link}}
+                                            source={{uri: movie.item.image}}
                                             />
                                       </Pressable>
                                     </View>
                                 )}
                                 keyExtractor={(movie,idx) => idx.toString()}
-                                data = {movies}
+                                data = {movies.all}
                             />
                     </View>
                 }
                 
-                {types === undefined ? <View /> : 
-                    Object.keys(types).map((genre,idx) => {
+                {movies === undefined ? <View /> : 
+                    Object.keys(movies.sort).map((genre,idx) => {
                         return (
                             <View key={idx} style={styles.genreRow}>
                                 <Text style={{fontSize: 16, fontWeight: 'bold'}}>{genre.toUpperCase()}</Text>
@@ -138,16 +82,19 @@ export default ({navigation}) => {
                                 ItemSeparatorComponent={() => <View style={{width:5}}/>}
                                 renderItem = {(movie) => (
                                     <View key={movie}>
-                                        <Pressable onPress={() => {navigation.navigate('SingleMovie', {movie: movie.item})}}>
+                                        <Pressable onPress={() => {
+                                            setSelected([...selected, movie.item.id])
+                                            console.log(selected)
+                                        }}>
                                             <Image 
                                             style={styles.image} 
-                                            source={{uri: movie.item.link}}
+                                            source={{uri: movie.item.image}}
                                             />
                                       </Pressable>
                                     </View>
                                 )}
                                 keyExtractor={(movie,idx) => idx.toString()}
-                                data = {types[genre]}
+                                data = {movies.sort[genre]}
                             />
                             </View>
                         )

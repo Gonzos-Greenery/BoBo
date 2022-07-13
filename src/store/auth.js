@@ -20,7 +20,13 @@ export const me = () => async (dispatch) => {
         authorization: token
       }
     });
-    return dispatch(setAuth(res.data));
+    const watched = await axios({
+      method: 'get',
+      url: `http://localhost:8080/api/users/${res.data.id}`
+    })
+    watched.data.movies = watched.data.movies.map(movie => movie.id)
+    console.log(watched.data)
+    return dispatch(setAuth(watched.data));
   }
 };
 
@@ -36,7 +42,7 @@ export const authenticate =
         }
       });
       window.localStorage.setItem(TOKEN, res.data.token);
-      dispatch(me());
+      dispatch(me())
       return true;
     } catch (authError) {
       return false;

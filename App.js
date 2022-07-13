@@ -64,7 +64,7 @@ export default function App() {
             component={Login}
             options={{ headerShown: false }}
           />
-          {/* <Stack.Screen
+          <Stack.Screen
             name="SingleMovie"
             component={SingleMovie}
             options={({
@@ -99,7 +99,7 @@ export default function App() {
             <Stack.Screen
               name="User"
               component={User}
-            /> */}
+            />
           </Stack.Navigator>
         </NavigationContainer>
       </Provider>
