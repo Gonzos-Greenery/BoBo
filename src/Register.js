@@ -50,7 +50,8 @@ const Register = ({ navigation }) => {
           console.log('no data')
         } else {
           console.log(data)
-          navigation.push('StreamingOptions');
+          // navigation.push('StreamingOptions');
+          navigation.push('RegisterMovies')
         }
       } catch (err) {
         setErrors(err.message);

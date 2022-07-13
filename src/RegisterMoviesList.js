@@ -15,13 +15,14 @@ import {
     WarningOutlineIcon,
 } from 'native-base';
 import { fetchMovies } from './store/movies';
+import { registerUpdateWatched } from './store/user';
 import Loading from './Loading';
 //Need to run a function to create specific genres that are available 
 //It then populates individual movies in the list for each one
 
 export default ({navigation}) => {
     const dispatch = useDispatch()
-    const {movies} = useSelector((state) => {
+    const {auth,movies} = useSelector((state) => {
         return state
     });
     const [selected, setSelected] = useState([])
@@ -30,8 +31,9 @@ export default ({navigation}) => {
         dispatch(fetchMovies())
     },[])
 
-    const handleSubmit = () => {
-        navigation.navigate('Movies')
+    const handleSubmit = async () => {
+        const result = await dispatch(registerUpdateWatched(auth.id, selected))
+        navigation.push('Movies')
     }
     //onPress is delayed, missing the inital clicked movie
     return (
@@ -49,7 +51,7 @@ export default ({navigation}) => {
                 >Submit</Button>
             </View>
             <ScrollView>
-                {movies === undefined ? <Loading /> : 
+                {/* {movies === undefined ? <Loading /> : 
                     <View style={styles.genreRow}>
                         <Text style={{fontSize: 16, fontWeight: 'bold'}}>ALL MOVIES</Text>
                             <FlatList 
@@ -70,7 +72,7 @@ export default ({navigation}) => {
                                 data = {movies.all}
                             />
                     </View>
-                }
+                } */}
                 
                 {movies === undefined ? <View /> : 
                     Object.keys(movies.sort).map((genre,idx) => {

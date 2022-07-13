@@ -64,7 +64,7 @@ export default function App() {
             component={Login}
             options={{ headerShown: false }}
           />
-          {/*<Stack.Screen
+          <Stack.Screen
             name="SingleMovie"
             component={SingleMovie}
             options={({
@@ -72,7 +72,7 @@ export default function App() {
                 params: {
                   movie: { title },
                 },
-              }) => ({
+              }}) => ({
                 title: title,
               })}
             />
@@ -104,7 +104,7 @@ export default function App() {
               name='HostParty'
               component={HostParty}
               options={{ headerShown: false }}
-            />*/}
+            />
           </Stack.Navigator>
         </NavigationContainer>
       </Provider>

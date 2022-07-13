@@ -65,7 +65,6 @@ export default ({ navigation }) => {
         iosClientId:
             '616067821868-rq45l8ujq8vr2n7atj3ekc617uadg6ce.apps.googleusercontent.com',
         });
-
         if (response?.type === 'success') {
         console.log(response.authentication.accessToken);
         }
@@ -73,7 +72,8 @@ export default ({ navigation }) => {
 
     
     const handleSubmit = async () => {
-        const result = await dispatch(authenticate(username,password,'login'))
+        const data = {username,password}
+        const result = await dispatch(authenticate(data,'login'))
         if(!result){
             toast.show({
                 description: 'Incorrect Username Or Password'
