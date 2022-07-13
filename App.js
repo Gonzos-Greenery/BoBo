@@ -36,7 +36,7 @@ export default function App() {
       <Provider store={store}>
         <NavigationContainer>
           <Stack.Navigator
-            initialRouteName='Register'
+            initialRouteName='Login'
             screenOptions={screenOptions}
           >
             <Stack.Screen
@@ -49,7 +49,7 @@ export default function App() {
             component={Register}
             options={{ title: 'BoBo Reg' }}
           />
-          {/*<Stack.Screen
+          <Stack.Screen
             name="StreamingOptions"
             component={StreamingOptions}
             options={{ title: 'Choose Streaming Services' }}
@@ -58,7 +58,7 @@ export default function App() {
             name="GenrePreferences"
             component={GenrePreferences}
             options={{ title: 'Choose Preferred Genres' }}
-  />*/}
+  />
           <Stack.Screen
             name="Login"
             component={Login}

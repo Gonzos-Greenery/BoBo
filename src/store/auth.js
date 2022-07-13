@@ -24,21 +24,20 @@ export const me = () => async (dispatch) => {
     const res = await axios({
       method: 'get',
       url: `http://localhost:8080/auth/me`,
-      headers:{
-        authorization: token
-      }
+      headers: {
+        authorization: token,
+      },
     });
     const watched = await axios({
       method: 'get',
-      url: `http://localhost:8080/api/users/${res.data.id}`
-    })
-    watched.data.movies = watched.data.movies.map(movie => movie.id)
+      url: `http://localhost:8080/api/users/${res.data.id}`,
+    });
+    watched.data.movies = watched.data.movies.map((movie) => movie.id);
     return dispatch(setAuth(watched.data));
   }
 };
 
 export const authenticate = (userData, method) => async (dispatch) => {
-  console.log('in thunk');
   try {
     const res = await axios({
       method: 'post',
@@ -47,11 +46,9 @@ export const authenticate = (userData, method) => async (dispatch) => {
       //will need to update this input parameter on the Login page from david
     });
     window.localStorage.setItem(TOKEN, res.data.token);
-    console.log('auth thunk data', res.data);
     dispatch(me());
     return true;
   } catch (authError) {
-    console.log('authError', authError)
     return false;
   }
 };

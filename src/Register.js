@@ -43,9 +43,15 @@ const Register = ({ navigation }) => {
     if (validate()) {
       const newUserInput = { username, email, password, name: fullName };
       try {
-        const data = dispatch( authenticate(newUserInput, 'signup'))
-        console.log(authenticate);
-        // navigation.push('StreamingOptions', data.data.registerUser);
+        const data = await dispatch( authenticate(newUserInput, 'signup'))
+        console.log(data)
+        if(data!=true){
+          setErrors('Username/email already exists')
+          console.log('no data')
+        } else {
+          console.log(data)
+          navigation.push('StreamingOptions');
+        }
       } catch (err) {
         setErrors(err.message);
       }
