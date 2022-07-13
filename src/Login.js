@@ -18,8 +18,8 @@ import {
   faTwitter,
   faGoogle,
 } from '@fortawesome/free-brands-svg-icons';
-import { useQuery, useLazyQuery, useMutation } from '@apollo/client';
-import { LoginAuth } from './graphql/Mutation';
+// import { useQuery, useLazyQuery, useMutation } from '@apollo/client';
+// import { LoginAuth } from './graphql/Mutation';
 
 export default ({ navigation }) => {
   const [email, setEmail] = useState('');
