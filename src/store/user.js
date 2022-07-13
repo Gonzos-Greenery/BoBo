@@ -3,6 +3,7 @@ import axios from 'axios';
 const GET_USER = 'GET_USER';
 const UPDATE_USER = 'UPDATE_USER';
 
+
 // Action creator
 const getUser = (user) => {
   return {
@@ -17,6 +18,8 @@ const _updateUser = (user) => {
     user,
   };
 };
+
+
 
 export const fetchUser = (userId) => {
   return async (dispatch) => {
