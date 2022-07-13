@@ -49,13 +49,16 @@ router.post('/', async (req, res, next) => {
   }
 });
 
-router.put('/:partyId/:userId', async (req, res, next) => {
+router.put('/:partyId/:username', async (req, res, next) => {
   try {
     const party = await Party.findByPk(req.params.partyId);
-    const user = await User.findByPk(req.params.userId);
+    const user = await User.findOne({where: {
+      name: req.params.username
+    }})
+    console.log(party)
     await user.addParty(party);
     // await party.addUser(user);
-    res.send(party);
+    res.send(true);
   } catch (err) {
     next(err);
   }

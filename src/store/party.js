@@ -59,6 +59,21 @@ export const createNewParty = (userId, name, location, date, time) => {
   };
 };
 
+export const addFriendToParty = (username, partyId) => {
+  return async (dispatch) => {
+    try{
+      const { data } = await axios({
+        method: 'put',
+        url: `http://localhost:8080/api/party/${partyId}/${username}`
+      })
+      console.log(data)
+      return data
+    } catch (e){
+      console.log(e)
+    }
+  }
+}
+
 const initialState = {};
 
 export default (state = initialState, action) => {
