@@ -10,7 +10,7 @@ import {
   Image,
   Button,
 } from 'native-base';
-import { gql, useMutation } from '@apollo/client';
+// import { gql, useMutation } from '@apollo/client';
 // import { UPDATE_USER_MUTATION } from './graphql/Mutation';
 
 const StreamingOptions = ({ navigation, route }) => {
