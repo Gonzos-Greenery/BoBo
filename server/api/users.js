@@ -82,10 +82,11 @@ router.put('/movieswatched/add/:userid/:movieid', async (req, res, next) => {
   }
 });
 
-router.put('/genres/add/:userid/:genreid', async (req, res, next) => {
+router.post('/genres/add/:userid', async (req, res, next) => {
   try {
+    const genre = await Genre.create(req.body);
     const user = await User.findByPk(req.params.userid);
-    const genre = await Genre.findByPk(req.params.genreid);
+    // const genre = await Genre.findByPk(req.params.genreid);
     await user.addGenre(genre);
     await genre.addUser(user);
     res.json(user);

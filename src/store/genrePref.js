@@ -40,7 +40,14 @@ export const fetchUserGenre = (userId) => {
 export const addUserGenre = (userId, genre) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.post(`/api/users/genre/${userId}`, genre);
+      // const { data } = await axios.post(`/api/users/genre/${userId}`, genre);
+      const { data } = await axios({
+        method: 'post',
+        url: `http://localhost:8080/api/users/genre/${userId}`,
+        data: {
+          genre,
+        },
+      });
       dispatch(setUserGenre(data));
     } catch (error) {
       console.log(error);
