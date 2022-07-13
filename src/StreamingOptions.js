@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
-import { View, Text } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
+import { SafeAreaView } from 'react-native';
 import {
   Pressable,
+  Text,
+  Box,
   Stack,
   VStack,
   Circle,
@@ -9,51 +12,71 @@ import {
   Avatar,
   Image,
   Button,
+  Heading,
 } from 'native-base';
+import { updateUser } from './store/user';
+// import { gql, useMutation } from '@apollo/client';
+// import { UPDATE_USER_MUTATION } from './graphql/Mutation';
 
 const StreamingOptions = ({ navigation, route }) => {
   // const [updateUser, { data }] = useMutation(UPDATE_USER_MUTATION);
-  // const servicesObj = {
-  //   netflix: false,
-  //   hbo: false,
-  //   hulu: false,
-  //   prime: false,
-  //   disney: false,
-  // };
-  // const logos = {
-  //   netflix:
-  //     'https://www.designmantic.com/blog/wp-content/uploads/2016/07/Netflix-Revamps-Logo.jpg',
-  //   hbo: 'https://hbomax-images.warnermediacdn.com/2020-05/square%20social%20logo%20400%20x%20400_0.png',
-  //   hulu: 'https://media.glassdoor.com/sqll/43242/hulu-squarelogo-1561078825650.png',
-  //   prime:
-  //     'https://cdn.wezift.com/assets/apps/amazon-prime-video/logo/_imgSingle/208890/512x512bb.png?mtime=20220129040734',
-  //   disney:
-  //     'https://media.wdwnt.com/2020/05/2_disney_logo_29e79241_fbd045f0.png',
-  // };
 
-  // const [services, setServices] = useState(servicesObj);
+  const userAuth = useSelector((state) => state.auth);
 
-  // const handleSubmit = async () => {
-  //   const user = {
-  //     id: route.params.id,
-  //     name: route.params.name,
-  //     username: route.params.username,
-  //     password: route.params.password,
-  //     email: route.params.username,
-  //     netflix: services.netflix,
-  //     hbo: services.hbo,
-  //     hulu: services.hulu,
-  //     prime: services.prime,
-  //     disney: services.disney,
-  //   };
+  const servicesObj = {
+    netflix: false,
+    hbo: false,
+    hulu: false,
+    prime: false,
+    disney: false,
+  };
+  const logos = {
+    netflix:
+      'https://www.designmantic.com/blog/wp-content/uploads/2016/07/Netflix-Revamps-Logo.jpg',
+    hbo: 'https://hbomax-images.warnermediacdn.com/2020-05/square%20social%20logo%20400%20x%20400_0.png',
+    hulu: 'https://media.glassdoor.com/sqll/43242/hulu-squarelogo-1561078825650.png',
+    prime:
+      'https://cdn.wezift.com/assets/apps/amazon-prime-video/logo/_imgSingle/208890/512x512bb.png?mtime=20220129040734',
+    disney:
+      'https://media.wdwnt.com/2020/05/2_disney_logo_29e79241_fbd045f0.png',
+  };
+  const [services, setServices] = useState(servicesObj);
 
-  //   await updateUser({ variables: { updateUserInput: user } });
-  //   navigation.push('GenrePreferences');
-  // };
+  const dispatch = useDispatch();
+
+  const handleSubmit = async () => {
+    const user = {
+      id: userAuth.id,
+      name: userAuth.name,
+      username: userAuth.username,
+      password: userAuth.password,
+      email: userAuth.email,
+      netflix: services.netflix,
+      hbo: services.hbo,
+      hulu: services.hulu,
+      prime: services.prime,
+      disney: services.disney,
+    };
+    dispatch(updateUser(user));
+    navigation.push('GenrePreferences');
+  };
 
   return (
-    <View style={{ flex: 1 }}>
-      {/* <VStack space={5} w='100%' alignItems='center' justifyContent='center'>
+    <SafeAreaView style={{ flex: 1 }}>
+      <VStack space={5} w='75%' alignItems='center'>
+        <Box
+          bg='primary.900'
+          alignContent='center'
+          justifyItems='center'
+          w='75%'
+          h='30%'
+          p='4'
+          rounded='8'
+        >
+          <Text color='white' fontSize='xl' textAlign='center'>
+            Please select all streaming services that you subscribe to:
+          </Text>
+        </Box>
         <Stack mx='4' alignItems='center'>
           <HStack
             space={2}
@@ -108,8 +131,8 @@ const StreamingOptions = ({ navigation, route }) => {
             Next
           </Button>
         </Stack>
-      </VStack> */}
-    </View>
+      </VStack>
+    </SafeAreaView>
   );
 };
 

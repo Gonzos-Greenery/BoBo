@@ -37,7 +37,21 @@ router.get("/:userid", async (req, res, next) => {
   }
 });
 
+<<<<<<< HEAD
 router.get("/username/:username", async (req, res, next) => {
+=======
+router.put('/update/:userid', async (req, res, next) => {
+  try {
+    const user = await User.findByPk(req.params.userid);
+    res.json(await user.update(req.body));
+    res.json(user);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get('/username/:username', async (req, res, next) => {
+>>>>>>> b238f1a19c2da83325aab82f85397e418d270db3
   try {
     const user = await User.findOne({
       where: { username: req.params.username },
@@ -82,13 +96,19 @@ router.put("/movieswatched/add/:userid/:movieid", async (req, res, next) => {
   }
 });
 
-router.put("/genres/add/:userid/:genreid", async (req, res, next) => {
+router.post('/genres/add/:userid', async (req, res, next) => {
   try {
     const user = await User.findByPk(req.params.userid);
-    const genre = await Genre.findByPk(req.params.genreid);
-    await user.addGenre(genre);
-    await genre.addUser(user);
-    res.json(user);
+    for (let genres in req.body.genres) {
+      if (req.body.genres[genres]) {
+        let genre = await Genre.findOne({ where: { title: [genres] } });
+        await user.addGenre(genre);
+      }
+    }
+    const updatedUser = await User.findByPk(req.params.userid, {
+      include: [{ model: Genre }],
+    });
+    res.json(updatedUser);
   } catch (error) {
     next(error);
   }

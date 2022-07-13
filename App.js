@@ -45,27 +45,27 @@ export default function App() {
               options={{ title: "BoBo" }}
             />
             <Stack.Screen
-              name="Register"
+              name='Register'
               component={Register}
-              options={{ title: "BoBo Reg" }}
+              options={{ title: 'BoBo Reg' }}
             />
             <Stack.Screen
-              name="StreamingOptions"
+              name='StreamingOptions'
               component={StreamingOptions}
-              options={{ title: "Choose Streaming Services" }}
+              options={{ headerShown: false }}
             />
             <Stack.Screen
-              name="GenrePreferences"
+              name='GenrePreferences'
               component={GenrePreferences}
-              options={{ title: "Choose Preferred Genres" }}
+              options={{ headerShown: false }}
             />
             <Stack.Screen
-              name="Login"
+              name='Login'
               component={Login}
               options={{ headerShown: false }}
             />
             <Stack.Screen
-              name="SingleMovie"
+              name='SingleMovie'
               component={SingleMovie}
               options={({
                 route: {
@@ -84,29 +84,26 @@ export default function App() {
               options={{ title: 'Netflix and Chill' }}
             />
             <Stack.Screen
-              name="RegisterMovies"
+              name='RegisterMovies'
               component={RegisterMoviesList}
-              options={{title: "Select Movies You've Seen"}}
+              options={{ title: "Select Movies You've Seen" }}
             />
             <Stack.Screen
-              name="PartyView"
+              name='PartyView'
               component={PartyView}
-              options={{title: "Party"}}
+              options={{ title: 'Party' }}
             />
             <Stack.Screen
-              name="PartyAddForm"
+              name='PartyAddForm'
               component={PartyAddForm}
-              options={{title: "Add Someone"}}
+              options={{ title: 'Add Someone' }}
             />
-            <Stack.Screen
-              name="User"
-              component={User}
-            />
+            <Stack.Screen name='User' component={User} />
             <Stack.Screen
               name='HostParty'
               component={HostParty}
               options={{ headerShown: false }}
-            />*/}
+            />
           </Stack.Navigator>
         </NavigationContainer>
       </Provider>
