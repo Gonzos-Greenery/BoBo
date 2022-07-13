@@ -37,6 +37,16 @@ router.get('/:userid', async (req, res, next) => {
   }
 });
 
+router.put('/update/:userid', async (req, res, next) => {
+  try {
+    const user = await User.findByPk(req.params.userid);
+    res.json(await user.update(req.body));
+    res.json(user);
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.get('/username/:username', async (req, res, next) => {
   try {
     const user = await User.findOne({

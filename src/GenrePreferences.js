@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { View, Text } from 'react-native';
 import {
   Pressable,
@@ -17,6 +17,7 @@ import { addUserGenre } from './store/genrePref';
 const GenrePreferences = ({ navigation, route }) => {
   // const [addGenre, { data }] = useMutation(ADD_GENRE_MUTATION);
   const dispatch = useDispatch();
+  const userAuth = useSelector((state) => state.auth);
 
   const genreObject = {
     action: false,
@@ -42,9 +43,9 @@ const GenrePreferences = ({ navigation, route }) => {
 
   const handleSubmit = () => {
     // addGenre({ variables: { genreInput: genres } });
-    const userId = route.params.id,
+    const userId = userAuth.id;
     dispatch(addUserGenre(userId, genres));
-    navigation.push('RegisterMoviesList');
+    navigation.push('RegisterMovies');
   };
 
   return (

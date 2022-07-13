@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { SafeAreaView } from 'react-native';
 import {
   Pressable,
@@ -20,6 +20,9 @@ import { updateUser } from './store/user';
 
 const StreamingOptions = ({ navigation, route }) => {
   // const [updateUser, { data }] = useMutation(UPDATE_USER_MUTATION);
+
+  const userAuth = useSelector((state) => state.auth);
+
   const servicesObj = {
     netflix: false,
     hbo: false,
@@ -37,18 +40,17 @@ const StreamingOptions = ({ navigation, route }) => {
     disney:
       'https://media.wdwnt.com/2020/05/2_disney_logo_29e79241_fbd045f0.png',
   };
-
   const [services, setServices] = useState(servicesObj);
 
   const dispatch = useDispatch();
 
   const handleSubmit = async () => {
     const user = {
-      id: route.params.id,
-      name: route.params.name,
-      username: route.params.username,
-      password: route.params.password,
-      email: route.params.username,
+      id: userAuth.id,
+      name: userAuth.name,
+      username: userAuth.username,
+      password: userAuth.password,
+      email: userAuth.email,
       netflix: services.netflix,
       hbo: services.hbo,
       hulu: services.hulu,
