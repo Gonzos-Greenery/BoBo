@@ -9,12 +9,13 @@ import {
   Avatar,
   Image,
   Button,
+  Heading,
 } from 'native-base';
-import { gql, useMutation } from '@apollo/client';
-import { UPDATE_USER_MUTATION } from './graphql/Mutation';
+// import { gql, useMutation } from '@apollo/client';
+// import { UPDATE_USER_MUTATION } from './graphql/Mutation';
 
 const StreamingOptions = ({ navigation, route }) => {
-  const [updateUser, { data }] = useMutation(UPDATE_USER_MUTATION);
+  // const [updateUser, { data }] = useMutation(UPDATE_USER_MUTATION);
   const servicesObj = {
     netflix: false,
     hbo: false,
@@ -56,6 +57,9 @@ const StreamingOptions = ({ navigation, route }) => {
   return (
     <View style={{ flex: 1 }}>
       <VStack space={5} w='100%' alignItems='center' justifyContent='center'>
+        <Heading>
+          Please select all streaming services that you subscribe to:
+        </Heading>
         <Stack mx='4' alignItems='center'>
           <HStack
             space={2}

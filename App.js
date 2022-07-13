@@ -10,7 +10,7 @@ import AllMovies from './src/AllMovies';
 // import Login from './src/Login';
 // import MovieCard from './src/MovieSwipe/MovieCard';
 // import SingleMovie from './src/SingleMovie';
-// import StreamingOptions from './src/StreamingOptions';
+import StreamingOptions from './src/StreamingOptions';
 // import GenrePreferences from './src/GenrePreferences';
 import { NativeBaseProvider } from 'native-base';
 import { screenOptions } from './src/styles.js';
@@ -33,22 +33,22 @@ export default function App() {
             initialRouteName='Movies'
             screenOptions={screenOptions}
           >
-            <Stack.Screen
+            {/* <Stack.Screen
               name='Movies'
               component={AllMovies}
               options={{ title: 'BoBo' }}
             />
-            {/* <Stack.Screen
+          <Stack.Screen
             name="Register"
             component={Register}
             options={{ title: 'BoBo Reg' }}
-          />
-          <Stack.Screen
-            name="StreamingOptions"
-            component={StreamingOptions}
-            options={{ title: 'Choose Streaming Services' }}
-          />
-          <Stack.Screen
+          /> */}
+            <Stack.Screen
+              name='StreamingOptions'
+              component={StreamingOptions}
+              options={{ title: 'Choose Streaming Services' }}
+            />
+            {/* <Stack.Screen
             name="GenrePreferences"
             component={GenrePreferences}
             options={{ title: 'Choose Preferred Genres' }}
