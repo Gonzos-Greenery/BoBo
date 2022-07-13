@@ -1,4 +1,5 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { View, Text, SafeAreaView, StyleSheet } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 // import { gql, useMutation } from '@apollo/client';
@@ -18,6 +19,7 @@ import {
   HStack,
   SearchIcon,
 } from 'native-base';
+import { createNewParty } from './store/party';
 
 const HostParty = ({ navigation }) => {
   const [partyName, setPartyName] = React.useState('');
@@ -26,6 +28,8 @@ const HostParty = ({ navigation }) => {
   const [time, setTime] = React.useState(new Date(Date.now()));
   const [timePicker, setTimePicker] = React.useState(false);
   const [datePicker, setDatePicker] = React.useState(false);
+
+  const dispatch = useDispatch();
 
   const onDateSelected = (event, value) => {
     setDate(value);
@@ -39,14 +43,16 @@ const HostParty = ({ navigation }) => {
 
   const handleSubmit = async () => {
     //  const data = await createParty({variables: { partyInput: newPartyInput });
+    const location = address;
+    const userId = 1;
+    dispatch(createNewParty(userId, partyName, location, date));
     // navigation.push('PartyPage', data.data.partyPage);
-    console.log('submitted');
   };
 
   return (
-    <View style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1 }}>
       <VStack space={5} w='100%' alignItems='center'>
-        <Center>Host a BOBO Party</Center>
+        <Heading size='2xl'>Host a BOBO Party</Heading>
         <FormControl isRequired>
           <Stack mx='4' alignItems='center'>
             <FormControl.Label py='1' w='75%'>
@@ -92,8 +98,8 @@ const HostParty = ({ navigation }) => {
                 bg='coolGray.100'
                 p='5'
                 rounded='8'
-                minW='75%'
                 alignItems='center'
+                w='100%'
               >
                 {date.toDateString()}
               </Box>
@@ -144,17 +150,17 @@ const HostParty = ({ navigation }) => {
             style={styleSheet.datePicker}
           />
         )}
-        <VStack w='75%' space={3} alignSelf='center' alignItems='center'>
+        <VStack space={3} alignSelf='center' alignItems='center' w='75%'>
           <Heading fontSize='lg'>Invite Friends</Heading>
           <HStack alignItems='center'>
             <SearchIcon size='3xl' />
             <Input
               placeholder='Search Friends List'
-              width='80%'
               borderRadius='4'
               py='3'
-              px='1'
+              px='20'
               fontSize='14'
+              alignSelf='center'
             />
           </HStack>
         </VStack>
@@ -168,7 +174,7 @@ const HostParty = ({ navigation }) => {
           Create Party
         </Button>
       </VStack>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -178,14 +184,6 @@ const styleSheet = StyleSheet.create({
     padding: 6,
     alignItems: 'center',
     backgroundColor: 'white',
-  },
-
-  text: {
-    fontSize: 25,
-    color: 'red',
-    padding: 3,
-    marginBottom: 10,
-    textAlign: 'center',
   },
 
   // Style for iOS ONLY...
