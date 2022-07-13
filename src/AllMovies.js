@@ -2,18 +2,25 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Text, FlatList, Pressable, View, Image, Button, StyleSheet, ScrollView} from 'react-native';
 import { fetchMovies } from './store/movies';
+import { fetchParties } from './store/parties';
 import Loading from './Loading';
 
 
 export default ({navigation, route}) => {
     const dispatch = useDispatch()
-    const {movies, auth} = useSelector((state) => {
+    const {movies, auth, userParties} = useSelector((state) => {
         return state
     });
 
     useEffect(() => {
         dispatch(fetchMovies())
     },[])
+
+    useEffect(() => {
+        if(auth.id){
+            dispatch(fetchParties(auth.id))
+        }
+    },[auth])
 
     //tried to mutate the queried information to add link -> It appears above but when you try to access it, its undefined.
     //tested mutating over a key that was already there -> It shows up as the link but when you console log it in render -> Its the original info
@@ -43,11 +50,11 @@ export default ({navigation, route}) => {
                     horizontal
                     ItemSeparatorComponent={() => <View style={{width:5}}/>}
                     keyExtractor={(movie,idx) => idx.toString()}
-                    data={[1,2]}
-                    renderItem={() => (
+                    data={userParties === [] ? [] : userParties}
+                    renderItem={(party) => (
                         <View>
                             <Pressable 
-                                onPress={() => navigation.navigate('PartyView')}>
+                                onPress={() => navigation.navigate('PartyView', {id: party.item.id})}>
                                 <Image style={styles.image} source={"https://thumbs.dreamstime.com/b/film-strip-video-camera-vector-icon-cinema-symbol-film-strip-video-camera-vector-icon-cinema-symbol-photographic-film-135692148.jpg"}/>        
                             </Pressable>
                         </View>

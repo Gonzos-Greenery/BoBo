@@ -58,7 +58,6 @@ const editMovies = async (info) => {
       .catch(e => console.log(e))
       return res
   }))
-  console.log(newMovies)
   for(let type in genres){
     const filteredMovies = newMovies.filter(movie => movie.genres_arr.includes(type))
     genres[type] = filteredMovies;
@@ -78,7 +77,6 @@ export const fetchMovies = () => {
         url: `${localhost}/api/movies`
       })
       let movies = await editMovies(data)
-      console.log(movies)
       dispatch(setMovies(movies));
     } catch (error) {
       console.log(error);
@@ -96,4 +94,3 @@ export default (state = initialState, action) => {
       return state;
   }
 };
-

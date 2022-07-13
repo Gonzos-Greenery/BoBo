@@ -25,7 +25,6 @@ export const me = () => async (dispatch) => {
       url: `http://localhost:8080/api/users/${res.data.id}`
     })
     watched.data.movies = watched.data.movies.map(movie => movie.id)
-    console.log(watched.data)
     return dispatch(setAuth(watched.data));
   }
 };
@@ -39,7 +38,7 @@ export const authenticate =
         data: {
           username,
           password
-        }
+        }, 
       });
       window.localStorage.setItem(TOKEN, res.data.token);
       dispatch(me())
