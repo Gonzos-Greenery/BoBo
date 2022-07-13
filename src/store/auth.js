@@ -1,6 +1,14 @@
 import axios from 'axios';
 // import history from '../history';
 
+/**const { data } = await axios({
+        method: 'post',
+        url: `http://localhost:8080/api/party`,
+        data: {
+          date: '01/2/2022'
+        }
+      }) */
+
 const TOKEN = 'token';
 
 // action types
@@ -16,37 +24,34 @@ export const me = () => async (dispatch) => {
     const res = await axios({
       method: 'get',
       url: `http://localhost:8080/auth/me`,
-      headers:{
-        authorization: token
-      }
+      headers: {
+        authorization: token,
+      },
     });
     const watched = await axios({
       method: 'get',
-      url: `http://localhost:8080/api/users/${res.data.id}`
-    })
-    watched.data.movies = watched.data.movies.map(movie => movie.id)
+      url: `http://localhost:8080/api/users/${res.data.id}`,
+    });
+    watched.data.movies = watched.data.movies.map((movie) => movie.id);
     return dispatch(setAuth(watched.data));
   }
 };
 
-export const authenticate =
-  (username, password, method) => async (dispatch) => {
-    try {
-      const res = await axios({
-        method: 'post',
-        url: `http://localhost:8080/auth/${method}`,
-        data: {
-          username,
-          password
-        }, 
-      });
-      window.localStorage.setItem(TOKEN, res.data.token);
-      dispatch(me())
-      return true;
-    } catch (authError) {
-      return false;
-    }
-  };
+export const authenticate = (userData, method) => async (dispatch) => {
+  try {
+    const res = await axios({
+      method: 'post',
+      url: `http://localhost:8080/auth/${method}`,
+      data: userData,
+      //will need to update this input parameter on the Login page from david
+    });
+    window.localStorage.setItem(TOKEN, res.data.token);
+    dispatch(me());
+    return true;
+  } catch (authError) {
+    return false;
+  }
+};
 
 // export const logout = () => {
 //   window.localStorage.removeItem(TOKEN);
