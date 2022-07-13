@@ -51,12 +51,8 @@ async function seed() {
 
   console.log('tables seeded');
 
-  await parties[0].addUser(users[0]);
-  await parties[0].addUser(users[1]);
-  await parties[0].addUser(users[2]);
-  await parties[0].addUser(users[3]);
-  await parties[1].addUser(users[0]);
-  await parties[1].addUser(users[1]);
+  await parties[0].addUsers([users[0], users[1], users[2], users[3]]);
+  await parties[1].addUsers([users[0], users[1]]);
   await parties[2].addUser(users[0]);
   await parties[2].addUser(users[2]);
   await parties[0].addMovie(movies[0]);
@@ -80,6 +76,10 @@ async function seed() {
   await parties[2].addMovie(movies[665]);
   await parties[2].addMovie(movies[6764]);
   await parties[2].addMovie(movies[8664]);
+  await users[0].addUserFriends([users[1], users[2], users[3]]);
+  await users[0].addFriends([users[1], users[2], users[3]]);
+  // await users[0].add;
+  // console.log(users[0].__proto__);
 
   console.log('added associations');
 }
