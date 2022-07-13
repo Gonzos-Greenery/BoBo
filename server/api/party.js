@@ -41,6 +41,7 @@ router.get('/:partyid', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
+    console.log(req.body);
     const newParty = await Party.create(req.body);
     res.send(newParty);
   } catch (error) {
@@ -53,7 +54,7 @@ router.put('/:partyId/:userId', async (req, res, next) => {
     const party = await Party.findByPk(req.params.partyId);
     const user = await User.findByPk(req.params.userId);
     await user.addParty(party);
-    await party.addUser(user);
+    // await party.addUser(user);
     res.send(party);
   } catch (err) {
     next(err);

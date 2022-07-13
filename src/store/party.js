@@ -33,19 +33,23 @@ export const fetchParty = (partyId) => {
   };
 };
 
-export const addParty = (userId, username, name, location, date) => {
+export const createNewParty = (userId, name, location, date, time) => {
   return async (dispatch) => {
     try {
-      const newParty = await axios.post(`/api/party/`, {
-        name,
-        location,
-        date,
-        host: username,
+      const { data: newParty } = await axios({
+        method: 'post',
+        url: `http://localhost:8080/api/party`,
+        data: {
+          name,
+          location,
+          date,
+        },
       });
-      const { data } = await axios.put(
-        `/api/parties/${newParty.data.id}/${userId}`
-      );
-      dispatch(_addParty(data));
+      // const { data } = await axios({
+      //   method: 'put',
+      //   url: `http://localhost:8080/api/parties/${newParty.data.id}/${userId}`,
+      // });
+      dispatch(_addParty(newParty));
     } catch (error) {
       console.log(error);
     }

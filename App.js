@@ -7,14 +7,23 @@ import { Provider } from 'react-redux';
 import store from './src/store';
 
 import AllMovies from './src/AllMovies';
+<<<<<<< HEAD
 // import Login from './src/Login';
 // import MovieCard from './src/MovieSwipe/MovieCard';
 // import SingleMovie from './src/SingleMovie';
 import StreamingOptions from './src/StreamingOptions';
 // import GenrePreferences from './src/GenrePreferences';
+=======
+import Login from './src/Login';
+import MovieCard from './src/MovieSwipe/MovieCard';
+import SingleMovie from './src/SingleMovie';
+import StreamingOptions from './src/StreamingOptions';
+import GenrePreferences from './src/GenrePreferences';
+>>>>>>> ff68609b7dfadd3fdff622d019b6b8c7f15063eb
 import { NativeBaseProvider } from 'native-base';
 import { screenOptions } from './src/styles.js';
-// import Register from './src/Register';
+import Register from './src/Register';
+import HostParty from './src/HostParty';
 
 const Stack = createStackNavigator();
 
@@ -33,49 +42,54 @@ export default function App() {
             initialRouteName='Movies'
             screenOptions={screenOptions}
           >
-            {/* <Stack.Screen
+             <Stack.Screen
               name='Movies'
               component={AllMovies}
               options={{ title: 'BoBo' }}
             />
-          <Stack.Screen
-            name="Register"
-            component={Register}
-            options={{ title: 'BoBo Reg' }}
-          /> */}
+            <Stack.Screen
+              name='Register'
+              component={Register}
+              options={{ title: 'BoBo Reg' }}
+            />
             <Stack.Screen
               name='StreamingOptions'
               component={StreamingOptions}
-              options={{ title: 'Choose Streaming Services' }}
+              options={{ headerShown: false }}
             />
-            {/* <Stack.Screen
-            name="GenrePreferences"
-            component={GenrePreferences}
-            options={{ title: 'Choose Preferred Genres' }}
-          />
-          <Stack.Screen
-            name="Login"
-            component={Login}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="SingleMovie"
-            component={SingleMovie}
-            options={({
-              route: {
-                params: {
-                  movie: { title },
+            <Stack.Screen
+              name='GenrePreferences'
+              component={GenrePreferences}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name='Login'
+              component={Login}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name='SingleMovie'
+              component={SingleMovie}
+              options={({
+                route: {
+                  params: {
+                    movie: { title },
+                  },
                 },
-              },
-            }) => ({
-              title: title,
-            })}
-          />
-          <Stack.Screen
-            name="MovieCard"
-            component={MovieCard}
-            options={{ title: 'Netflix and Chill' }}
-          /> */}
+              }) => ({
+                title: title,
+              })}
+            />
+            <Stack.Screen
+              name='MovieCard'
+              component={MovieCard}
+              options={{ title: 'Netflix and Chill' }}
+            />
+            <Stack.Screen
+              name='HostParty'
+              component={HostParty}
+              options={{ headerShown: false }}
+            />
           </Stack.Navigator>
           <StatusBar style='light' />
         </NavigationContainer>
