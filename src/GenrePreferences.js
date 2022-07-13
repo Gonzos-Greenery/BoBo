@@ -42,10 +42,9 @@ const GenrePreferences = ({ navigation, route }) => {
 
   const handleSubmit = () => {
     // addGenre({ variables: { genreInput: genres } });
-    //dummy userId
-    const userId = 2;
+    const userId = route.params.id,
     dispatch(addUserGenre(userId, genres));
-    // navigation.push('Movies');
+    navigation.push('RegisterMoviesList');
   };
 
   return (

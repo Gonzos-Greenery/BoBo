@@ -84,30 +84,39 @@ router.put('/movieswatched/add/:userid/:movieid', async (req, res, next) => {
 
 router.post('/genres/add/:userid', async (req, res, next) => {
   try {
-    const genre = await Genre.create(req.body);
     const user = await User.findByPk(req.params.userid);
-    // const genre = await Genre.findByPk(req.params.genreid);
-    await user.addGenre(genre);
-    await genre.addUser(user);
-    res.json(user);
+    for (let genres in req.body.genres) {
+      if (req.body.genres[genres]) {
+        let genre = await Genre.findOne({ where: { title: [genres] } });
+        await user.addGenre(genre);
+      }
+    }
+    const updatedUser = await User.findByPk(req.params.userid, {
+      include: [{ model: Genre }],
+    });
+    res.json(updatedUser);
   } catch (error) {
     next(error);
   }
 });
 
-router.post('/movieswatched/register/add/:userid', async (req,res,next) => {
-  try{
+router.post('/movieswatched/register/add/:userid', async (req, res, next) => {
+  try {
     const user = await User.findByPk(req.params.userid);
-    const movies = await Movie.findAll({where: {
-      id: {
-        [Sequelize.Op.or]: [...req.body.movies]
-      }
-    }});
-    await Promise.all(movies.map(movie => {
-      user.addMovie(movie)
-    }));
-    res.json(user)
+    const movies = await Movie.findAll({
+      where: {
+        id: {
+          [Sequelize.Op.or]: [...req.body.movies],
+        },
+      },
+    });
+    await Promise.all(
+      movies.map((movie) => {
+        user.addMovie(movie);
+      })
+    );
+    res.json(user);
   } catch (error) {
-    next(error)
+    next(error);
   }
-})
+});
