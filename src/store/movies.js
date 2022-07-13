@@ -1,5 +1,3 @@
-
-
 import axios from 'axios';
 const localhost = 'http://localhost:8080'
 // Action constants
@@ -33,7 +31,6 @@ const editMovies = async (info) => {
       war: [],
       western: [],
   }
-
   const newMovies = await Promise.all(info.map(movie => {
       const imdbId = movie.imdb_id;
       const API_KEY = "api_key=1cf50e6248dc270629e802686245c2c8";

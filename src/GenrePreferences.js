@@ -9,8 +9,6 @@ import {
   Box,
   Center,
 } from 'native-base';
-// import { gql, useMutation } from '@apollo/client';
-// import { ADD_GENRE_MUTATION } from './graphql/Mutation';
 
 const GenrePreferences = ({ navigation, route }) => {
   // const [addGenre, { data }] = useMutation(ADD_GENRE_MUTATION);
@@ -37,10 +35,10 @@ const GenrePreferences = ({ navigation, route }) => {
 
   // const [genres, setGenres] = useState(genreObject);
 
-  // const handleSubmit = () => {
-  //   addGenre({ variables: { genreInput: genres } });
-  //   navigation.push('Movies');
-  // };
+  const handleSubmit = () => {
+    addGenre({ variables: { genreInput: genres } });
+    navigation.push('RegisterMovies');
+  };
 
   return (
     <View style={{ flex: 1 }}>

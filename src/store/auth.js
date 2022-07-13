@@ -1,10 +1,10 @@
-import axios from 'axios';
+import axios from "axios";
 // import history from '../history';
 
-const TOKEN = 'token';
+const TOKEN = "token";
 
 // action types
-const SET_AUTH = 'SET_AUTH';
+const SET_AUTH = "SET_AUTH";
 
 //action creators
 const setAuth = (auth) => ({ type: SET_AUTH, auth });
@@ -13,7 +13,7 @@ const setAuth = (auth) => ({ type: SET_AUTH, auth });
 export const me = () => async (dispatch) => {
   const token = window.localStorage.getItem(TOKEN);
   if (token) {
-    const res = await axios.get('/auth/me', {
+    const res = await axios.get("/auth/me", {
       headers: {
         authorization: token,
       },

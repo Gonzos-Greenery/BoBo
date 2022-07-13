@@ -9,13 +9,10 @@ import {
   TouchableOpacity,
   Button,
 } from "react-native";
-// import { SINGLE_MOVIES_QUERY } from "./graphql/Query";
-// import { gql, useQuery } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faThumbsUp, faThumbsDown } from "@fortawesome/free-regular-svg-icons";
 import axios from "axios";
-import { fetchMovie } from "./store/movie";
-import { addUserRating } from "./store/userRatings";
 
 import styles from "./styles";
 import Loading from "./Loading";
@@ -36,6 +33,10 @@ export default ({ route, navigation }) => {
   const [update, setUpdate] = useState(false);
   const dispatch = useDispatch();
   const { username } = route.params;
+  const starImgFilled =
+    "https://github.com/tranhonghan/images/blob/main/star_filled.png?raw=true";
+  const starImgEmpty =
+    "https://github.com/tranhonghan/images/blob/main/star_corner.png?raw=true";
   // const singleMovie = useSelector((state) => state.movie);
   // console.log(singleMovie);
 
@@ -127,17 +128,11 @@ export default ({ route, navigation }) => {
 
   getMovie(API_URL);
 
-  const starImgFilled =
-    "https://github.com/tranhonghan/images/blob/main/star_filled.png?raw=true";
-  const starImgEmpty =
-    "https://github.com/tranhonghan/images/blob/main/star_corner.png?raw=true";
-
   const handleRatingBar = (item) => {
     if (defaultRating === 0) {
       setDefaultRating(item);
     } else {
       setUpdatedRating(item);
-      console.log("updatedRating is", updatedRating);
     }
   };
   const RatingBar = () => {
@@ -252,7 +247,6 @@ export default ({ route, navigation }) => {
             console.log(err);
           });
       } else {
-        console.log("hi");
         await axios
           .put(
             `http://localhost:8080/api/userRating/${userID}/${route.params.movie.id}/${userRatingID}`,

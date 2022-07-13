@@ -4,6 +4,7 @@ const GET_USER = "GET_USER";
 const UPDATE_USER = "UPDATE_USER";
 const GET_USER_BY_USERNAME = "GET_USER_BY_USERNAME";
 
+
 // Action creator
 const getUser = (user) => {
   return {
@@ -25,6 +26,8 @@ const _updateUser = (user) => {
     user,
   };
 };
+
+
 
 export const fetchUser = (userId) => {
   return async (dispatch) => {

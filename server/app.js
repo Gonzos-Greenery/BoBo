@@ -1,10 +1,9 @@
-const path = require("path");
-const express = require("express");
-const morgan = require("morgan");
-const cors = require("cors");
+const path = require('path');
+const express = require('express');
+const morgan = require('morgan');
+const cors = require('cors')
 const app = express();
 module.exports = app;
-
 
 // logging middleware
 app.use(morgan("dev"));
@@ -17,17 +16,15 @@ app.use(
 );
 app.use(express.json());
 
+app.use(cors({
+  origin: '*'
+}))
+
 // auth and api routes
 app.use("/auth", require("./auth"));
 app.use("/api", require("./api"));
 
 app.get("/", (req, res) => res.sendFile(path.join(__dirname, "..", "App.js")));
-
-app.use(
-  cors({
-    origin: '*',
-  })
-);
 
 // static file-serving middleware
 app.use(express.static(path.join(__dirname, "..", "public")));

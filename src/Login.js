@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -34,7 +34,6 @@ export default ({ navigation }) => {
   const { auth } = useSelector((state) => {
     return state;
   });
-
 
   //Facebook Login + Need to hide appId
   const facebookAuth = async function () {

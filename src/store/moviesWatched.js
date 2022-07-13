@@ -38,14 +38,13 @@ export const addMovieToUser = (userId, movies) => {
       // const { data: updatedMoviesWatched } = await axios.get(
       //   `/api/moviesWatched/${userId}`
       // );
-      const { data } = await axios({
-        method: "post",
+      const {data} = await axios({
+        method: 'post',
         url: `http://localhost:8080/api/users/movieswatched/register/add/${userId}`,
         data: {
-          movies,
-        },
+          movies
+        }
       });
-      console.log(data);
       dispatch(addMovieWatched(updatedMoviesWatched));
     } catch (error) {
       console.log(error);
