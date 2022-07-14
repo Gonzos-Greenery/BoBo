@@ -26,6 +26,7 @@ export default StyleSheet.create({
   header: {
     fontWeight: 'bold',
     fontSize: 26,
+    marginBottom: 15
   },
   subheader: {
     paddingTop: 10,

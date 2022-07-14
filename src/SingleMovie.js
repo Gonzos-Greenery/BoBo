@@ -324,6 +324,7 @@ const iconstyles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
+    flex: 1
   },
   ratingBar: {
     justifyContent: "center",
