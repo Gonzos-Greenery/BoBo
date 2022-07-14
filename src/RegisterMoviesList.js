@@ -17,7 +17,7 @@ import {
 import { fetchMovies } from './store/movies';
 import { registerUpdateWatched } from './store/user';
 import Loading from './Loading';
-//Need to run a function to create specific genres that are available 
+//Need to run a function to create specific genres that are available
 //It then populates individual movies in the list for each one
 
 export default ({navigation}) => {
@@ -33,36 +33,36 @@ export default ({navigation}) => {
 
     const handleSubmit = async () => {
         const result = await dispatch(registerUpdateWatched(auth.id, selected))
-        navigation.push('Movies')
+        navigation.push('LoggedIn')
     }
     //onPress is delayed, missing the inital clicked movie
     return (
         <View>
             <View style={{alignItems: 'center', flexDirection: 'row', justifyContent:'space-between'}}>
-                <Button 
-                    onPress={() => {navigation.navigate('Movies')}}
+                <Button
+                    onPress={() => {navigation.navigate('LoggedIn')}}
                     size="lg"
                     w="1/6"
                 >Skip</Button>
-                <Button 
+                <Button
                     onPress={handleSubmit}
                     size="lg"
                     w="1/6"
                 >Submit</Button>
             </View>
             <ScrollView>
-                {/* {movies === undefined ? <Loading /> : 
+                {/* {movies === undefined ? <Loading /> :
                     <View style={styles.genreRow}>
                         <Text style={{fontSize: 16, fontWeight: 'bold'}}>ALL MOVIES</Text>
-                            <FlatList 
+                            <FlatList
                                 horizontal
                                 pagingEnabled
                                 ItemSeparatorComponent={() => <View style={{width:5}}/>}
                                 renderItem = {(movie) => (
                                     <View key={movie}>
                                         <Pressable onPress={() => {navigation.navigate('SingleMovie', {movie: movie.item})}}>
-                                            <Image 
-                                            style={styles.image} 
+                                            <Image
+                                            style={styles.image}
                                             source={{uri: movie.item.image}}
                                             />
                                       </Pressable>
@@ -73,13 +73,13 @@ export default ({navigation}) => {
                             />
                     </View>
                 } */}
-                
-                {movies === undefined ? <View /> : 
+
+                {movies === undefined ? <View /> :
                     Object.keys(movies.sort).map((genre,idx) => {
                         return (
                             <View key={idx} style={styles.genreRow}>
                                 <Text style={{fontSize: 16, fontWeight: 'bold'}}>{genre.toUpperCase()}</Text>
-                                <FlatList 
+                                <FlatList
                                 horizontal
                                 ItemSeparatorComponent={() => <View style={{width:5}}/>}
                                 renderItem = {(movie) => (
@@ -88,8 +88,8 @@ export default ({navigation}) => {
                                             setSelected([...selected, movie.item.id])
                                             console.log(selected)
                                         }}>
-                                            <Image 
-                                            style={styles.image} 
+                                            <Image
+                                            style={styles.image}
                                             source={{uri: movie.item.image}}
                                             />
                                       </Pressable>
