@@ -110,6 +110,18 @@ router.post('/genres/add/:userid', async (req, res, next) => {
   }
 });
 
+router.put('/addFriend/:userid/:friendid', async (req, res, next) => {
+  try {
+    const user = await User.findByPk(req.params.userid);
+    const friend = await User.findByPk(req.params.friendid);
+    await user.addFriend(friend);
+    await user.addUserFriend(friend);
+    res.json(user);
+  } catch (err) {
+    next(err);
+  }
+});
+
 router.post(
   "/movieswatched/register/add/:userid/",
   async (req, res, next) => {
