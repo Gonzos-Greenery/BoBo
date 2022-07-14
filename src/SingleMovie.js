@@ -16,6 +16,7 @@ import axios from "axios";
 import styles from "./styles";
 import Loading from "./Loading";
 import { registerUpdateWatched } from "./store/user";
+import { fetchMovies } from "./store/movies";
 
 export default ({ route, navigation }) => {
   const [userID, setUserID] = useState();
@@ -251,9 +252,7 @@ export default ({ route, navigation }) => {
       }
     };
     updateRating();
-    navigation.navigate("Movies", {
-      username: username,
-    });
+    navigation.navigate("Movies");
   };
 
   return (
@@ -309,6 +308,14 @@ const iconstyles = StyleSheet.create({
   image: {
     width: 300,
     height: 400,
+    borderRadius: 15,
+    shadowColor: '#000',
+    shadowOpacity: 2,
+    shadowOffset: {
+      width: 0,
+      height: 0
+    },
+    shadowRadius: 20
   },
   imageContainer: {
     flexDirection: "column",

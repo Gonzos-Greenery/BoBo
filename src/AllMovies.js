@@ -14,7 +14,7 @@ export default ({navigation, route}) => {
 
     useEffect(() => {
         dispatch(fetchMovies())
-    },[])
+    },[auth])
 
     useEffect(() => {
         if(auth.id){
@@ -27,7 +27,6 @@ export default ({navigation, route}) => {
 
     return (
       <View style={styles.container}>
-        {/* {window.localStorage.getItem('username') ? <Text style={{fontSize: 20, fontWeight: 'bold'}}>{`Welcome Back, ${window.localStorage.getItem('username')}`}</Text> : <Text>Welcome!</Text> } */}
         <ScrollView>
             {auth.movies === undefined ? <Text style={{fontSize: 16}}>Nothing watched previously</Text> :
             <View style={styles.genreRow}>
@@ -38,7 +37,9 @@ export default ({navigation, route}) => {
                     data={movies.all === undefined ? [] : movies.all.filter(movie => auth.movies.includes(movie.id))}
                     renderItem={(movie) => (
                         <View>
-                            <Image style={styles.image} source={movie.item.image}/>
+                            <Pressable onPress={() => {navigation.navigate('SingleMovie', {movie: movie.item})}}>
+                                <Image style={styles.image} source={movie.item.image}/>
+                            </Pressable>
                         </View>
                     )}
                 />
@@ -62,7 +63,7 @@ export default ({navigation, route}) => {
                     )}
                 />
             </View>
-            {movies === undefined ? <Loading /> : 
+            {movies.all === undefined ? <Loading /> : 
                 Object.keys(movies.sort).map((genre,idx) => {
                     return (
                         <View key={idx} style={styles.genreRow}>
@@ -83,7 +84,7 @@ export default ({navigation, route}) => {
                             )}
                             keyExtractor={(movie,idx) => idx.toString()}
                             data = {movies.sort[genre]}
-                        />
+                            />
                         </View>
                     )
                 })

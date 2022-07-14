@@ -46,7 +46,6 @@ const editMovies = async (info) => {
       let res = fetch(API_URL)
       .then(res => res.json())
       .then(({movie_results}) => {
-
         if(movie_results && movie_results.length>0 && movie_results[0] && movie_results[0].poster_path){
           movie.image = `${IMG_URL + movie_results[0].poster_path}`
           return movie
@@ -58,12 +57,13 @@ const editMovies = async (info) => {
       .catch(e => console.log(e))
       return res
   }))
+  const random = newMovies.sort((a,b) => 0.5 - Math.random())
   for(let type in genres){
-    const filteredMovies = newMovies.filter(movie => movie.genres_arr.includes(type))
+    const filteredMovies = random.filter(movie => movie.genres_arr.includes(type))
     genres[type] = filteredMovies;
   }
   return {
-    all: newMovies,
+    all: random,
     sort: genres
   }
 }
