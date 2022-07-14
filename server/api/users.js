@@ -29,7 +29,11 @@ router.get('/', async (req, res, next) => {
 router.get('/:userid', async (req, res, next) => {
   try {
     const user = await User.findByPk(req.params.userid, {
-      include: [{ model: Genre }, { model: Movie }],
+      include: [
+        { model: User, as: 'friends' },
+        { model: Genre },
+        { model: Movie },
+      ],
     });
     res.json(user);
   } catch (error) {
@@ -137,6 +141,18 @@ router.put('/addFriend/:userid/:friendid', async (req, res, next) => {
     const friend = await User.findByPk(req.params.friendid);
     await user.addFriend(friend);
     await user.addUserFriend(friend);
+    res.json(user);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.put('/removeFriend/:userid/:friendid', async (req, res, next) => {
+  try {
+    const user = await User.findByPk(req.params.userid);
+    const friend = await User.findByPk(req.params.friendid);
+    await user.removeFriend(friend);
+    await user.removeUserFriend(friend);
     res.json(user);
   } catch (err) {
     next(err);

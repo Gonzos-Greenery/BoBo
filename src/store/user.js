@@ -4,6 +4,7 @@ const GET_USER = 'GET_USER';
 const UPDATE_USER = 'UPDATE_USER';
 const GET_USER_BY_USERNAME = 'GET_USER_BY_USERNAME';
 const ADD_FRIEND = 'ADD_FRIEND';
+const REMOVE_FRIEND = 'REMOVE_FRIEND';
 
 // Action creator
 const getUser = (user) => {
@@ -34,11 +35,20 @@ const addUserFriend = (user) => {
   };
 };
 
+const removeUserFriend = (user) => {
+  return {
+    type: REMOVE_FRIEND,
+    user,
+  };
+};
+
 //Thunks
 export const fetchUser = (userId) => {
   return async (dispatch) => {
     try {
-      const { data: user } = await axios.get(`/api/users/${userId}`);
+      const { data: user } = await axios.get(
+        `http://localhost:8080/api/users/${userId}`
+      );
       dispatch(getUser(user));
     } catch (err) {
       console.log(err);
@@ -99,12 +109,25 @@ export const addFriend = (userId, friendUsername) => {
       const { data: friend } = await axios.get(
         `http://localhost:8080/api/users/username/${friendUsername}`
       );
-      console.log(friend.id, friend.username, friendUsername);
       const { data } = await axios({
         method: 'put',
         url: `http://localhost:8080/api/users/addFriend/${userId}/${friend.id}`,
       });
-      dispatch(addFriend(data));
+      dispatch(addUserFriend(data));
+    } catch (e) {
+      console.log(e);
+    }
+  };
+};
+
+export const removeFriend = (userId, friendId) => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios({
+        method: 'put',
+        url: `http://localhost:8080/api/users/removeFriend/${userId}/${friendId}`,
+      });
+      dispatch(removeUserFriend(data));
     } catch (e) {
       console.log(e);
     }
