@@ -54,7 +54,7 @@ export default ({navigation, route}) => {
                             onPress={() => navigation.push('MovieCard')}
                         >Press to Vote</Button>
                         <Button
-                            onPress={() => navigation.push('PartyAddForm')}
+                            onPress={() => navigation.push('PartyAddForm', {attendees: store.party.users})}
                         >Add to group</Button>
                     </View>
                     <Button style={{height: 55, borderRadius: 10, width: '75%', alignSelf:'center', marginTop: 20}}>Recommend</Button>

@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
-import { View, Text } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
+import { SafeAreaView } from 'react-native';
 import {
   Pressable,
+  Text,
+  Box,
   Stack,
   VStack,
   Circle,
@@ -9,10 +12,17 @@ import {
   Avatar,
   Image,
   Button,
+  Heading,
 } from 'native-base';
+import { updateUser } from './store/user';
+// import { gql, useMutation } from '@apollo/client';
+// import { UPDATE_USER_MUTATION } from './graphql/Mutation';
 
 const StreamingOptions = ({ navigation, route }) => {
-  const [updateUser, { data }] = useMutation(UPDATE_USER_MUTATION);
+  // const [updateUser, { data }] = useMutation(UPDATE_USER_MUTATION);
+
+  const userAuth = useSelector((state) => state.auth);
+
   const servicesObj = {
     netflix: false,
     hbo: false,
@@ -30,30 +40,43 @@ const StreamingOptions = ({ navigation, route }) => {
     disney:
       'https://media.wdwnt.com/2020/05/2_disney_logo_29e79241_fbd045f0.png',
   };
-
   const [services, setServices] = useState(servicesObj);
+
+  const dispatch = useDispatch();
 
   const handleSubmit = async () => {
     const user = {
-      id: route.params.id,
-      name: route.params.name,
-      username: route.params.username,
-      password: route.params.password,
-      email: route.params.username,
+      id: userAuth.id,
+      name: userAuth.name,
+      username: userAuth.username,
+      password: userAuth.password,
+      email: userAuth.email,
       netflix: services.netflix,
       hbo: services.hbo,
       hulu: services.hulu,
       prime: services.prime,
       disney: services.disney,
     };
-
-    await updateUser({ variables: { updateUserInput: user } });
+    dispatch(updateUser(user));
     navigation.push('GenrePreferences');
   };
 
   return (
-    <View style={{ flex: 1 }}>
-      <VStack space={5} w='100%' alignItems='center' justifyContent='center'>
+    <SafeAreaView style={{ flex: 1 }}>
+      <VStack space={5} w='75%' alignItems='center'>
+        <Box
+          bg='primary.900'
+          alignContent='center'
+          justifyItems='center'
+          w='75%'
+          h='30%'
+          p='4'
+          rounded='8'
+        >
+        <Text color='white' fontSize='xl' textAlign='center'>
+          Please select all streaming services that you subscribe to:
+        </Text>
+        </Box>
         <Stack mx='4' alignItems='center'>
           <HStack
             space={2}
@@ -109,7 +132,7 @@ const StreamingOptions = ({ navigation, route }) => {
           </Button>
         </Stack>
       </VStack>
-    </View>
+    </SafeAreaView>
   );
 };
 

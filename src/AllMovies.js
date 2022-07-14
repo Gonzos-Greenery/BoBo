@@ -116,8 +116,6 @@ const styles = StyleSheet.create({
 }
 });
 
-
-
 // const MovieItem = ({ movie, onPress }) => {
 //   const { title, description } = movie;
 //   let header, subheader;

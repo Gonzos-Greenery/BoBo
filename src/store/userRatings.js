@@ -1,8 +1,9 @@
-import axios from 'axios';
+import axios from "axios";
+const localhost = "http://localhost:8080";
 
 // Action constants
-const ADD_USER_RATING = 'ADD_USER_RATING';
-const SET_USER_RATINGS = 'SET_USER_RATINGS';
+const ADD_USER_RATING = "ADD_USER_RATING";
+const SET_USER_RATINGS = "SET_USER_RATINGS";
 
 // Action creators
 const setRatings = (ratings) => {
@@ -34,11 +35,21 @@ export const fetchUserRatings = (userId) => {
 export const addUserRating = (userId, movieId, rating) => {
   return async (dispatch) => {
     try {
-      await axios.post(`/api/userrating/add/${userId}/${movieId}`, rating);
-      const { data: updatedUserRatings } = await axios.get(
-        `/api/userRatings/${userId}`
-      );
-      dispatch(addRating(updatedUserRatings));
+      const { data: newParty } = await axios({
+        method: "post",
+        url: `http://localhost:8080/api/userRating/${userId}/${movieId}`,
+        data: {
+          rating,
+        },
+      });
+      // await axios.post(
+      //   `${localhost}/api/userRatings/add/${userId}/${movieId}`,
+      //   rating
+      // );
+      // const { data: updatedUserRatings } = await axios.get(
+      //   `${localhost}/api/userRatings/${userId}`
+      // );
+      dispatch(addRating(newParty));
     } catch (error) {
       console.log(error);
     }
