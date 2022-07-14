@@ -88,7 +88,7 @@ export default ({ route, navigation }) => {
       }
     }
   };
-  getUserRating(userID, route.params.movie.id);
+  getUserRating(store.auth.id, route.params.movie.id);
 
   // const { data, loading } = useQuery(SINGLE_MOVIES_QUERY, {
   //   variables: { id: route.params.movie.id },
