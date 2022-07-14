@@ -13,7 +13,6 @@ import { gql, useQuery } from "@apollo/client";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faThumbsUp, faThumbsDown } from "@fortawesome/free-regular-svg-icons";
 import axios from "axios";
-
 import styles from "./styles";
 import Loading from "./Loading";
 
@@ -32,7 +31,9 @@ export default ({ route, navigation }) => {
   const [seen, setSeen] = useState(false);
   const [update, setUpdate] = useState(false);
   const dispatch = useDispatch();
-  const { username } = route.params;
+  const store = useSelector((state) => {
+    return state
+})
   const starImgFilled =
     "https://github.com/tranhonghan/images/blob/main/star_filled.png?raw=true";
   const starImgEmpty =
@@ -61,10 +62,10 @@ export default ({ route, navigation }) => {
         .catch((err) => {
           console.log(err);
         });
+
       setUserID(res.data.id);
     };
-
-    getUser(username);
+    getUser(store.auth.username);
     getMovie(route.params.movie.id);
   }, []);
 

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import TinderCard from "react-tinder-card";
 import {
   StyleSheet,
@@ -24,7 +25,9 @@ let cardPics = [bo, lobo];
 
 const MovieCard = ({ navigation }) => {
   const [movieArr, setMovieArr] = useState([]);
-
+  const store = useSelector((state) => {
+    return state;
+  });
   const API_KEY = "api_key=1cf50e6248dc270629e802686245c2c8";
   const BASE_URL = "https://api.themoviedb.org/3";
   const API_URL =
@@ -32,31 +35,18 @@ const MovieCard = ({ navigation }) => {
 
   const searchURL = BASE_URL + "/search/movie?" + API_KEY;
 
-  function getMovies(url) {
-    fetch(url)
-      .then((res) => res.json())
-      .then((data) => {
-        // showMovies(data.results);
-        setMovieArr(data.results);
-      });
-  }
   useEffect(() => {
-    getMovies(API_URL);
+    setMovieArr(store.movies.all.slice(20, 29));
   }, []);
 
   return (
     <View style={styles.wrapper}>
-      {/* <Text>Waiting for everyone to finish voting...</Text> */}
-
       <View style={styles.cardMain}>
         <View style={styles.noMoreWrapper}>
           <View style={styles.noMoreText}></View>
         </View>
-        {/* <View style={styles.swipesContainer}>
-          {cardPics.map((pic) => {
-            return <MovieCardItem card={pic} key={pic} />;
-          })} */}
-          <View style={styles.swipesContainer}>
+
+        <View style={styles.swipesContainer}>
           {movieArr.map((movie) => {
             return <MovieCardItem card={movie} key={movie.id} />;
           })}

@@ -9,6 +9,7 @@ import store from "./src/store";
 import AllMovies from "./src/AllMovies";
 import Login from "./src/Login";
 import MovieCard from "./src/MovieSwipe/MovieCard";
+import Recommendation from "./src/MovieSwipe/Recommendation";
 import SingleMovie from "./src/SingleMovie";
 import RegisterMoviesList from "./src/RegisterMoviesList.js";
 import StreamingOptions from "./src/StreamingOptions";
@@ -82,6 +83,11 @@ export default function App() {
               name="MovieCard"
               component={MovieCard}
               options={{ title: "Netflix and Chill" }}
+            />
+            <Stack.Screen
+              name="Recommendation"
+              component={Recommendation}
+              options={{ title: "Final Recommendation" }}
             />
             <Stack.Screen
               name="RegisterMovies"

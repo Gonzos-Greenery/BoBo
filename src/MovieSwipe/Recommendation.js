@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import {
   Text,
   FlatList,
@@ -7,6 +8,7 @@ import {
   Image,
   Dimensions,
 } from "react-native";
+import { fetchPartyRatings } from "../store/partyRatings";
 import axios from "axios";
 // import { gql, useQuery } from "@apollo/client";
 // import { SINGLE_MOVIES_QUERY } from "../graphql/Query";
@@ -22,6 +24,10 @@ import axios from "axios";
 // };
 
 export default () => {
+  const dispatch = useDispatch();
+  const store = useSelector((state) => {
+    return state;
+  });
   const [data, setData] = useState();
   const [posterUrl, setPosterUrl] = useState("");
   const [description, setDescription] = useState();
@@ -35,7 +41,7 @@ export default () => {
   //   if (loading) {
   //     return <Loading />;
   //   }
-
+  console.log(store);
   useEffect(() => {
     // dispatch(fetchMovie(route.params.movie.id));
     const getMovie = async () => {
@@ -50,7 +56,7 @@ export default () => {
       setTitle(res.data.title);
       setDescription(res.data.description);
     };
-
+    dispatch(fetchPartyRatings(1));
     getMovie();
   }, []);
 

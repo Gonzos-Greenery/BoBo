@@ -1,8 +1,8 @@
-import axios from 'axios';
+import axios from "axios";
 
 // Action constants
-const ADD_PARTY_RATING = 'ADD_PARTY_RATING';
-const SET_PARTY_RATINGS = 'SET_PARTY_RATINGS';
+const ADD_PARTY_RATING = "ADD_PARTY_RATING";
+const SET_PARTY_RATINGS = "SET_PARTY_RATINGS";
 
 // Action creators
 const setRatings = (ratings) => {
@@ -34,14 +34,22 @@ export const fetchPartyRatings = (partyId) => {
 export const addPartyRating = (partyId, userId, movieId, rating) => {
   return async (dispatch) => {
     try {
-      await axios.post(
-        `/api/partyrating/add/${movieId}/${partyId}/${userId}`,
-        rating
-      );
-      const { data: updatedPartyRatings } = await axios.get(
-        `/api/partyrating/${userId}`
-      );
-      dispatch(addRating(updatedPartyRatings));
+      const { data } = await axios({
+        method: "post",
+        url: `http://localhost:8080/api/partyrating/add/${movieId}/${partyId}/${userId}`,
+        rating: {
+          rating,
+        },
+      });
+      dispatch(addRating(data));
+      // await axios.post(
+      //   `http://localhost:8080/api/partyrating/add/${movieId}/${partyId}/${userId}`,
+      //   rating
+      // );
+      // const { data: updatedPartyRatings } = await axios.get(
+      //   `http://localhost:8080/api/partyrating/${userId}`
+      // );
+      // dispatch(addRating(updatedPartyRatings));
     } catch (error) {
       console.log(error);
     }
