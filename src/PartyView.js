@@ -7,7 +7,7 @@ import { fetchParty } from './store/party';
 
 export default ({navigation, route}) => {
     const [votingStatus, setVotingStatus] = useState() //state of voting period, state of users list, state of users voted status
-    const [users, setUsers] = useState() //keeps track of users + adding new users 
+    const [host, setHost] = useState() //keeps track of users + adding new users 
     const [films, setFilms] = useState() //storing a collection of 10 films with top scorings that are not seen or is "will watch again movie"
     const dispatch = useDispatch()
     const store = useSelector((state) => {
@@ -24,6 +24,13 @@ export default ({navigation, route}) => {
     useEffect(() => {
         dispatch(fetchParty(route.params.id))
     },[])
+
+    useEffect(() => {
+        if(store.party.users){
+            const host = store.party.users.filter(user => user.UserParties.host)[0].username
+            setHost(host)
+        }
+    },[store.party])
     return(
         <View style={styles.container}>
             {store.party === undefined ? <></> : 
@@ -38,8 +45,11 @@ export default ({navigation, route}) => {
                         <Text style={styles.textMain}>
                             {`Location: ${store.party.location}`}
                         </Text>
+                        <Text style={styles.textMain} >
+                            {`Host: ${host === undefined ? '' : host}`}
+                        </Text>
                     </View>
-                    <View>
+                    <View style={{textAlign:'center', marginBottom: 10}}>
                         <Text style={styles.textMain}>Attendees</Text>
                         {store.party.users === undefined ? <></> : 
                             store.party.users.map((person,idx) => {
@@ -57,7 +67,9 @@ export default ({navigation, route}) => {
                             onPress={() => navigation.push('PartyAddForm', {attendees: store.party.users})}
                         >Add to group</Button>
                     </View>
-                    <Button style={{height: 55, borderRadius: 10, width: '75%', alignSelf:'center', marginTop: 20}}>Recommend</Button>
+                    {store.auth.username !== host ? <></> : 
+                        <Button style={{height: 55, borderRadius: 10, width: '75%', alignSelf:'center', marginTop: 20}}>Recommend</Button>
+                    }
                 </View>
             }
         </View>
