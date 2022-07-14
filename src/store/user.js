@@ -99,6 +99,7 @@ export const addFriend = (userId, friendUsername) => {
       const { data: friend } = await axios.get(
         `http://localhost:8080/api/users/username/${friendUsername}`
       );
+      console.log(friend.id, friend.username, friendUsername);
       const { data } = await axios({
         method: 'put',
         url: `http://localhost:8080/api/users/addFriend/${userId}/${friend.id}`,
