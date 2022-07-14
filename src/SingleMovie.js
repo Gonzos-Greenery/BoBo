@@ -277,11 +277,14 @@ export default ({ route, navigation }) => {
           />
         </View>
       ) : (
-        <Button
-          style={styles.subheader}
-          title="I've seen this movie"
-          onPress={() => seenHandler()}
-        />
+          <View 
+          style={styles.subheader}>
+            <Button
+            title="I've seen this movie"
+            onPress={() => seenHandler()}
+            />
+            <Text style={{marginTop: 10}}>{route.params.movie.description}</Text>
+          </View>
       )}
     </View>
   );
