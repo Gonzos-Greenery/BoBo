@@ -72,7 +72,7 @@ router.get('/username/:username', async (req, res, next) => {
 router.get('/movieswatched/:userid', async (req, res, next) => {
   try {
     const user = await User.findByPk(req.params.userid, {
-      include: [{ model: Movies }],
+      include: [{ model: Movie }],
     });
     res.json(user);
   } catch (error) {
