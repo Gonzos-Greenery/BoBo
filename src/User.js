@@ -10,8 +10,9 @@ import {
   Avatar,
   Circle
 } from 'native-base';
-
-const john = {"name":"John Smith","username":"johnsmith","email":"johnsmith@gmail.com","disney":false,"hbo":false,"hulu":false,"netflix":true,"prime":true}
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
+import { useSelector, useDispatch } from 'react-redux';
 
 const User = ({ navigation }) => {
     const [password, setPassword] = React.useState('');
@@ -19,7 +20,8 @@ const User = ({ navigation }) => {
     const [email, setEmail] = React.useState('');
     const [show, setShow] = React.useState(false);
     const [errors, setErrors] = React.useState('');
-
+    const { auth } = useSelector(state => state);
+    
     const handleClick = () => setShow(!show);
     const validate = () => {
         if (!email.includes('@') || !email.includes('.')) {
@@ -31,58 +33,25 @@ const User = ({ navigation }) => {
     
     const handleSubmit = async () => {
     if (validate()) {
-        const newUserInput = { username, email, password, name: fullName };
+        const newUserInput = { username, email, password };
         try {
         const data = await registerUser({
             variables: { registerInput: newUserInput },
         });
-        navigation.push('StreamingOptions', data.data.registerUser);
+        navigation.push('User');
         } catch (err) {
         setErrors(err.message);
         }
     } else {
         console.log('**not validated', errors);
     }};
-
+    const {netflix, hbo, prime, hulu, disney} = auth
     return (
-        <View>
-            <Text>{john.username}</Text>
-            <Text>{john.email}</Text>
-            
-            <View style={{flexDirection: 'row', justifyContent:'center'}}>
-                <View>
-                    <Circle
-                        size='100px'
-                        borderWidth='1'
-                        bg={john.netflix ? 'primary.900' : 'coolGray.100'}
-                    >
-                    <Avatar
-                        source={{
-                            uri: 'https://www.designmantic.com/blog/wp-content/uploads/2016/07/Netflix-Revamps-Logo.jpg',
-                        }}
-                        size='75px'
-                    />
-                    </Circle>
-                </View>
-                <View>
-                    <Circle
-                        size='100px'
-                        borderWidth='1'
-                        bg={john.prime ? 'primary.900' : 'coolGray.100'}
-                    >
-                    <Avatar
-                        source={{
-                            uri: 'https://cdn.wezift.com/assets/apps/amazon-prime-video/logo/_imgSingle/208890/512x512bb.png?mtime=20220129040734',
-                        }}
-                        size='75px'
-                    />
-                    </Circle>
-                </View>
-            </View>
-
+        <View style={{backgroundColor: `#A4C69C`, height: '100%'}}>
             <VStack alignItems='center' marginTop={20}>
+                <FontAwesomeIcon icon={faUserCircle} size={120} color={"#CEE9C5"}/>
                 <FormControl isRequired>
-                    <Stack mx='4' alignItems='center'>
+                    <Stack mx='4' alignItems='center' marginTop='10'>
                         <FormControl.Label pb='0' w='75%'>
                         Username
                         </FormControl.Label>
@@ -94,7 +63,7 @@ const User = ({ navigation }) => {
                         value={username}
                         onChangeText={setUsername}
                         label='Username'
-                        placeholder='Username'
+                        placeholder={auth.username}
                         ></Input>
                     </Stack>
                 </FormControl>
@@ -109,7 +78,7 @@ const User = ({ navigation }) => {
                         onChangeText={setEmail}
                         value={email}
                         label='email'
-                        placeholder='E-mail'
+                        placeholder={auth.email}
                         ></Input>
                     </Stack>
                 </FormControl>
@@ -148,15 +117,45 @@ const User = ({ navigation }) => {
                         )}
                     </Stack>
                 </FormControl>
-                    <Button
-                    _text={{ color: '#F7F6D4' }}
-                    w='70%'
-                    bg='#86A17F'
-                    shadow='4'
-                    onPress={handleSubmit}
-                    >
-                    Submit
-                    </Button>
+                <View style={{flexDirection: 'row', justifyContent:'center', margin: 10}}>
+                    <View>
+                        <Circle
+                            size='100px'
+                            borderWidth='1'
+                            bg={netflix ? 'primary.900' : 'coolGray.100'}
+                        >
+                        <Avatar
+                            source={{
+                                uri: 'https://www.designmantic.com/blog/wp-content/uploads/2016/07/Netflix-Revamps-Logo.jpg',
+                            }}
+                            size='75px'
+                        />
+                        </Circle>
+                    </View>
+                    <View>
+                        <Circle
+                            size='100px'
+                            borderWidth='1'
+                            bg={prime ? 'primary.900' : 'coolGray.100'}
+                        >
+                        <Avatar
+                            source={{
+                                uri: 'https://cdn.wezift.com/assets/apps/amazon-prime-video/logo/_imgSingle/208890/512x512bb.png?mtime=20220129040734',
+                            }}
+                            size='75px'
+                        />
+                        </Circle>
+                    </View>
+                </View>
+                <Button
+                _text={{ color: '#F7F6D4' }}
+                w='70%'
+                bg='#86A17F'
+                shadow='4'
+                onPress={handleSubmit}
+                >
+                Submit
+                </Button>
             </VStack>
         </View>
     );

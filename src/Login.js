@@ -80,7 +80,7 @@ export default ({ navigation }) => {
                 description: 'Incorrect Username Or Password'
             })
         } else {
-            navigation.navigate('Movies')
+            navigation.navigate('User')
         }
     }
 
