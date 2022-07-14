@@ -41,56 +41,16 @@ const MovieCardItem = (card) => {
 
   const onSwipe = async (dir) => {
     if (dir === "right") {
-      // dispatch(addPartyRating(1, userId, movieId, 3));
-      await axios
-        .post(
-          `http://localhost:8080/api/partyrating/add/${movieId}/1/${userId}`,
-          {
-            rating: 3,
-          }
-        )
-        .catch((err) => {
-          console.log(err);
-        });
+      dispatch(addPartyRating(1, userId, movieId, 3));
     }
     if (dir === "left") {
-      // dispatch(addPartyRating(1, userId, movieId, 2));
-      await axios
-        .post(
-          `http://localhost:8080/api/partyrating/add/${movieId}/1/${userId}`,
-          {
-            rating: 2,
-          }
-        )
-        .catch((err) => {
-          console.log(err);
-        });
+      dispatch(addPartyRating(1, userId, movieId, 2));
     }
     if (dir === "up") {
-      // dispatch(addPartyRating(1, userId, movieId, 4));
-      await axios
-        .post(
-          `http://localhost:8080/api/partyrating/add/${movieId}/1/${userId}`,
-          {
-            rating: 4,
-          }
-        )
-        .catch((err) => {
-          console.log(err);
-        });
+      dispatch(addPartyRating(1, userId, movieId, 4));
     }
     if (dir === "down") {
-      // dispatch(addPartyRating(1, userId, movieId, 1));
-      await axios
-        .post(
-          `http://localhost:8080/api/partyrating/add/${movieId}/1/${userId}`,
-          {
-            rating: 1,
-          }
-        )
-        .catch((err) => {
-          console.log(err);
-        });
+      dispatch(addPartyRating(1, userId, movieId, 1));
     }
   };
 

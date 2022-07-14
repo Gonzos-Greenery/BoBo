@@ -23,7 +23,9 @@ const addRating = (ratings) => {
 export const fetchPartyRatings = (partyId) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.get(`/api/partyrating/${partyId}`);
+      const { data } = await axios.get(
+        `http://localhost:8080/api/partyrating/${partyId}`
+      );
       dispatch(setRatings(data));
     } catch (error) {
       console.log(error);
@@ -37,19 +39,11 @@ export const addPartyRating = (partyId, userId, movieId, rating) => {
       const { data } = await axios({
         method: "post",
         url: `http://localhost:8080/api/partyrating/add/${movieId}/${partyId}/${userId}`,
-        rating: {
+        data: {
           rating,
         },
       });
       dispatch(addRating(data));
-      // await axios.post(
-      //   `http://localhost:8080/api/partyrating/add/${movieId}/${partyId}/${userId}`,
-      //   rating
-      // );
-      // const { data: updatedPartyRatings } = await axios.get(
-      //   `http://localhost:8080/api/partyrating/${userId}`
-      // );
-      // dispatch(addRating(updatedPartyRatings));
     } catch (error) {
       console.log(error);
     }

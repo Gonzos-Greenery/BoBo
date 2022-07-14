@@ -10,106 +10,92 @@ import {
 } from "react-native";
 import { fetchPartyRatings } from "../store/partyRatings";
 import axios from "axios";
+import Loading from "../Loading";
 // import { gql, useQuery } from "@apollo/client";
 // import { SINGLE_MOVIES_QUERY } from "../graphql/Query";
 // import Loading from "../Loading";
 
-// const RecommendedMovie = ({ movie }) => {
-//   console.log(movie);
-//   return (
-//     <View>
-//       <Text>Recommended Movie goes here</Text>
-//     </View>
-//   );
-// };
 
-export default () => {
+export default (route) => {
+  // const {movieArr} = useParams(route)
   const dispatch = useDispatch();
   const store = useSelector((state) => {
     return state;
   });
-  const [data, setData] = useState();
-  const [posterUrl, setPosterUrl] = useState("");
-  const [description, setDescription] = useState();
-  const [site, setSite] = useState("");
-  const [imdbUrl, setImdbUrl] = useState();
-  const [title, setTitle] = useState();
-  //   const [isExpanded, setIsExpanded] = useState(false)
-  //   // const { data, loading } = useQuery(SINGLE_MOVIES_QUERY, {
-  //   //   variables: { id: "62c4833e28dd2eb1a7f68733" },
-  //   // });
-  //   if (loading) {
-  //     return <Loading />;
-  //   }
-  console.log(store);
-  useEffect(() => {
-    // dispatch(fetchMovie(route.params.movie.id));
-    const getMovie = async () => {
-      const res = await axios
-        .get(`http://localhost:8080/api/movies/11631`)
-        .catch((err) => {
-          console.log(err);
-        });
 
-      setData(res.data);
-      setImdbUrl(res.data.imdb_id);
-      setTitle(res.data.title);
-      setDescription(res.data.description);
-    };
+  const [movieId, setMovieId] = useState();
+  const [movieObj, setMovieObj] = useState({});
+  const [isBusy, setBusy] = useState(true);
+  const [site, setSite] = useState();
+
+
+  useEffect(() => {
     dispatch(fetchPartyRatings(1));
-    getMovie();
+
+    // findRating(store.partyRatings);
+    // findMovie(store.movies.all, movieId);
   }, []);
 
-  const API_KEY = "api_key=1cf50e6248dc270629e802686245c2c8";
-  const BASE_URL = "https://api.themoviedb.org/3";
+  const findRating = (array) => {
+    let scoreTable = {};
+    array.map((rating) => {
+      if (!scoreTable[rating.movieId]) {
+        scoreTable[rating.movieId] = rating.rating;
+      } else {
+        scoreTable[rating.movieId] += rating.rating;
+      }
+    });
+    const maxValue = Object.entries(scoreTable).sort((x, y) => y[1] - x[1])[0];
+    if (maxValue) {
+      setMovieId(Number(maxValue[0]));
+    }
+  };
 
-  const API_URL =
-    BASE_URL +
-    `/find/${imdbUrl}?` +
-    API_KEY +
-    "&language=en-US&external_source=imdb_id";
-  const IMG_URL = "https://image.tmdb.org/t/p/w500";
-  const searchURL = BASE_URL + "/search/movie?" + API_KEY;
+  useEffect(() => {
+    console.log("Store: ", store);
+    findRating(store.partyRatings);
+  }, [store]);
 
-  function getMovie(url) {
-    fetch(url)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.length !== 0 && data.movie_results.length !== 0) {
-          findStreaming();
-          return showMovies(data.movie_results[0]);
-        }
-      });
-  }
 
-  function showMovies(data) {
-    const { poster_path } = data;
-    setPosterUrl(
-      `${
-        poster_path
-          ? IMG_URL + poster_path
-          : "http://via.placeholder.com/1080x1580"
-      }`
-    );
-  }
-  getMovie(API_URL);
+  const findMovie = (array, id) => {
+    array.some((el) => {
+      if (el.id === id) {
+        setMovieObj(el);
+      }
+    });
+  };
 
-  const findStreaming = () => {
-    for (let keys in data) {
-      if (data[keys] === true) {
-        setSite(keys);
+  useEffect(() => {
+    findMovie(store.movies.all, movieId);
+  }, [movieId]);
+
+  const findStreaming = (array) => {
+    for (let keys in array) {
+      if (array[keys] === true) {
+        setSite(keys.toUpperCase());
       }
     }
   };
+
+  useEffect(() => {
+    findStreaming(movieObj);
+    setBusy(false);
+  }, [movieObj]);
 
   return (
     <View>
       <Text style={styles.header}>Your BoBo Recommendation:</Text>
       <View style={styles.imagecontainer}>
-        <Text>{title}</Text>
-        <Image style={styles.image} source={{ uri: posterUrl }} />
-        <Text>{description}</Text>
-        <Text>Available on: {site.toUpperCase()}</Text>
+        {isBusy ? (
+          <Loading />
+        ) : (
+          <View>
+            <Text>{movieObj.title}</Text>
+            <Image style={styles.image} source={{ uri: movieObj.image }} />
+            <Text>{movieObj.description}</Text>
+          </View>
+        )}
+        <Text>Available on: {site}</Text>
       </View>
     </View>
   );
