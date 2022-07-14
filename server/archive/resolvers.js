@@ -1,17 +1,19 @@
-import Movie from './models/Movie.js';
-import User from './models/User.js';
-import Genre from './models/Genre.js';
-import { ApolloError } from 'apollo-server-errors';
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
+import Movie from "./models/Movie.js";
+import User from "./models/User.js";
+import Genre from "./models/Genre.js";
+import { ApolloError } from "apollo-server-errors";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+
 
 const resolvers = {
   Query: {
     welcome: () => {
-      return 'Welcome to Bobo';
+      return "Welcome to Bobo";
     },
     getMovies: async () => {
-      const movies = await Movie.find().limit(100);
+      const movies = await Movie.find({ imdb_score: { $gt: 7 } }).limit(200);
+      // const movies = await Movie.find({imdb_score: {$gt: 7}, release_year: {$gt: 2019}, production_countries: "['US']"}).limit(200);
       return movies;
     },
     getMovie: async (root, args) => {
@@ -38,7 +40,7 @@ const resolvers = {
     },
     deleteMovie: async (root, args) => {
       await Movie.findByIdAndDelete(args.id);
-      return 'The Movie has been deleted successfully';
+      return "The Movie has been deleted successfully";
     },
     updateMovie: async (root, args) => {
       const { id, title, description } = args;
@@ -104,13 +106,13 @@ const resolvers = {
     loginUser: async (root, { LoginInput: { email, password } }) => {
       const user = await User.findOne({ email });
       if (user && (await bcrypt.compare(password, user.password))) {
-        const token = jwt.sign({ email }, 'JWT', {
-          expiresIn: '7d',
+        const token = jwt.sign({ email }, "JWT", {
+          expiresIn: "7d",
         });
         user.token = token;
-        return { ...user, password: '' };
+        return user;
       } else {
-        throw new ApolloError('Invalid email or password, try again');
+        throw new ApolloError("Invalid email or password, try again");
       }
     },
     registerUser: async (
@@ -120,17 +122,18 @@ const resolvers = {
       const exEmail = await User.findOne({ email });
       if (exEmail) {
         throw new ApolloError(
-          'A user is already registered with the email' + email,
-          'USER_ALREADY_EXISTS'
+          "A user is already registered with the email " + email,
+          "USER_ALREADY_EXISTS"
         );
       }
       const exUser = await User.findOne({ username });
       if (exUser) {
         throw new ApolloError(
           `The username ${username} is already in use`,
-          'USER_ALREADY_EXISTS'
+          "USER_ALREADY_EXISTS"
         );
       }
+      console.log("input", name, username, email, password);
       let encryptedPassword = await bcrypt.hash(password, 5);
       const newUser = new User({
         name: name,
@@ -138,12 +141,14 @@ const resolvers = {
         email: email.toLowerCase(),
         password: encryptedPassword,
       });
-      const token = jwt.sign({ user_id: newUser._id }, 'JWT', {
-        expiresIn: '7d',
+      /*may want to update the 'JWT' to something more secure
+      (once we have a chance)*/
+      const token = jwt.sign({ user_id: newUser._id }, "JWT", {
+        expiresIn: "7d",
       });
       newUser.token = token;
       const res = await newUser.save();
-      return { id: res.id, ...res._doc };
+      return { ...res._doc, id: res._doc._id, password: null };
     },
     updateUser: async (
       _,
@@ -172,16 +177,26 @@ const resolvers = {
         disney: disney,
       };
       const user = await User.findById(id);
-
-      let samePassword = await bcrypt.compare(password, user.password);
-      if (samePassword) {
-        updatedUser.password = user.password;
+      if (password) {
+        let samePassword = await bcrypt.compare(password, user.password);
+        if (samePassword) {
+          updatedUser.password = user.password;
+        } else {
+          updatedUser.password = await bcrypt.hash(password, 5);
+        }
       } else {
-        updatedUser.password = await bcrypt.hash(password, 5);
+        delete updatedUser.password;
       }
 
       await user.update(updatedUser);
       return user;
+    },
+    addWatched: async (root, { addWatched: { id, watched } }) => {
+      await User.findByIdAndUpdate(id, {
+        $set: {
+          watched: watched,
+        },
+      });
     },
   },
 };

@@ -15,6 +15,9 @@ import {
   useToast,
   WarningOutlineIcon,
 } from 'native-base';
+import { useSelector, useDispatch } from 'react-redux';
+// import {registerUser} from './store/user';
+import { authenticate } from './store/auth';
 
 const Register = ({ navigation }) => {
   const [password, setPassword] = React.useState('');
@@ -25,8 +28,8 @@ const Register = ({ navigation }) => {
   const [errors, setErrors] = React.useState('');
   const handleClick = () => setShow(!show);
   const toast = useToast();
+  const dispatch = useDispatch();
   // const [registerUser, { data }] = useMutation(REGISTER_USER_MUTATION);
-
   const validate = () => {
     if (!email.includes('@') || !email.includes('.')) {
       setErrors('Invalid email type.');
@@ -39,10 +42,15 @@ const Register = ({ navigation }) => {
     if (validate()) {
       const newUserInput = { username, email, password, name: fullName };
       try {
-        const data = await registerUser({
-          variables: { registerInput: newUserInput },
-        });
-        navigation.push('StreamingOptions', data.data.registerUser);
+        const data = await dispatch(authenticate(newUserInput, 'signup'));
+        console.log(data);
+        if (data != true) {
+          setErrors('Username/email already exists');
+          console.log('no data');
+        } else {
+          console.log(data);
+          navigation.push('StreamingOptions');
+        }
       } catch (err) {
         setErrors(err.message);
       }

@@ -7,6 +7,10 @@ export const MOVIES_QUERY = gql`
     title
     description
     imdb_id
+    genres
+    imdb_score
+    production_countries
+    release_year
   }
 }`
 

@@ -14,6 +14,7 @@ const userSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Genre',
   },
+  watched: Array
 });
 
 const User = mongoose.model('user', userSchema);

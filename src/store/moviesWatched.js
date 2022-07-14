@@ -1,8 +1,8 @@
-import axios from 'axios';
+import axios from "axios";
 
 // Action constants
-const ADD_MOVIE_WATCHED = 'ADD_MOVIE_WATCHED';
-const SET_MOVIES_WATCHED = 'SET_MOVIES_WATCHED';
+const ADD_MOVIE_WATCHED = "ADD_MOVIE_WATCHED";
+const SET_MOVIES_WATCHED = "SET_MOVIES_WATCHED";
 
 // Action creators
 const setMovies = (moviesWatched) => {
@@ -31,13 +31,20 @@ export const fetchMoviesWatched = (userId) => {
   };
 };
 
-export const addMovieToUser = (userId, movieId) => {
+export const addMovieToUser = (userId, movies) => {
   return async (dispatch) => {
     try {
-      await axios.put(`/api/users/movieswatched/add/${userId}/${movieId}`);
-      const { data: updatedMoviesWatched } = await axios.get(
-        `/api/moviesWatched/${userId}`
-      );
+      // await axios.put(`/api/users/movieswatched/add/${userId}/${movieId}`);
+      // const { data: updatedMoviesWatched } = await axios.get(
+      //   `/api/moviesWatched/${userId}`
+      // );
+      const {data} = await axios({
+        method: 'post',
+        url: `http://localhost:8080/api/users/movieswatched/register/add/${userId}`,
+        data: {
+          movies
+        }
+      });
       dispatch(addMovieWatched(updatedMoviesWatched));
     } catch (error) {
       console.log(error);
