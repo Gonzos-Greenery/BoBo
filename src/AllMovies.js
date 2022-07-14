@@ -45,7 +45,7 @@ export default ({navigation, route}) => {
             </View>
             }
             <View style={styles.genreRow}>
-                <Text style={{fontSize:16, fontWeight: 'bold'}}>Upcoming Parties</Text>
+                <Text style={{fontSize:16, fontWeight: 'bold'}}>Upcoming Parties...</Text>
                 <FlatList 
                     horizontal
                     ItemSeparatorComponent={() => <View style={{width:5}}/>}
@@ -57,6 +57,7 @@ export default ({navigation, route}) => {
                                 onPress={() => navigation.navigate('PartyView', {id: party.item.id})}>
                                 <Image style={styles.image} source={"https://thumbs.dreamstime.com/b/film-strip-video-camera-vector-icon-cinema-symbol-film-strip-video-camera-vector-icon-cinema-symbol-photographic-film-135692148.jpg"}/>        
                             </Pressable>
+                            <Text style={{alignSelf:'center', fontWeight:'bold'}}>{`Party #${party.item.id}`}</Text>
                         </View>
                     )}
                 />
@@ -94,8 +95,8 @@ export default ({navigation, route}) => {
 
 const styles = StyleSheet.create({
   image: {
-    width: 120,
-    height: 200,
+    width: 140,
+    height: 220,
     borderRadius: 10,
     shadowColor: 'rgba(0, 0, 0, 0.1)',
     shadowOpacity: 0.2,
