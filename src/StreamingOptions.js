@@ -73,9 +73,9 @@ const StreamingOptions = ({ navigation, route }) => {
           p='4'
           rounded='8'
         >
-          <Text color='white' fontSize='xl' textAlign='center'>
-            Please select all streaming services that you subscribe to:
-          </Text>
+        <Text color='white' fontSize='xl' textAlign='center'>
+          Please select all streaming services that you subscribe to:
+        </Text>
         </Box>
         <Stack mx='4' alignItems='center'>
           <HStack

@@ -68,6 +68,23 @@ export const updateUser = (user) => {
   };
 };
 
+export const registerUpdateWatched = (id, movies) => {
+  return async (dispatch) => {
+    try {
+      const {data} = await axios({
+        method: 'post',
+        url: `http://localhost:8080/api/users/movieswatched/register/add/${id}`,
+        data: {
+          movies: movies
+        }
+      })
+      dispatch(getUser(data))
+    } catch (e){
+      console.log(e)
+    }
+  }
+}
+
 const initialState = {};
 
 export default (state = initialState, action) => {

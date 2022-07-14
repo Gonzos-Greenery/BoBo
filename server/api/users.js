@@ -37,13 +37,10 @@ router.get("/:userid", async (req, res, next) => {
   }
 });
 
-<<<<<<< HEAD
-router.get("/username/:username", async (req, res, next) => {
-=======
 router.put('/update/:userid', async (req, res, next) => {
   try {
     const user = await User.findByPk(req.params.userid);
-    res.json(await user.update(req.body));
+    await user.update(req.body);
     res.json(user);
   } catch (error) {
     next(error);
@@ -51,7 +48,6 @@ router.put('/update/:userid', async (req, res, next) => {
 });
 
 router.get('/username/:username', async (req, res, next) => {
->>>>>>> b238f1a19c2da83325aab82f85397e418d270db3
   try {
     const user = await User.findOne({
       where: { username: req.params.username },
@@ -115,11 +111,10 @@ router.post('/genres/add/:userid', async (req, res, next) => {
 });
 
 router.post(
-  "/movieswatched/register/add/:userid/:moviei",
+  "/movieswatched/register/add/:userid/",
   async (req, res, next) => {
     try {
       const user = await User.findByPk(req.params.userid);
-      console.log(req.body);
       const movies = await Movie.findAll({
         where: {
           id: {
@@ -130,7 +125,6 @@ router.post(
       await Promise.all(
         movies.map((movie) => {
           user.addMovie(movie);
-          movie.addUser(user);
         })
       );
       res.json(user);

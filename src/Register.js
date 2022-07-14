@@ -48,6 +48,7 @@ const Register = ({ navigation }) => {
           setErrors('Username/email already exists');
           console.log('no data');
         } else {
+          console.log(data)
           navigation.push('StreamingOptions');
         }
       } catch (err) {

@@ -19,38 +19,38 @@ const GenrePreferences = ({ navigation, route }) => {
   const dispatch = useDispatch();
   const userAuth = useSelector((state) => state.auth);
 
-  // const genreObject = {
-  //   action: false,
-  //   animation: false,
-  //   comedy: false,
-  //   crime: false,
-  //   documentation: false,
-  //   drama: false,
-  //   european: false,
-  //   family: false,
-  //   fantasy: false,
-  //   history: false,
-  //   horror: false,
-  //   music: false,
-  //   romance: false,
-  //   scifi: false,
-  //   thriller: false,
-  //   war: false,
-  //   western: false,
-  // };
+  const genreObject = {
+    action: false,
+    animation: false,
+    comedy: false,
+    crime: false,
+    documentation: false,
+    drama: false,
+    european: false,
+    family: false,
+    fantasy: false,
+    history: false,
+    horror: false,
+    music: false,
+    romance: false,
+    scifi: false,
+    thriller: false,
+    war: false,
+    western: false,
+  };
 
-  // const [genres, setGenres] = useState(genreObject);
+  const [genres, setGenres] = useState(genreObject);
 
   const handleSubmit = () => {
     // addGenre({ variables: { genreInput: genres } });
     const userId = userAuth.id;
     dispatch(addUserGenre(userId, genres));
-    navigation.push('Movies');
+    navigation.push('RegisterMovies');
   };
 
   return (
     <View style={{ flex: 1 }}>
-      {/* <VStack space={2} w='100%' alignItems='center'>
+      <VStack space={2} w='100%' alignItems='center'>
         <Stack>
           <HStack space={5} flexWrap='wrap' justifyContent='space-between'>
             {Object.keys(genreObject).map((genre) => {
@@ -92,7 +92,7 @@ const GenrePreferences = ({ navigation, route }) => {
             Next
           </Button>
         </Stack>
-      </VStack> */}
+      </VStack>
     </View>
   );
 };
