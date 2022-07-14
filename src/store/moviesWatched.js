@@ -1,8 +1,8 @@
-import axios from 'axios';
+import axios from "axios";
 
 // Action constants
-const ADD_MOVIE_WATCHED = 'ADD_MOVIE_WATCHED';
-const SET_MOVIES_WATCHED = 'SET_MOVIES_WATCHED';
+const ADD_MOVIE_WATCHED = "ADD_MOVIE_WATCHED";
+const SET_MOVIES_WATCHED = "SET_MOVIES_WATCHED";
 
 // Action creators
 const setMovies = (moviesWatched) => {

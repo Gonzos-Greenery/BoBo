@@ -1,7 +1,7 @@
-import axios from 'axios';
+import axios from "axios";
 
 // Action constant
-const SET_MOVIE = 'SET_MOVIE';
+const SET_MOVIE = "SET_MOVIE";
 
 // Action creator
 
@@ -17,7 +17,9 @@ const setMovie = (movie) => {
 export const fetchMovie = (movieId) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.get(`/api/movies/${movieId}`);
+      const { data } = await axios.get(
+        `http://localhost:8080/api/movies/${movieId}`
+      );
       dispatch(setMovie(data));
     } catch (error) {
       console.log(error);

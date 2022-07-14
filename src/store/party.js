@@ -66,7 +66,6 @@ export const addFriendToParty = (username, partyId) => {
         method: 'put',
         url: `http://localhost:8080/api/party/${partyId}/${username}`
       })
-      console.log(data)
       return data
     } catch (e){
       console.log(e)

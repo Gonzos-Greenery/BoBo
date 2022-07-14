@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { View, Text } from 'react-native';
 import {
   Pressable,
@@ -9,9 +10,14 @@ import {
   Box,
   Center,
 } from 'native-base';
+import { addUserGenre } from './store/genrePref';
+// import { gql, useMutation } from '@apollo/client';
+// import { ADD_GENRE_MUTATION } from './graphql/Mutation';
 
 const GenrePreferences = ({ navigation, route }) => {
-  const [addGenre, { data }] = useMutation(ADD_GENRE_MUTATION);
+  // const [addGenre, { data }] = useMutation(ADD_GENRE_MUTATION);
+  const dispatch = useDispatch();
+  const userAuth = useSelector((state) => state.auth);
 
   const genreObject = {
     action: false,
@@ -36,7 +42,9 @@ const GenrePreferences = ({ navigation, route }) => {
   const [genres, setGenres] = useState(genreObject);
 
   const handleSubmit = () => {
-    addGenre({ variables: { genreInput: genres } });
+    // addGenre({ variables: { genreInput: genres } });
+    const userId = userAuth.id;
+    dispatch(addUserGenre(userId, genres));
     navigation.push('RegisterMovies');
   };
 

@@ -18,7 +18,7 @@ const editMovies = async (info) => {
       comedy: [],
       crime: [],
       documentation: [],
-      drama: [],    
+      drama: [],
       european: [],
       family: [],
       fantasy: [],
@@ -31,7 +31,6 @@ const editMovies = async (info) => {
       war: [],
       western: [],
   }
-  
   const newMovies = await Promise.all(info.map(movie => {
       const imdbId = movie.imdb_id;
       const API_KEY = "api_key=1cf50e6248dc270629e802686245c2c8";
@@ -43,10 +42,11 @@ const editMovies = async (info) => {
           API_KEY +
           "&language=en-US&external_source=imdb_id";
       const IMG_URL = "https://image.tmdb.org/t/p/w500";
-      
+
       let res = fetch(API_URL)
       .then(res => res.json())
       .then(({movie_results}) => {
+
         if(movie_results && movie_results.length>0 && movie_results[0] && movie_results[0].poster_path){
           movie.image = `${IMG_URL + movie_results[0].poster_path}`
           return movie

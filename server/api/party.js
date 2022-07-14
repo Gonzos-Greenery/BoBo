@@ -55,10 +55,10 @@ router.put('/:partyId/:username', async (req, res, next) => {
     const user = await User.findOne({where: {
       name: req.params.username
     }})
-    console.log(party)
-    await user.addParty(party);
-    // await party.addUser(user);
-    res.send(true);
+    if(party){
+      await user.addParty(party);
+      res.send(true);
+    }
   } catch (err) {
     next(err);
   }

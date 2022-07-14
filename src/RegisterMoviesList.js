@@ -121,31 +121,3 @@ const styles = StyleSheet.create({
         height:'100%'
     }
 });
-
- // const newMovies = await Promise.all(info.getMovies.map(movie => {
-        //     const imdbId = movie.imdb_id;
-        //     const API_KEY = "api_key=1cf50e6248dc270629e802686245c2c8";
-        //     const BASE_URL = "https://api.themoviedb.org/3";
-
-        //     const API_URL =
-        //         BASE_URL +
-        //         `/find/${imdbId}?` +
-        //         API_KEY +
-        //         "&language=en-US&external_source=imdb_id";
-        //     const IMG_URL = "https://image.tmdb.org/t/p/w500";
-        //     const newMovie = {...movie}
-
-        //     const res = fetch(API_URL)
-        //         .then(res => res.json())
-        //         .then((data) => {
-        //             if(!data.success && data.movie_results && data.movie_results.length>0){
-        //                 return `${IMG_URL + data.movie_results[0].poster_path}`
-        //             } else {
-        //                 return "https://media.comicbook.com/files/img/default-movie.png"
-        //             }
-        //     }).then(info => {
-        //         newMovie.link = info
-        //     })
-        //     console.log(newMovie.link)
-        //     return newMovie
-        // }))

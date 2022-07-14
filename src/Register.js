@@ -30,7 +30,6 @@ const Register = ({ navigation }) => {
   const toast = useToast();
   const dispatch = useDispatch();
   // const [registerUser, { data }] = useMutation(REGISTER_USER_MUTATION);
-
   const validate = () => {
     if (!email.includes('@') || !email.includes('.')) {
       setErrors('Invalid email type.');
@@ -43,14 +42,14 @@ const Register = ({ navigation }) => {
     if (validate()) {
       const newUserInput = { username, email, password, name: fullName };
       try {
-        const data = await dispatch( authenticate(newUserInput, 'signup'))
-        console.log(data)
-        if(data!=true){
-          setErrors('Username/email already exists')
-          console.log('no data')
+        const data = await dispatch(authenticate(newUserInput, 'signup'));
+        console.log(data);
+        if (data != true) {
+          setErrors('Username/email already exists');
+          console.log('no data');
         } else {
           console.log(data)
-          navigation.push('RegisterMovies');
+          navigation.push('StreamingOptions');
         }
       } catch (err) {
         setErrors(err.message);
@@ -62,81 +61,81 @@ const Register = ({ navigation }) => {
 
   return (
     <View style={{ flex: 1 }}>
-      <VStack space={2} w="100%" alignItems="center">
+      <VStack space={2} w='100%' alignItems='center'>
         <FormControl>
-          <Stack mx="4" alignItems="center">
-            <FormControl.Label py="1" w="75%">
+          <Stack mx='4' alignItems='center'>
+            <FormControl.Label py='1' w='75%'>
               Full Name
             </FormControl.Label>
             <Input
-              size="2xl"
-              variant="underlined"
-              maxW="300px"
-              w="75%"
+              size='2xl'
+              variant='underlined'
+              maxW='300px'
+              w='75%'
               value={fullName}
               onChangeText={setFullName}
-              label="fullName"
-              placeholder="Full Name"
+              label='fullName'
+              placeholder='Full Name'
             ></Input>
           </Stack>
         </FormControl>
         <FormControl isRequired>
-          <Stack mx="4" alignItems="center">
-            <FormControl.Label pb="0" w="75%">
+          <Stack mx='4' alignItems='center'>
+            <FormControl.Label pb='0' w='75%'>
               Username
             </FormControl.Label>
             <Input
-              size="2xl"
-              variant="underlined"
-              maxW="300px"
-              w="75%"
+              size='2xl'
+              variant='underlined'
+              maxW='300px'
+              w='75%'
               value={username}
               onChangeText={setUsername}
-              label="Username"
-              placeholder="Username"
+              label='Username'
+              placeholder='Username'
             ></Input>
           </Stack>
         </FormControl>
         <FormControl isRequired>
-          <Stack mx="4" alignItems="center">
-            <FormControl.Label w="75%">E-mail</FormControl.Label>
+          <Stack mx='4' alignItems='center'>
+            <FormControl.Label w='75%'>E-mail</FormControl.Label>
             <Input
-              size="2xl"
-              variant="underlined"
-              maxW="300px"
-              w="75%"
+              size='2xl'
+              variant='underlined'
+              maxW='300px'
+              w='75%'
               onChangeText={setEmail}
               value={email}
-              label="email"
-              placeholder="E-mail"
+              label='email'
+              placeholder='E-mail'
             ></Input>
           </Stack>
         </FormControl>
         <FormControl isRequired>
-          <Stack mx="4" alignItems="center">
-            <FormControl.Label w="75%">Password</FormControl.Label>
+          <Stack mx='4' alignItems='center'>
+            <FormControl.Label w='75%'>Password</FormControl.Label>
             <Input
               type={show ? 'text' : 'password'}
-              variant="underlined"
+              variant='underlined'
               onChangeText={setPassword}
-              size="2xl"
-              w="75%"
-              maxW="300px"
+              size='2xl'
+              w='75%'
+              maxW='300px'
               InputRightElement={
                 <Button
-                  size="s"
-                  rounded="none"
-                  w="1/6"
-                  h="full"
-                  variant="ghost"
-                  colorScheme="green"
+                  size='s'
+                  rounded='none'
+                  w='1/6'
+                  h='full'
+                  variant='ghost'
+                  colorScheme='green'
                   _text={{ color: '#86A17F' }}
                   onPress={handleClick}
                 >
                   {show ? 'Hide' : 'Show'}
                 </Button>
               }
-              placeholder="Password"
+              placeholder='Password'
             />
             {errors.length > 1 ? (
               <FormControl.HelperText>
@@ -149,14 +148,14 @@ const Register = ({ navigation }) => {
         </FormControl>
         <Button
           _text={{ color: '#F7F6D4' }}
-          w="70%"
-          bg="#86A17F"
-          shadow="4"
+          w='70%'
+          bg='#86A17F'
+          shadow='4'
           onPress={handleSubmit}
         >
           Register
         </Button>
-        <Text color="#86A17F" py="9">
+        <Text color='#86A17F' py='9'>
           Already signed up?
         </Text>
         <Text

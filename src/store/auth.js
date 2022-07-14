@@ -46,7 +46,7 @@ export const authenticate = (userData, method) => async (dispatch) => {
       //will need to update this input parameter on the Login page from david
     });
     window.localStorage.setItem(TOKEN, res.data.token);
-    dispatch(me());
+    dispatch(me(res.data));
     return true;
   } catch (authError) {
     return false;
