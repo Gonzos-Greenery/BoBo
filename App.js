@@ -40,7 +40,7 @@ export default function App() {
             initialRouteName='Login'
             screenOptions={screenOptions}
           >
-            {/* <Stack.Screen
+            <Stack.Screen
               name='Movies'
               component={AllMovies}
               options={{ title: 'BoBo' }}
@@ -98,7 +98,7 @@ export default function App() {
               component={PartyAddForm}
               options={{ title: 'Add Someone' }}
             />
-            <Stack.Screen name='User' component={User} /> */}
+            <Stack.Screen name='User' component={User} />
             <Stack.Screen
               name='HostParty'
               component={HostParty}
