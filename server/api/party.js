@@ -41,7 +41,6 @@ router.get('/:partyid', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
-    console.log(req.body);
     const newParty = await Party.create(req.body);
     res.send(newParty);
   } catch (error) {
@@ -49,13 +48,26 @@ router.post('/', async (req, res, next) => {
   }
 });
 
-router.put('/:partyId/:username', async (req, res, next) => {
+router.put('/addPartyHost/:partyId/:userId', async (req, res, next) => {
   try {
     const party = await Party.findByPk(req.params.partyId);
-    const user = await User.findOne({where: {
-      name: req.params.username
-    }})
-    if(party){
+    const user = await User.findByPk(req.params.userId);
+    await party.addUser(user, { through: { host: true } });
+    res.send(true);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.put('/addUsers/:partyId/:username', async (req, res, next) => {
+  try {
+    const party = await Party.findByPk(req.params.partyId);
+    const user = await User.findOne({
+      where: {
+        username: req.params.username,
+      },
+    });
+    if (party) {
       await user.addParty(party);
       res.send(true);
     }
@@ -82,17 +94,19 @@ router.delete('/:partyId', async (req, res, next) => {
   }
 });
 
-router.get(`/all/:userId`, async (req,res,next) => {
-  try{
+router.get(`/all/:userId`, async (req, res, next) => {
+  try {
     const party = await Party.findAll({
       include: {
         model: User,
       },
-    })
+    });
     //has to be a better way to eager load and filter. This is a quick fix for now
-    const filterUser = party.filter(party => party.users.some((user) => `${user.id}` === req.params.userId))
-    res.json(filterUser)
-  } catch (e){
-    next(e)
+    const filterUser = party.filter((party) =>
+      party.users.some((user) => `${user.id}` === req.params.userId)
+    );
+    res.json(filterUser);
+  } catch (e) {
+    next(e);
   }
-})
+});

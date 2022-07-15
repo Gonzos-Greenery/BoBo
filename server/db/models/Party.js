@@ -16,8 +16,8 @@ const Party = db.define('party', {
 const UserParties = db.define('UserParties', {
   host: {
     type: Sequelize.BOOLEAN,
-    defaultValue: false
-  }
-})
+    defaultValue: false,
+  },
+});
 
-module.exports = {Party,UserParties}
+module.exports = { Party, UserParties };
