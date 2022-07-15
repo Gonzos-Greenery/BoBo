@@ -1,30 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Text, FlatList, Pressable, View, Image, Button, StyleSheet, ScrollView} from 'react-native';
+import {
+  Text,
+  FlatList,
+  Pressable,
+  View,
+  Image,
+  Button,
+  StyleSheet,
+  ScrollView,
+} from 'react-native';
 import { fetchMovies } from './store/movies';
 import { fetchParties } from './store/parties';
 import Loading from './Loading';
 
+export default ({ navigation, route }) => {
+  const dispatch = useDispatch();
+  const { movies, auth, userParties } = useSelector((state) => {
+    return state;
+  });
+  
+  useEffect(() => {
+    if (auth.id) {
+      dispatch(fetchParties(auth.id));
+    }
+  }, [auth]);
 
-export default ({navigation, route}) => {
-    const dispatch = useDispatch()
-    const {movies, auth, userParties} = useSelector((state) => {
-        return state
-    });
-
-    // useEffect(() => {
-    //     dispatch(fetchMovies())
-    // },[auth])
-
-    useEffect(() => {
-        if(auth.id){
-            dispatch(fetchParties(auth.id))
-        }
-    },[auth])
-
-    //tried to mutate the queried information to add link -> It appears above but when you try to access it, its undefined.
-    //tested mutating over a key that was already there -> It shows up as the link but when you console log it in render -> Its the original info
-    
     return (
       <View style={styles.container}>
         <ScrollView>
@@ -102,61 +103,18 @@ const styles = StyleSheet.create({
     shadowColor: 'rgba(0, 0, 0, 0.1)',
     shadowOpacity: 0.2,
     elevation: 6,
-    shadowRadius: 15 ,
+    shadowRadius: 15,
   },
   genreRow: {
-      marginTop: 20,
+    marginTop: 20,
   },
-  loading:{
-      width:'100%',
-      height:'100%'
+  loading: {
+    width: '100%',
+    height: '100%',
   },
   container: {
-    height:'100%',
+    height: '100%',
     width: '100%',
-    backgroundColor: `rgba(164,198,156,1)`
-}
+    backgroundColor: `rgba(164,198,156,1)`,
+  },
 });
-
-// const MovieItem = ({ movie, onPress }) => {
-//   const { title, description } = movie;
-//   let header, subheader;
-
-//   if (title) {
-//     header = `Title ${title}`;
-//     subheader = description;
-//   } else {
-//     header = description;
-//   }
-
-//   return (
-//     <Pressable style={styles.item} onPress={onPress} >
-//       <Text style={styles.header}>{header}</Text>
-//       {!!subheader && <Text style={styles.subheader}>{subheader}</Text>}
-//     </Pressable>
-//   );
-// };
-
-// export default ({ navigation }) => {
-//   const { data, loading } = useQuery(MOVIES_QUERY);
-
-//   if (loading) {
-//     return <Loading />
-//   }
-
-//   return (
-//     <View>
-//       <Button title="Vote" onPress={() => navigation.navigate("MovieCard")} />
-//       <FlatList
-//         data={data.getMovies}
-//         renderItem={({ item }) => (
-//           <MovieItem
-//             movie={item}
-//             onPress={() => navigation.navigate("SingleMovie", { movie: item })}
-//           />
-//         )}
-//         keyExtractor={(movie) => movie.id.toString()}
-//       />
-//     </View>
-//   );
-// };
