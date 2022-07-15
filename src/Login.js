@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -6,6 +6,7 @@ import {
   Image,
   Dimensions,
   TouchableOpacity,
+  Alert
 } from 'react-native';
 import * as Facebook from 'expo-facebook';
 import * as Google from 'expo-auth-session/providers/google';
@@ -26,6 +27,7 @@ import {
 import { useSelector, useDispatch} from 'react-redux';
 import { authenticate } from './store';
 import logo from '../assets/logo.png'
+import { fetchMovies } from './store/movies';
 
 export default ({ navigation }) => {
     const [username, setUsername] = useState('');
@@ -80,9 +82,13 @@ export default ({ navigation }) => {
                 description: 'Incorrect Username Or Password'
             })
         } else {
-            navigation.navigate('User')
+            navigation.navigate('Movies')
         }
     }
+    
+    useEffect(() => {
+        dispatch(fetchMovies())
+    }, []);
 
     return(
         <View style={styles.container}>

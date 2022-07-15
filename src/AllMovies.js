@@ -12,9 +12,9 @@ export default ({navigation, route}) => {
         return state
     });
 
-    useEffect(() => {
-        dispatch(fetchMovies())
-    },[auth])
+    // useEffect(() => {
+    //     dispatch(fetchMovies())
+    // },[auth])
 
     useEffect(() => {
         if(auth.id){
@@ -24,7 +24,7 @@ export default ({navigation, route}) => {
 
     //tried to mutate the queried information to add link -> It appears above but when you try to access it, its undefined.
     //tested mutating over a key that was already there -> It shows up as the link but when you console log it in render -> Its the original info
-
+    
     return (
       <View style={styles.container}>
         <ScrollView>
