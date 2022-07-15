@@ -23,9 +23,13 @@ const addRating = (ratings) => {
 export const fetchPartyRatings = (partyId) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.get(
-        `http://localhost:8080/api/partyrating/${partyId}`
-      );
+      // const { data } = await axios.get(
+      //   `http://localhost:8080/api/partyrating/${partyId}`
+      // );
+      const { data } = await axios({
+        method: "get",
+        url: `http://localhost:8080/api/partyrating/${partyId}`,
+      });
       dispatch(setRatings(data));
     } catch (error) {
       console.log(error);

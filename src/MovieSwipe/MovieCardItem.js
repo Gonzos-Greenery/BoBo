@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import TinderCard from "react-tinder-card";
-import { StyleSheet, Text, View, Image, Dimensions } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  Dimensions,
+  Button,
+} from "react-native";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
@@ -83,7 +90,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   imagecontainer: {
-    width: width * 0.7,
+    width: width * 0.8,
     height: height * 0.6,
     textAlign: "center",
     borderWidth: 10,
@@ -97,8 +104,8 @@ const styles = StyleSheet.create({
     padding: 30,
   },
   image: {
-    width: width * 0.5,
-    height: height * 0.4,
+    width: width * 0.6,
+    height: height * 0.5,
   },
   header: {
     flexWrap: "wrap",

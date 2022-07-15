@@ -277,7 +277,7 @@ export default ({ route, navigation }) => {
           />
         </View>
       ) : (
-          <View 
+          <View
           style={styles.subheader}>
             <Button
             title="I've seen this movie"

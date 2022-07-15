@@ -9,12 +9,12 @@ import {
   Dimensions,
 } from "react-native";
 import { fetchPartyRatings } from "../store/partyRatings";
+
 import axios from "axios";
 import Loading from "../Loading";
 // import { gql, useQuery } from "@apollo/client";
 // import { SINGLE_MOVIES_QUERY } from "../graphql/Query";
 // import Loading from "../Loading";
-
 
 export default (route) => {
   // const {movieArr} = useParams(route)
@@ -22,18 +22,23 @@ export default (route) => {
   const store = useSelector((state) => {
     return state;
   });
-
+  const [ratingArr, setRatingArr] = useState([]);
   const [movieId, setMovieId] = useState();
   const [movieObj, setMovieObj] = useState({});
   const [isBusy, setBusy] = useState(true);
   const [site, setSite] = useState();
 
-
   useEffect(() => {
-    dispatch(fetchPartyRatings(1));
-
-    // findRating(store.partyRatings);
-    // findMovie(store.movies.all, movieId);
+    const getRatings = async (partyId) => {
+      const res = await axios
+        .get(`http://localhost:8080/api/partyrating/${partyId}`)
+        .catch((err) => {
+          console.log(err);
+        });
+      setRatingArr(res.data);
+    };
+    dispatch(fetchPartyRatings());
+    getRatings(store.party.id);
   }, []);
 
   const findRating = (array) => {
@@ -52,10 +57,12 @@ export default (route) => {
   };
 
   useEffect(() => {
-    console.log("Store: ", store);
-    findRating(store.partyRatings);
-  }, [store]);
+    findRating(ratingArr);
+  }, [ratingArr]);
 
+  // useEffect(() => {
+  //   findRating(store.partyRatings);
+  // }, [store]);
 
   const findMovie = (array, id) => {
     array.some((el) => {
@@ -83,7 +90,7 @@ export default (route) => {
   }, [movieObj]);
 
   return (
-    <View>
+    <View style={styles.wrapper}>
       <Text style={styles.header}>Your BoBo Recommendation:</Text>
       <View style={styles.imagecontainer}>
         {isBusy ? (
@@ -102,6 +109,10 @@ export default (route) => {
 };
 const { width, height } = Dimensions.get("window");
 const styles = StyleSheet.create({
+  wrapper: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
   header: {
     justifyContent: "center",
     alignItems: "center",
