@@ -26,8 +26,8 @@ export const fetchParty = (partyId) => {
   return async (dispatch) => {
     try {
       const { data } = await axios({
-        method:'get',
-        url: `http://localhost:8080/api/party/${partyId}`
+        method: 'get',
+        url: `http://localhost:8080/api/party/${partyId}`,
       });
       dispatch(setParty(data));
     } catch (error) {
@@ -36,7 +36,7 @@ export const fetchParty = (partyId) => {
   };
 };
 
-export const createNewParty = (userId, name, location, date, time) => {
+export const createNewParty = (userId, name, location, date, invitees) => {
   return async (dispatch) => {
     try {
       const { data: newParty } = await axios({
@@ -48,10 +48,17 @@ export const createNewParty = (userId, name, location, date, time) => {
           date,
         },
       });
-      // const { data } = await axios({
-      //   method: 'put',
-      //   url: `http://localhost:8080/api/parties/${newParty.data.id}/${userId}`,
-      // });
+      await axios({
+        method: 'put',
+        url: `http://localhost:8080/api/party/addPartyHost/${newParty.id}/${userId}`,
+      });
+      for (let i = 0; i < invitees.length; i++) {
+        console.log(invitees[i].username);
+        await axios({
+          method: 'put',
+          url: `http://localhost:8080/api/party/addUsers/${newParty.id}/${invitees[i].username}`,
+        });
+      }
       dispatch(_addParty(newParty));
     } catch (error) {
       console.log(error);
@@ -61,17 +68,17 @@ export const createNewParty = (userId, name, location, date, time) => {
 
 export const addFriendToParty = (username, partyId) => {
   return async (dispatch) => {
-    try{
+    try {
       const { data } = await axios({
         method: 'put',
-        url: `http://localhost:8080/api/party/${partyId}/${username}`
-      })
-      return data
-    } catch (e){
-      console.log(e)
+        url: `http://localhost:8080/api/party/${partyId}/${username}`,
+      });
+      return data;
+    } catch (e) {
+      console.log(e);
     }
-  }
-}
+  };
+};
 
 const initialState = {};
 

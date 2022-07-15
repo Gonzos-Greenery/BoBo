@@ -1,34 +1,35 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Dimensions, Pressable, TouchableOpacity} from 'react-native';
+import { StyleSheet, Text, View, Dimensions, Pressable, FlatList} from 'react-native';
 import { Button, VStack, Stack, Label, Icon} from 'native-base';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchParty } from './store/party';
-
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faUser } from '@fortawesome/free-solid-svg-icons';
 
 export default ({navigation, route}) => {
     const [votingStatus, setVotingStatus] = useState() //state of voting period, state of users list, state of users voted status
-    const [users, setUsers] = useState() //keeps track of users + adding new users 
+    const [host, setHost] = useState() //keeps track of users + adding new users 
     const [films, setFilms] = useState() //storing a collection of 10 films with top scorings that are not seen or is "will watch again movie"
     const dispatch = useDispatch()
     const store = useSelector((state) => {
         return state
     })
-    //needs to take an a parameter for party ID to load in the information. 
 
-    //pull in list -> check different attributes to see for that party
-    //voted + not yet will be checked in status for each user
-    //used buttons for users so you can press to see each profile maybe
-    //press to vote button 
-    //Add to group
-    //recommend button closes out voting status and makes a recommendation ONLY if you're host
     useEffect(() => {
         dispatch(fetchParty(route.params.id))
     },[])
+
+    useEffect(() => {
+        if(store.party.users){
+            const host = store.party.users.filter(user => user.UserParties.host)
+            setHost(host[0] === undefined ? 'Not Assigned' : host[0].username)
+        }
+    },[store.party])
     return(
         <View style={styles.container}>
             {store.party === undefined ? <></> : 
                 <View>
-                    <View style={{textAlign:'center', marginBottom: 10}}>
+                    <View style={{margin: 10}}>
                         <Text style={styles.textMain}>
                             {`Movie Night: ${store.party.name}'s`}
                         </Text>
@@ -38,26 +39,42 @@ export default ({navigation, route}) => {
                         <Text style={styles.textMain}>
                             {`Location: ${store.party.location}`}
                         </Text>
+                        <Text style={styles.textMain} >
+                            {`Host: ${host === undefined ? '' : host}`}
+                        </Text>
                     </View>
-                    <View>
+                    <View style={{textAlign:'center', marginBottom: 10}}>
                         <Text style={styles.textMain}>Attendees</Text>
                         {store.party.users === undefined ? <></> : 
-                            store.party.users.map((person,idx) => {
-                                return (
-                                    <Button style={styles.user} key={idx}>{person.name}</Button>
-                                )
-                            })
+                            <FlatList 
+                                data = {store.party.users}
+                                keyExtractor={(movie,idx) => idx.toString()}
+                                renderItem={({item,index}) => {
+                                    return (
+                                        <View style={styles.user}>
+                                            <FontAwesomeIcon icon={faUser} size={30} color={'#8A9D8C'} style={{marginRight: 30, marginLeft: 10, alignSelf:'center'}}/>
+                                            <Text style={{fontSize: 16, alignSelf:'center'}}>{item.name}</Text>
+                                        </View>
+                                    )
+                                }}
+                            />
                         }
                     </View>
                     <View style={styles.btnRow}>
-                        <Button 
+                        <Button style={{backgroundColor: '#d5e7d0'}}
+                            _text={{color:'black'}}
                             onPress={() => navigation.push('MovieCard')}
                         >Press to Vote</Button>
-                        <Button
+                        <Button style={{backgroundColor: '#d5e7d0'}}
+                            _text={{color:'black'}}
                             onPress={() => navigation.push('PartyAddForm', {attendees: store.party.users})}
                         >Add to group</Button>
                     </View>
-                    <Button style={{height: 55, borderRadius: 10, width: '75%', alignSelf:'center', marginTop: 20}}>Recommend</Button>
+                    {store.auth.username !== host ? <></> : 
+                        <Pressable>
+                            <Button style={{height: 55, borderRadius: 10, width: '75%', alignSelf:'center', marginTop: 20, backgroundColor: '#d5e7d0'}} _text={{color:'black'}}>Recommend</Button>
+                        </Pressable>
+                    }
                 </View>
             }
         </View>
@@ -72,7 +89,8 @@ const styles = StyleSheet.create({
     },
     textMain: {
         fontSize: 20,
-        fontWeight:'bold'
+        fontWeight:'bold',
+        marginBottom:5
     }
     ,
     btn:{
@@ -90,11 +108,13 @@ const styles = StyleSheet.create({
         justifyContent:'space-evenly'
     },
     user:{
-        height: 55, 
-        borderRadius: 10, 
+        height: 60, 
+        borderRadius: 13, 
         width: '75%', 
         alignSelf:'center',
         marginTop: 7,
-        textAlign: 'justify'
+        textAlign: 'justify',
+        backgroundColor: 'white', 
+        flexDirection: 'row'
     }
 });

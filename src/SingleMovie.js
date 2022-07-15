@@ -15,6 +15,8 @@ import { faThumbsUp, faThumbsDown } from "@fortawesome/free-regular-svg-icons";
 import axios from "axios";
 import styles from "./styles";
 import Loading from "./Loading";
+import { registerUpdateWatched } from "./store/user";
+import { fetchMovies } from "./store/movies";
 
 export default ({ route, navigation }) => {
   const [userID, setUserID] = useState();
@@ -86,7 +88,7 @@ export default ({ route, navigation }) => {
       }
     }
   };
-  getUserRating(userID, route.params.movie.id);
+  getUserRating(store.auth.id, route.params.movie.id);
 
   // const { data, loading } = useQuery(SINGLE_MOVIES_QUERY, {
   //   variables: { id: route.params.movie.id },
@@ -210,19 +212,7 @@ export default ({ route, navigation }) => {
 
   const seenHandler = () => {
     setSeen(!seen);
-    // const updateWatched = async () => {
-    //   await axios
-    //     .post(
-    //       `http://localhost:8080/api/users/movieswatched/register/add/${userID}`,
-    //       {
-    //         movies: route.params.movie.id,
-    //       }
-    //     )
-    //     .catch((err) => {
-    //       console.log(err);
-    //     });
-    // };
-    // updateWatched();
+    dispatch(registerUpdateWatched(userID, [route.params.movie.id]))
   };
 
   const submitHandler = () => {
@@ -262,9 +252,7 @@ export default ({ route, navigation }) => {
       }
     };
     updateRating();
-    navigation.navigate("Movies", {
-      username: username,
-    });
+    navigation.navigate("Movies");
   };
 
   return (
@@ -289,11 +277,14 @@ export default ({ route, navigation }) => {
           />
         </View>
       ) : (
-        <Button
-          style={styles.subheader}
-          title="I've seen this movie"
-          onPress={() => seenHandler()}
-        />
+          <View 
+          style={styles.subheader}>
+            <Button
+            title="I've seen this movie"
+            onPress={() => seenHandler()}
+            />
+            <Text style={{marginTop: 10}}>{route.params.movie.description}</Text>
+          </View>
       )}
     </View>
   );
@@ -320,11 +311,20 @@ const iconstyles = StyleSheet.create({
   image: {
     width: 300,
     height: 400,
+    borderRadius: 15,
+    shadowColor: '#000',
+    shadowOpacity: 2,
+    shadowOffset: {
+      width: 0,
+      height: 0
+    },
+    shadowRadius: 20
   },
   imageContainer: {
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
+    flex: 1
   },
   ratingBar: {
     justifyContent: "center",

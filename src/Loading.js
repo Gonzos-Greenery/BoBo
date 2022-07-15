@@ -5,6 +5,6 @@ import styles, { PINK } from './styles'
 
 export default () => (
   <View style={styles.centered}>
-    <ActivityIndicator size="large" color={PINK} />
+    <ActivityIndicator size={60} color={PINK} />
   </View>
 )
