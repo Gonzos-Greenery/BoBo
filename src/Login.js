@@ -146,7 +146,6 @@ export default ({ navigation }) => {
             <Text style={{textAlign:'center', paddingTop: 20, fontSize:16}}>Don't have an account?</Text>
             <Button 
                 style={styles.btn} 
-                _text={{ color: 'black' }}
                 onPress={() => {
                     navigation.navigate('Register')
                 }}

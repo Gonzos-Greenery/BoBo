@@ -1,6 +1,10 @@
 {
   "devToolsPort": 19002,
-  "expoServerPort": null,
+  "expoServerPort": 19000,
   "packagerPort": 19000,
-  "webpackServerPort": 19006
+  "webpackServerPort": 19006,
+  "expoServerNgrokUrl": "https://3a-xff.davebino.bobo.exp.direct",
+  "packagerNgrokUrl": "https://3a-xff.davebino.bobo.exp.direct",
+  "ngrokPid": 50239,
+  "packagerPid": null
 }

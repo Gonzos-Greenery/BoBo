@@ -32,37 +32,37 @@ const User = ({ navigation }) => {
     const dispatch = useDispatch()
     
     const handleClick = () => setShow(!show);
-    
-    const validate = () => {
-        if (!email.includes('@') || !email.includes('.')) {
-          setErrors('Invalid email type.');
+    const validate = (input) => {
+        if (!input.includes('@') || !input.includes('.')) {
+          setErrors('Invalid email type');
           return false;
         }
         return true;
     };
     
     const handleSubmit = async () => {
-    if (validate()) {
         const user = {
             id: auth.id,
-            username: username,
-            password: password,
-            email: email,
+            username: username === '' ? auth.username : username,
+            password: password === '' ? auth.password : password,
+            email: email === '' ? auth.email : email,
             netflix: services.netflix,
             hbo: services.hbo,
             hulu: services.hulu,
             prime: services.prime,
             disney: services.disney,
-          };
-        try {
-            await dispatch(updateUser(user))
-            navigation.push('Movies')
-        } catch (err) {
-        setErrors(err.message);
+        };
+        if (validate(user.email)) {
+            try {
+                await dispatch(updateUser(user))
+                navigation.push('Movies')
+            } catch (err) {
+                setErrors(err.message);
+            }
+        } else {
+            console.log('**not validated', errors);
         }
-    } else {
-        console.log('**not validated', errors);
-    }};
+    };
 
     const logos = {
         netflix:
@@ -77,6 +77,8 @@ const User = ({ navigation }) => {
 
     useEffect(() => {
         if(auth.netflix !== undefined){
+            // setEmail(auth.email)
+            // setUsername(auth.username)
             const {netflix, hbo, prime, hulu, disney} = auth
             setServices({netflix, hbo, prime, hulu, disney})
         }

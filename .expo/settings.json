@@ -1,9 +1,9 @@
 {
-  "hostType": "lan",
+  "hostType": "localhost",
   "lanType": "ip",
   "dev": true,
   "minify": false,
-  "urlRandomness": null,
+  "urlRandomness": "3a-xff",
   "https": false,
   "scheme": null,
   "devClient": false
