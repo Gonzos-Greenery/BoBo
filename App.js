@@ -2,10 +2,10 @@ import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import {View, text, TouchableOpacity} from 'react-native';
+import { View, text, TouchableOpacity } from 'react-native';
 import { Provider } from 'react-redux';
 import store from './src/store';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 
 import AllMovies from './src/AllMovies';
 import Login from './src/Login';
@@ -25,7 +25,7 @@ import HostParty from './src/HostParty';
 import FriendsList from './src/FriendsList';
 
 const Stack = createStackNavigator();
-const Tab = createBottomTabNavigator();
+const Tab = createMaterialBottomTabNavigator();
 
 /* Used for graphql hookup (also add in <ApolloProvider client={client}> tage around return statement)
 const client = new ApolloClient({
@@ -50,10 +50,16 @@ function PartyStack() {
 
 function LoggedInStack() {
   return (
-    <Tab.Navigator>
-      <Tab.Screen name="Home" component={AllMovies} />
+    <Tab.Navigator
+      initalRouteName="Home"
+      activeColor="#404746"
+      inactiveColor="8A9D8C"
+      barStyle={{ backgroundColor: '#F6F5DC' }}
+      headerShown={false}
+    >
+      <Tab.Screen name="Home" component={MovieStack} />
+      {/* <Tab.Screen name='Home' component={AllMovies}/> */}
       <Tab.Screen name="User" component={User} />
-      <Tab.Screen name="Movies" component={MovieStack} />
       <Tab.Screen name="PartyStack" component={PartyStack} />
     </Tab.Navigator>
   );
@@ -88,7 +94,8 @@ function RegisterStack() {
 
 function MovieStack() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator initialRouteName="Movies" options={{headerShown:false}}>
+      <Stack.Screen options={{headerShown:false}} name="Movies" headerShown={false} component={AllMovies} />
       <Stack.Screen
         name="SingleMovie"
         component={SingleMovie}
@@ -107,7 +114,6 @@ function MovieStack() {
         component={MovieCard}
         options={{ title: 'Netflix and Chill' }}
       />
-      <Stack.Screen />
     </Stack.Navigator>
   );
 }
@@ -126,15 +132,15 @@ export default function App() {
               component={Login}
               options={{ headerShown: false }}
             />
-            <Stack.Screen name="LoggedIn" component={LoggedInStack} />
+            <Stack.Screen name="LoggedIn" component={LoggedInStack} options={{headerShown:false}}/>
 
-            <Stack.Screen name="RegisterStack" component={RegisterStack} />
+            <Stack.Screen name="RegisterStack" component={RegisterStack} options={{headerShown:false}}/>
             <Stack.Screen
               name="PartyView"
               component={PartyView}
-              options={{ title: 'Party' }}
+              options={{ title: 'Party' , headerShown:false}}
             />
-            <Stack.Screen name="PartyStack" component={PartyStack} />
+            <Stack.Screen name="Parties" component={PartyStack} />
             <Stack.Screen name="User" component={User} />
             <Stack.Screen name="FriendsList" component={FriendsList} />
           </Stack.Navigator>
