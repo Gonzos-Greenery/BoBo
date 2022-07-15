@@ -19,117 +19,81 @@ export default ({ navigation, route }) => {
   const { movies, auth, userParties } = useSelector((state) => {
     return state;
   });
-
-  useEffect(() => {
-    dispatch(fetchMovies());
-  }, []);
-
+  
   useEffect(() => {
     if (auth.id) {
       dispatch(fetchParties(auth.id));
     }
   }, [auth]);
 
-  //tried to mutate the queried information to add link -> It appears above but when you try to access it, its undefined.
-  //tested mutating over a key that was already there -> It shows up as the link but when you console log it in render -> Its the original info
-
-  return (
-    <View style={styles.container}>
-      {/* {window.localStorage.getItem('username') ? <Text style={{fontSize: 20, fontWeight: 'bold'}}>{`Welcome Back, ${window.localStorage.getItem('username')}`}</Text> : <Text>Welcome!</Text> } */}
-      <Button onPress={() => navigation.push('HostParty')}>Host Party</Button>
-      <ScrollView>
-        {auth.movies === undefined ? (
-          <Text style={{ fontSize: 16 }}>Nothing watched previously</Text>
-        ) : (
-          <View style={styles.genreRow}>
-            <Text style={{ fontSize: 16, fontWeight: 'bold' }}>
-              Previously Watched...
-            </Text>
-            <FlatList
-              horizontal
-              ItemSeparatorComponent={() => <View style={{ width: 5 }} />}
-              data={
-                movies.all === undefined
-                  ? []
-                  : movies.all.filter((movie) => auth.movies.includes(movie.id))
-              }
-              renderItem={(movie) => (
-                <View>
-                  <Image style={styles.image} source={movie.item.image} />
-                </View>
-              )}
-            />
-          </View>
-        )}
-        <View style={styles.genreRow}>
-          <Text style={{ fontSize: 16, fontWeight: 'bold' }}>
-            Upcoming Parties...
-          </Text>
-          <FlatList
-            horizontal
-            ItemSeparatorComponent={() => <View style={{ width: 5 }} />}
-            keyExtractor={(movie, idx) => idx.toString()}
-            data={userParties === [] ? [] : userParties}
-            renderItem={(party) => (
-              <View>
-                <Pressable
-                  onPress={() =>
-                    navigation.navigate('PartyView', { id: party.item.id })
-                  }
-                >
-                  <Image
-                    style={styles.image}
-                    source={
-                      'https://thumbs.dreamstime.com/b/film-strip-video-camera-vector-icon-cinema-symbol-film-strip-video-camera-vector-icon-cinema-symbol-photographic-film-135692148.jpg'
-                    }
-                  />
-                </Pressable>
-                <Text
-                  style={{ alignSelf: 'center', fontWeight: 'bold' }}
-                >{`Party #${party.item.id}`}</Text>
-              </View>
-            )}
-          />
-        </View>
-        {movies === undefined ? (
-          <Loading />
-        ) : (
-          Object.keys(movies.sort).map((genre, idx) => {
-            return (
-              <View key={idx} style={styles.genreRow}>
-                <Text style={{ fontSize: 16, fontWeight: 'bold' }}>
-                  {genre.toUpperCase()}
-                </Text>
-                <FlatList
-                  horizontal
-                  ItemSeparatorComponent={() => <View style={{ width: 5 }} />}
-                  renderItem={(movie) => (
-                    <View key={movie}>
-                      <Pressable
-                        onPress={() => {
-                          navigation.navigate('SingleMovie', {
-                            movie: movie.item,
-                          });
-                        }}
-                      >
-                        <Image
-                          style={styles.image}
-                          source={{ uri: movie.item.image }}
-                        />
-                      </Pressable>
-                    </View>
-                  )}
-                  keyExtractor={(movie, idx) => idx.toString()}
-                  data={movies.sort[genre]}
+    return (
+      <View style={styles.container}>
+        <ScrollView>
+            {auth.movies === undefined ? <Text style={{fontSize: 16}}>Nothing watched previously</Text> :
+            <View style={styles.genreRow}>
+                <Text style={{fontSize:16, fontWeight: 'bold'}}>Previously Watched...</Text>
+                <FlatList 
+                    horizontal
+                    ItemSeparatorComponent={() => <View style={{width:5}}/>}
+                    data={movies.all === undefined ? [] : movies.all.filter(movie => auth.movies.includes(movie.id))}
+                    renderItem={(movie) => (
+                        <View>
+                            <Pressable onPress={() => {navigation.navigate('SingleMovie', {movie: movie.item})}}>
+                                <Image style={styles.image} source={movie.item.image}/>
+                            </Pressable>
+                        </View>
+                    )}
                 />
-              </View>
-            );
-          })
-        )}
-      </ScrollView>
-    </View>
-  );
-};
+            </View>
+            }
+            <View style={styles.genreRow}>
+                <Text style={{fontSize:16, fontWeight: 'bold'}}>Upcoming Parties...</Text>
+                <FlatList 
+                    horizontal
+                    ItemSeparatorComponent={() => <View style={{width:5}}/>}
+                    keyExtractor={(movie,idx) => idx.toString()}
+                    data={userParties === [] ? [] : userParties}
+                    renderItem={(party) => (
+                        <View>
+                            <Pressable 
+                                onPress={() => navigation.navigate('PartyView', {id: party.item.id})}>
+                                <Image style={styles.image} source={"https://thumbs.dreamstime.com/b/film-strip-video-camera-vector-icon-cinema-symbol-film-strip-video-camera-vector-icon-cinema-symbol-photographic-film-135692148.jpg"}/>        
+                            </Pressable>
+                            <Text style={{alignSelf:'center', fontWeight:'bold'}}>{`Party #${party.item.id}`}</Text>
+                        </View>
+                    )}
+                />
+            </View>
+            {movies.all === undefined ? <Loading /> : 
+                Object.keys(movies.sort).map((genre,idx) => {
+                    return (
+                        <View key={idx} style={styles.genreRow}>
+                            <Text style={{fontSize: 16, fontWeight: 'bold'}}>{genre.toUpperCase()}</Text>
+                            <FlatList 
+                            horizontal
+                            ItemSeparatorComponent={() => <View style={{width:5}}/>}
+                            renderItem = {(movie) => (
+                                <View key={movie}>
+                                    <Pressable onPress={() => {
+                                    navigation.navigate('SingleMovie', {movie: movie.item})}}>
+                                    <Image 
+                                        style={styles.image} 
+                                        source={{uri: movie.item.image}}
+                                    />
+                                    </Pressable>
+                                </View>
+                            )}
+                            keyExtractor={(movie,idx) => idx.toString()}
+                            data = {movies.sort[genre]}
+                            />
+                        </View>
+                    )
+                })
+            }
+            </ScrollView>
+      </View>
+  )
+}
 
 const styles = StyleSheet.create({
   image: {
@@ -154,46 +118,3 @@ const styles = StyleSheet.create({
     backgroundColor: `rgba(164,198,156,1)`,
   },
 });
-
-// const MovieItem = ({ movie, onPress }) => {
-//   const { title, description } = movie;
-//   let header, subheader;
-
-//   if (title) {
-//     header = `Title ${title}`;
-//     subheader = description;
-//   } else {
-//     header = description;
-//   }
-
-//   return (
-//     <Pressable style={styles.item} onPress={onPress} >
-//       <Text style={styles.header}>{header}</Text>
-//       {!!subheader && <Text style={styles.subheader}>{subheader}</Text>}
-//     </Pressable>
-//   );
-// };
-
-// export default ({ navigation }) => {
-//   const { data, loading } = useQuery(MOVIES_QUERY);
-
-//   if (loading) {
-//     return <Loading />
-//   }
-
-//   return (
-//     <View>
-//       <Button title="Vote" onPress={() => navigation.navigate("MovieCard")} />
-//       <FlatList
-//         data={data.getMovies}
-//         renderItem={({ item }) => (
-//           <MovieItem
-//             movie={item}
-//             onPress={() => navigation.navigate("SingleMovie", { movie: item })}
-//           />
-//         )}
-//         keyExtractor={(movie) => movie.id.toString()}
-//       />
-//     </View>
-//   );
-// };

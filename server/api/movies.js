@@ -7,7 +7,7 @@ module.exports = router;
 
 router.get('/', async (req, res, next) => {
   try {
-    const movies = await Movie.findAll({limit: 200});
+    const movies = await Movie.findAll({limit: 400})
     res.json(movies);
   } catch (error) {
     next(error);
@@ -25,3 +25,15 @@ router.get('/:movieid', async (req, res, next) => {
     next(error);
   }
 });
+
+
+// router.get('/', async (req, res, next) => {
+//   try {
+//     const movies = await Movie.findAll({limit: 200, where: {
+//       production_countries: `['US']`
+//     }});
+//     res.json(movies);
+//   } catch (error) {
+//     next(error);
+//   }
+// });
