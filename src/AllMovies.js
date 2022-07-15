@@ -21,6 +21,10 @@ export default ({ navigation, route }) => {
   });
   
   useEffect(() => {
+    dispatch(fetchMovies())
+  }, []);
+
+  useEffect(() => {
     if (auth.id) {
       dispatch(fetchParties(auth.id));
     }
@@ -28,6 +32,7 @@ export default ({ navigation, route }) => {
 
     return (
       <View style={styles.container}>
+        <Button onPress={()=>{navigation.navigate('User')}}>User</Button>
         <ScrollView>
             {auth.movies === undefined ? <Text style={{fontSize: 16}}>Nothing watched previously</Text> :
             <View style={styles.genreRow}>

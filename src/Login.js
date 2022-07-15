@@ -28,7 +28,6 @@ import { useSelector, useDispatch} from 'react-redux';
 import { authenticate } from './store';
 import logo from '../assets/logo.png'
 
-
 export default ({ navigation }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -85,7 +84,6 @@ export default ({ navigation }) => {
             navigation.navigate('Movies')
         }
     }
-
 
     return(
         <View style={styles.container}>
