@@ -13,9 +13,9 @@ import { gql, useQuery } from "@apollo/client";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faThumbsUp, faThumbsDown } from "@fortawesome/free-regular-svg-icons";
 import axios from "axios";
-
 import styles from "./styles";
 import Loading from "./Loading";
+import { registerUpdateWatched } from "./store/user";
 
 export default ({ route, navigation }) => {
   const [userID, setUserID] = useState();
@@ -32,7 +32,9 @@ export default ({ route, navigation }) => {
   const [seen, setSeen] = useState(false);
   const [update, setUpdate] = useState(false);
   const dispatch = useDispatch();
-  const { username } = route.params;
+  const store = useSelector((state) => {
+    return state
+})
   const starImgFilled =
     "https://github.com/tranhonghan/images/blob/main/star_filled.png?raw=true";
   const starImgEmpty =
@@ -61,10 +63,10 @@ export default ({ route, navigation }) => {
         .catch((err) => {
           console.log(err);
         });
+
       setUserID(res.data.id);
     };
-
-    getUser(username);
+    getUser(store.auth.username);
     getMovie(route.params.movie.id);
   }, []);
 
@@ -209,19 +211,7 @@ export default ({ route, navigation }) => {
 
   const seenHandler = () => {
     setSeen(!seen);
-    // const updateWatched = async () => {
-    //   await axios
-    //     .post(
-    //       `http://localhost:8080/api/users/movieswatched/register/add/${userID}`,
-    //       {
-    //         movies: route.params.movie.id,
-    //       }
-    //     )
-    //     .catch((err) => {
-    //       console.log(err);
-    //     });
-    // };
-    // updateWatched();
+    dispatch(registerUpdateWatched(userID, [route.params.movie.id]))
   };
 
   const submitHandler = () => {

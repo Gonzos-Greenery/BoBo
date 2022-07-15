@@ -51,9 +51,11 @@ async function seed() {
 
   console.log('tables seeded');
 
+  await parties[2].addUser(users[0], { through: { host: true } });
+
   await parties[0].addUsers([users[0], users[1], users[2], users[3]]);
   await parties[1].addUsers([users[0], users[1]]);
-  await parties[2].addUsers(users[0], users[2]);
+  await parties[2].addUsers( users[2]);
   await parties[0].addMovies([
     movies[0],
     movies[1],
