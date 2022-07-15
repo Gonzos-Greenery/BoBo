@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { SafeAreaView } from 'react-native';
+import { ScrollView } from 'react-native';
 import {
   Pressable,
   Text,
@@ -13,6 +13,7 @@ import {
   Image,
   Button,
   Heading,
+  Center,
 } from 'native-base';
 import { updateUser } from './store/user';
 // import { gql, useMutation } from '@apollo/client';
@@ -62,29 +63,24 @@ const StreamingOptions = ({ navigation, route }) => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <VStack space={5} w='75%' alignItems='center'>
-        <Box
-          bg='primary.900'
-          alignContent='center'
-          justifyItems='center'
-          w='75%'
-          h='30%'
-          p='4'
+    <ScrollView>
+      <VStack space={3} alignItems='center'>
+        <Center
+          bg='primary.100'
+          alignItems='center'
           rounded='8'
+          w='75%'
+          p='4'
+          _text={{
+            color: 'primary.900',
+            textAlign: 'center',
+            fontWeight: 'bold',
+          }}
         >
-          <Text color='white' fontSize='xl' textAlign='center'>
-            Please select all streaming services that you subscribe to:
-          </Text>
-        </Box>
+          Please select all streaming services that you subscribe to:
+        </Center>
         <Stack mx='4' alignItems='center'>
-          <HStack
-            space={2}
-            w='100%'
-            alignItems='center'
-            flexWrap='wrap'
-            justifyContent='center'
-          >
+          <HStack flexWrap='wrap' justifyContent='space-around'>
             {Object.keys(services).map((service) => {
               return (
                 <Stack key={service}>
@@ -132,7 +128,7 @@ const StreamingOptions = ({ navigation, route }) => {
           </Button>
         </Stack>
       </VStack>
-    </SafeAreaView>
+    </ScrollView>
   );
 };
 

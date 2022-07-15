@@ -8,7 +8,6 @@ const userRatingSeed = [
 
   { rating: 4, watchAgain: true, userId: 1, movieId: 1000 },
 
-  { wantToWatch: true, userId: 1, movieId: 21887 },
   { wantToWatch: true, userId: 1, movieId: 20 },
   { wantToWatch: true, userId: 2, movieId: 20 },
   { wantToWatch: true, userId: 3, movieId: 20 },

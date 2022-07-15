@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { View, Text } from 'react-native';
+import { View, Text, ScrollView } from 'react-native';
 import {
   Pressable,
   Button,
@@ -9,6 +9,7 @@ import {
   HStack,
   Box,
   Center,
+  Circle,
 } from 'native-base';
 import { addUserGenre } from './store/genrePref';
 // import { gql, useMutation } from '@apollo/client';
@@ -49,13 +50,28 @@ const GenrePreferences = ({ navigation, route }) => {
   };
 
   return (
-    <View style={{ flex: 1 }}>
-      <VStack space={2} w='100%' alignItems='center'>
+    <ScrollView>
+      <VStack alignItems='center'>
         <Stack>
-          <HStack space={5} flexWrap='wrap' justifyContent='space-between'>
+          <Center
+            bg='primary.100'
+            alignItems='center'
+            rounded='8'
+            p='4'
+            _text={{
+              color: 'primary.900',
+              textAlign: 'center',
+              fontWeight: 'bold',
+            }}
+          >
+            Which genres are you interested in?
+          </Center>
+        </Stack>
+        <Stack>
+          <HStack flexWrap='wrap' justifyContent='space-around'>
             {Object.keys(genreObject).map((genre) => {
               return (
-                <Stack key={genre}>
+                <Stack key={genre} p='3'>
                   <Pressable
                     onPress={() => {
                       let newGenreObj = genres;
@@ -63,19 +79,16 @@ const GenrePreferences = ({ navigation, route }) => {
                       setGenres({ ...newGenreObj });
                     }}
                   >
-                    <Center
+                    <Circle
+                      size='120px'
                       bg={genres[genre] ? 'primary.300' : 'primary.900'}
-                      height='50px'
-                      width='125px'
-                      rounded='md'
-                      margin='5'
                       _text={{
                         color: 'white',
                         fontWeight: 'bold',
                       }}
                     >
                       {genre}
-                    </Center>
+                    </Circle>
                   </Pressable>
                 </Stack>
               );
@@ -93,7 +106,7 @@ const GenrePreferences = ({ navigation, route }) => {
           </Button>
         </Stack>
       </VStack>
-    </View>
+    </ScrollView>
   );
 };
 
