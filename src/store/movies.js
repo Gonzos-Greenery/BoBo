@@ -54,7 +54,7 @@ const editMovies = async (info) => {
           return movie
         }
       })
-      .catch(e => console.log(e))
+      .catch(e => e)
       return res
   }))
   const random = newMovies.sort((a,b) => 0.5 - Math.random())

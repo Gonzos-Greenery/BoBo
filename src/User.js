@@ -35,6 +35,7 @@ const User = ({ navigation }) => {
     if (validate()) {
         const newUserInput = { username, email, password };
         try {
+        //update user here
         const data = await registerUser({
             variables: { registerInput: newUserInput },
         });
@@ -45,6 +46,9 @@ const User = ({ navigation }) => {
     } else {
         console.log('**not validated', errors);
     }};
+
+
+
     const {netflix, hbo, prime, hulu, disney} = auth
     return (
         <View style={{backgroundColor: `#A4C69C`, height: '100%'}}>
