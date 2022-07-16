@@ -1,16 +1,8 @@
 import axios from 'axios';
-// import history from '../history';
 
-/**const { data } = await axios({
-        method: 'post',
-        url: `http://localhost:8080/api/party`,
-        data: {
-          date: '01/2/2022'
-        }
-      }) */
+const url = 'https://bobo-server.herokuapp.com'
 
 const TOKEN = 'token';
-
 // action types
 const SET_AUTH = 'SET_AUTH';
 
@@ -18,20 +10,15 @@ const SET_AUTH = 'SET_AUTH';
 const setAuth = (auth) => ({ type: SET_AUTH, auth });
 
 //thunks
-export const me = () => async (dispatch) => {
-  const token = window.localStorage.getItem(TOKEN);
+export const me = (data) => async (dispatch) => {
+  const token = data.token
   if (token) {
-    const res = await axios({
-      method: 'get',
-      url: `http://localhost:8080/auth/me`,
+    const res = await axios.get(`${url}/auth/me`, {
       headers: {
-        authorization: token,
-      },
-    });
-    const watched = await axios({
-      method: 'get',
-      url: `http://localhost:8080/api/users/${res.data.id}`,
-    });
+        authorization: token
+      }
+    })
+    const watched = await axios.get(`${url}/api/users/${res.data.id}`)
     watched.data.movies = watched.data.movies.map((movie) => movie.id);
     return dispatch(setAuth(watched.data));
   }
@@ -39,13 +26,7 @@ export const me = () => async (dispatch) => {
 
 export const authenticate = (userData, method) => async (dispatch) => {
   try {
-    const res = await axios({
-      method: 'post',
-      url: `http://localhost:8080/auth/${method}`,
-      data: userData,
-      //will need to update this input parameter on the Login page from david
-    });
-    window.localStorage.setItem(TOKEN, res.data.token);
+    const res = await axios.post(`${url}/auth/${method}`, {username: userData.username, password: userData.password})
     dispatch(me(res.data));
     return true;
   } catch (authError) {

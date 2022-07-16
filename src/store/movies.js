@@ -1,5 +1,6 @@
 import axios from 'axios';
-const localhost = 'http://localhost:8080'
+const url = 'https://bobo-server.herokuapp.com'
+
 // Action constants
 const SET_MOVIES = 'SET_MOVIES';
 
@@ -72,10 +73,7 @@ const editMovies = async (info) => {
 export const fetchMovies = () => {
   return async (dispatch) => {
     try {
-      const { data } = await axios({
-        method:'get',
-        url: `${localhost}/api/movies`
-      })
+      const {data} = await axios.get(`${url}/api/movies`)
       let movies = await editMovies(data)
       dispatch(setMovies(movies));
     } catch (error) {
