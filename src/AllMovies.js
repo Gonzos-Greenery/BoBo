@@ -9,6 +9,7 @@ import {
   Button,
   StyleSheet,
   ScrollView,
+  TouchableOpacity,
 } from 'react-native';
 import { Box } from 'native-base';
 import { fetchMovies } from './store/movies';
@@ -22,6 +23,10 @@ export default ({ navigation, route }) => {
   });
 
   useEffect(() => {
+    dispatch(fetchMovies());
+  }, []);
+
+  useEffect(() => {
     if (auth.id) {
       dispatch(fetchParties(auth.id));
     }
@@ -30,11 +35,6 @@ export default ({ navigation, route }) => {
   return (
     <View style={styles.container}>
       <ScrollView>
-        <Pressable onPress={() => navigation.push('HostParty')}>
-          <Box h='100px' w='500px'>
-            Host Party
-          </Box>
-        </Pressable>
         {auth.movies === undefined ? (
           <Text style={{ fontSize: 16 }}>Nothing watched previously</Text>
         ) : (
@@ -71,64 +71,27 @@ export default ({ navigation, route }) => {
           <FlatList
             horizontal
             ItemSeparatorComponent={() => <View style={{ width: 5 }} />}
-            keyExtractor={(movie, idx) => idx.toString()}
             data={userParties === [] ? [] : userParties}
             renderItem={(party) => (
               <View>
-                <Pressable
+                {/* <Pressable
+                                onPress={() => navigation.navigate('PartyView', {id: party.item.id})}>
+                                <Image style={styles.image} source={"https://thumbs.dreamstime.com/b/film-strip-video-camera-vector-icon-cinema-symbol-film-strip-video-camera-vector-icon-cinema-symbol-photographic-film-135692148.jpg"}/>
+                            </Pressable> */}
+                <TouchableOpacity
                   onPress={() =>
                     navigation.navigate('PartyView', { id: party.item.id })
                   }
+                  style={styles.btn}
                 >
-                  <Image
-                    style={styles.image}
-                    source={
-                      'https://thumbs.dreamstime.com/b/film-strip-video-camera-vector-icon-cinema-symbol-film-strip-video-camera-vector-icon-cinema-symbol-photographic-film-135692148.jpg'
-                    }
-                  />
-                </Pressable>
-                <Text
-                  style={{ alignSelf: 'center', fontWeight: 'bold' }}
-                >{`Party #${party.item.id}`}</Text>
+                  <Text
+                    style={{ textAlign: 'center', fontWeight: 'bold' }}
+                  >{`Party #${party.item.id}`}</Text>
+                </TouchableOpacity>
               </View>
             )}
           />
         </View>
-        {movies.all === undefined ? (
-          <Loading />
-        ) : (
-          Object.keys(movies.sort).map((genre, idx) => {
-            return (
-              <View key={idx} style={styles.genreRow}>
-                <Text style={{ fontSize: 16, fontWeight: 'bold' }}>
-                  {genre.toUpperCase()}
-                </Text>
-                <FlatList
-                  horizontal
-                  ItemSeparatorComponent={() => <View style={{ width: 5 }} />}
-                  renderItem={(movie) => (
-                    <View key={movie}>
-                      <Pressable
-                        onPress={() => {
-                          navigation.navigate('SingleMovie', {
-                            movie: movie.item,
-                          });
-                        }}
-                      >
-                        <Image
-                          style={styles.image}
-                          source={{ uri: movie.item.image }}
-                        />
-                      </Pressable>
-                    </View>
-                  )}
-                  keyExtractor={(movie, idx) => idx.toString()}
-                  data={movies.sort[genre]}
-                />
-              </View>
-            );
-          })
-        )}
       </ScrollView>
     </View>
   );
@@ -141,7 +104,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     shadowColor: 'rgba(0, 0, 0, 0.1)',
     shadowOpacity: 0.2,
-    elevation: 6,
     shadowRadius: 15,
   },
   genreRow: {
@@ -155,5 +117,13 @@ const styles = StyleSheet.create({
     height: '100%',
     width: '100%',
     backgroundColor: `rgba(164,198,156,1)`,
+  },
+  btn: {
+    alignContent: 'center',
+    width: 100,
+    height: 85,
+    backgroundColor: '#d5e7d0',
+    padding: 10,
+    borderRadius: 10,
   },
 });
