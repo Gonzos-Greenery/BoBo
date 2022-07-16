@@ -81,7 +81,7 @@ export default ({ navigation }) => {
                 description: 'Incorrect Username Or Password'
             })
         } else {
-            navigation.navigate('Movies')
+            navigation.push('Movies')
         }
     }
 
@@ -166,7 +166,9 @@ const styles = StyleSheet.create({
     logo:{
         marginTop:0,
         width: width,
-        height: height*0.37
+        height: height*0.35,
+        borderRadius: 25,
+        marginBottom: 10
     },
     textStyle:{
         backgroundColor: "#A4C69C",

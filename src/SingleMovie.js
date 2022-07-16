@@ -252,7 +252,7 @@ export default ({ route, navigation }) => {
       }
     };
     updateRating();
-    navigation.navigate("Movies");
+    navigation.push("Movies");
   };
 
   return (
