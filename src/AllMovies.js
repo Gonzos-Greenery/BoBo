@@ -10,6 +10,7 @@ import {
   StyleSheet,
   ScrollView,
 } from 'react-native';
+import { Box } from 'native-base';
 import { fetchMovies } from './store/movies';
 import { fetchParties } from './store/parties';
 import Loading from './Loading';
@@ -19,81 +20,119 @@ export default ({ navigation, route }) => {
   const { movies, auth, userParties } = useSelector((state) => {
     return state;
   });
-  
+
   useEffect(() => {
     if (auth.id) {
       dispatch(fetchParties(auth.id));
     }
   }, [auth]);
 
-    return (
-      <View style={styles.container}>
-        <ScrollView>
-            {auth.movies === undefined ? <Text style={{fontSize: 16}}>Nothing watched previously</Text> :
-            <View style={styles.genreRow}>
-                <Text style={{fontSize:16, fontWeight: 'bold'}}>Previously Watched...</Text>
-                <FlatList 
-                    horizontal
-                    ItemSeparatorComponent={() => <View style={{width:5}}/>}
-                    data={movies.all === undefined ? [] : movies.all.filter(movie => auth.movies.includes(movie.id))}
-                    renderItem={(movie) => (
-                        <View>
-                            <Pressable onPress={() => {navigation.navigate('SingleMovie', {movie: movie.item})}}>
-                                <Image style={styles.image} source={movie.item.image}/>
-                            </Pressable>
-                        </View>
-                    )}
+  return (
+    <View style={styles.container}>
+      <ScrollView>
+        <Pressable onPress={() => navigation.push('HostParty')}>
+          <Box h='100px' w='500px'>
+            Host Party
+          </Box>
+        </Pressable>
+        {auth.movies === undefined ? (
+          <Text style={{ fontSize: 16 }}>Nothing watched previously</Text>
+        ) : (
+          <View style={styles.genreRow}>
+            <Text style={{ fontSize: 16, fontWeight: 'bold' }}>
+              Previously Watched...
+            </Text>
+            <FlatList
+              horizontal
+              ItemSeparatorComponent={() => <View style={{ width: 5 }} />}
+              data={
+                movies.all === undefined
+                  ? []
+                  : movies.all.filter((movie) => auth.movies.includes(movie.id))
+              }
+              renderItem={(movie) => (
+                <View>
+                  <Pressable
+                    onPress={() => {
+                      navigation.navigate('SingleMovie', { movie: movie.item });
+                    }}
+                  >
+                    <Image style={styles.image} source={movie.item.image} />
+                  </Pressable>
+                </View>
+              )}
+            />
+          </View>
+        )}
+        <View style={styles.genreRow}>
+          <Text style={{ fontSize: 16, fontWeight: 'bold' }}>
+            Upcoming Parties...
+          </Text>
+          <FlatList
+            horizontal
+            ItemSeparatorComponent={() => <View style={{ width: 5 }} />}
+            keyExtractor={(movie, idx) => idx.toString()}
+            data={userParties === [] ? [] : userParties}
+            renderItem={(party) => (
+              <View>
+                <Pressable
+                  onPress={() =>
+                    navigation.navigate('PartyView', { id: party.item.id })
+                  }
+                >
+                  <Image
+                    style={styles.image}
+                    source={
+                      'https://thumbs.dreamstime.com/b/film-strip-video-camera-vector-icon-cinema-symbol-film-strip-video-camera-vector-icon-cinema-symbol-photographic-film-135692148.jpg'
+                    }
+                  />
+                </Pressable>
+                <Text
+                  style={{ alignSelf: 'center', fontWeight: 'bold' }}
+                >{`Party #${party.item.id}`}</Text>
+              </View>
+            )}
+          />
+        </View>
+        {movies.all === undefined ? (
+          <Loading />
+        ) : (
+          Object.keys(movies.sort).map((genre, idx) => {
+            return (
+              <View key={idx} style={styles.genreRow}>
+                <Text style={{ fontSize: 16, fontWeight: 'bold' }}>
+                  {genre.toUpperCase()}
+                </Text>
+                <FlatList
+                  horizontal
+                  ItemSeparatorComponent={() => <View style={{ width: 5 }} />}
+                  renderItem={(movie) => (
+                    <View key={movie}>
+                      <Pressable
+                        onPress={() => {
+                          navigation.navigate('SingleMovie', {
+                            movie: movie.item,
+                          });
+                        }}
+                      >
+                        <Image
+                          style={styles.image}
+                          source={{ uri: movie.item.image }}
+                        />
+                      </Pressable>
+                    </View>
+                  )}
+                  keyExtractor={(movie, idx) => idx.toString()}
+                  data={movies.sort[genre]}
                 />
-            </View>
-            }
-            <View style={styles.genreRow}>
-                <Text style={{fontSize:16, fontWeight: 'bold'}}>Upcoming Parties...</Text>
-                <FlatList 
-                    horizontal
-                    ItemSeparatorComponent={() => <View style={{width:5}}/>}
-                    keyExtractor={(movie,idx) => idx.toString()}
-                    data={userParties === [] ? [] : userParties}
-                    renderItem={(party) => (
-                        <View>
-                            <Pressable 
-                                onPress={() => navigation.navigate('PartyView', {id: party.item.id})}>
-                                <Image style={styles.image} source={"https://thumbs.dreamstime.com/b/film-strip-video-camera-vector-icon-cinema-symbol-film-strip-video-camera-vector-icon-cinema-symbol-photographic-film-135692148.jpg"}/>        
-                            </Pressable>
-                            <Text style={{alignSelf:'center', fontWeight:'bold'}}>{`Party #${party.item.id}`}</Text>
-                        </View>
-                    )}
-                />
-            </View>
-            {movies.all === undefined ? <Loading /> : 
-                Object.keys(movies.sort).map((genre,idx) => {
-                    return (
-                        <View key={idx} style={styles.genreRow}>
-                            <Text style={{fontSize: 16, fontWeight: 'bold'}}>{genre.toUpperCase()}</Text>
-                            <FlatList 
-                            horizontal
-                            ItemSeparatorComponent={() => <View style={{width:5}}/>}
-                            renderItem = {(movie) => (
-                                <View key={movie}>
-                                    <Pressable onPress={() => {
-                                    navigation.navigate('SingleMovie', {movie: movie.item})}}>
-                                    <Image 
-                                        style={styles.image} 
-                                        source={{uri: movie.item.image}}
-                                    />
-                                    </Pressable>
-                                </View>
-                            )}
-                            keyExtractor={(movie,idx) => idx.toString()}
-                            data = {movies.sort[genre]}
-                            />
-                        </View>
-                    )
-                })
-            }
-            </ScrollView>
-      </View>
-  )
-}
+              </View>
+            );
+          })
+        )}
+      </ScrollView>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   image: {

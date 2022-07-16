@@ -44,6 +44,8 @@ const Invitee = (props) => {
 };
 
 const HostParty = ({ navigation }) => {
+  const dispatch = useDispatch();
+  const toast = useToast();
   const [partyName, setPartyName] = useState('');
   const [address, setAddress] = useState('');
   const [date, setDate] = useState(new Date());
@@ -52,8 +54,7 @@ const HostParty = ({ navigation }) => {
   const [datePicker, setDatePicker] = useState(false);
   const [search, setSearch] = useState('');
   const [invitees, setInvitees] = useState([]);
-  const dispatch = useDispatch();
-  const toast = useToast();
+
   const { auth, user } = useSelector((state) => {
     return state;
   });
@@ -90,7 +91,7 @@ const HostParty = ({ navigation }) => {
       setInvitees(newInvitees);
     } else {
       toast.show({
-        description: 'User did not exist, Try Again',
+        description: 'User not found, please try again',
       });
     }
     setSearch('');
