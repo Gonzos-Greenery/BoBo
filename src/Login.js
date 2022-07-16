@@ -27,7 +27,6 @@ import {
 import { useSelector, useDispatch} from 'react-redux';
 import { authenticate } from './store';
 import logo from '../assets/logo.png'
-import { fetchMovies } from './store/movies';
 
 export default ({ navigation }) => {
     const [username, setUsername] = useState('');
@@ -82,13 +81,9 @@ export default ({ navigation }) => {
                 description: 'Incorrect Username Or Password'
             })
         } else {
-            navigation.navigate('Movies')
+            navigation.navigate('User')
         }
     }
-    
-    useEffect(() => {
-        dispatch(fetchMovies())
-    }, []);
 
     return(
         <View style={styles.container}>

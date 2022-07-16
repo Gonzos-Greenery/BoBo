@@ -19,7 +19,11 @@ export default ({ navigation, route }) => {
   const { movies, auth, userParties } = useSelector((state) => {
     return state;
   });
-  
+
+  useEffect(() => {
+    dispatch(fetchMovies())
+  }, []);
+
   useEffect(() => {
     if (auth.id) {
       dispatch(fetchParties(auth.id));
