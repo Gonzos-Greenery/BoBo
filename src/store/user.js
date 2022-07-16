@@ -47,7 +47,7 @@ export const fetchUser = (userId) => {
   return async (dispatch) => {
     try {
       const { data: user } = await axios.get(
-        `https://bobo-server.herokuapp.com//api/users/${userId}`
+        `https://bobo-server.herokuapp.com/api/users/${userId}`
       );
       dispatch(getUser(user));
     } catch (err) {

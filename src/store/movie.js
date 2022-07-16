@@ -18,7 +18,7 @@ export const fetchMovie = (movieId) => {
   return async (dispatch) => {
     try {
       const { data } = await axios.get(
-        `http://localhost:8080/api/movies/${movieId}`
+        `https://bobo-server.herokuapp.com/api/movies/${movieId}`
       );
       dispatch(setMovie(data));
     } catch (error) {
