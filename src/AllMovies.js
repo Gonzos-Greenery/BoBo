@@ -23,7 +23,7 @@ export default ({ navigation, route }) => {
 
   useEffect(() => {
     dispatch(fetchMovies())
-  }, []);
+  }, [navigation]);
 
   useEffect(() => {
     if (auth.id) {
@@ -33,7 +33,7 @@ export default ({ navigation, route }) => {
 
     return (
       <View style={styles.container}>
-        <ScrollView>
+        <ScrollView style={{marginTop: 30}}>
             {auth.movies === undefined ? <Text style={{fontSize: 16}}>Nothing watched previously</Text> :
             <View style={styles.genreRow}>
                 <Text style={{fontSize:16, fontWeight: 'bold'}}>Previously Watched...</Text>
@@ -44,7 +44,7 @@ export default ({ navigation, route }) => {
                     renderItem={(movie) => (
                         <View>
                             <Pressable onPress={() => {navigation.navigate('SingleMovie', {movie: movie.item})}}>
-                                <Image style={styles.image} source={movie.item.image}/>
+                                <Image style={styles.image} source={{uri: movie.item.image}}/>
                             </Pressable>
                         </View>
                     )}
@@ -59,13 +59,11 @@ export default ({ navigation, route }) => {
                     data={userParties === [] ? [] : userParties}
                     renderItem={(party) => (
                         <View>
-                            {/* <Pressable 
+                            <Pressable 
                                 onPress={() => navigation.navigate('PartyView', {id: party.item.id})}>
-                                <Image style={styles.image} source={"https://thumbs.dreamstime.com/b/film-strip-video-camera-vector-icon-cinema-symbol-film-strip-video-camera-vector-icon-cinema-symbol-photographic-film-135692148.jpg"}/>        
-                            </Pressable> */}
-                            <TouchableOpacity onPress={() => navigation.navigate('PartyView', {id: party.item.id})} style={styles.btn}>
-                              <Text style={{textAlign:'center', fontWeight:'bold'}}>{`Party #${party.item.id}`}</Text>
-                            </TouchableOpacity>
+                                <Image style={styles.image} source={{uri: "https://thumbs.dreamstime.com/b/film-strip-video-camera-vector-icon-cinema-symbol-film-strip-video-camera-vector-icon-cinema-symbol-photographic-film-135692148.jpg"}}/>
+                                <Text style={{textAlign:'center', fontWeight:'bold'}}>{`Party #${party.item.id}`}</Text>        
+                            </Pressable>
                         </View>
                     )}
                 />
@@ -104,7 +102,7 @@ export default ({ navigation, route }) => {
 const styles = StyleSheet.create({
   image: {
     width: 140,
-    height: 220,
+    height: 200,
     borderRadius: 10,
     shadowColor: 'rgba(0, 0, 0, 0.1)',
     shadowOpacity: 0.2,
