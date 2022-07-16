@@ -23,10 +23,7 @@ const _deleteParty = (party) => {
 export const fetchParties = (userId) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios({
-        method: 'get',
-        url: `http://localhost:8080/api/party/all/${userId}`
-      })
+      const {data} = await axios.get(`https://bobo-server.herokuapp.com/api/party/all/${userId}`)
       dispatch(setParties(data));
     } catch (error) {
       console.log(error);

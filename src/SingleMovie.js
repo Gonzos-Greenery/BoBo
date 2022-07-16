@@ -48,7 +48,7 @@ export default ({ route, navigation }) => {
 
     const getMovie = async (id) => {
       const res = await axios
-        .get(`http://localhost:8080/api/movies/${id}`)
+        .get(`https://bobo-server.herokuapp.com/api/movies/${id}`)
         .catch((err) => {
           console.log(err);
         });
@@ -60,7 +60,7 @@ export default ({ route, navigation }) => {
     };
     const getUser = async (username) => {
       const res = await axios
-        .get(`http://localhost:8080/api/users/username/${username}`)
+        .get(`https://bobo-server.herokuapp.com/api/users/username/${username}`)
         .catch((err) => {
           console.log(err);
         });
@@ -73,7 +73,7 @@ export default ({ route, navigation }) => {
 
   const getUserRating = async (userid, movieid) => {
     const res = await axios
-      .get(`http://localhost:8080/api/userRating/${userid}/${movieid}`)
+      .get(`https://bobo-server.herokuapp.com/api/userRating/${userid}/${movieid}`)
       .catch((err) => {
         console.log(err);
       });
@@ -228,7 +228,7 @@ export default ({ route, navigation }) => {
       if (update === false) {
         await axios
           .post(
-            `http://localhost:8080/api/userRating/${userID}/${route.params.movie.id}`,
+            `https://bobo-server.herokuapp.com/api/userRating/${userID}/${route.params.movie.id}`,
             {
               rating: defaultRating,
               watchAgain: thumbsRating,
@@ -240,7 +240,7 @@ export default ({ route, navigation }) => {
       } else {
         await axios
           .put(
-            `http://localhost:8080/api/userRating/${userID}/${route.params.movie.id}/${userRatingID}`,
+            `https://bobo-server.herokuapp.com/api/userRating/${userID}/${route.params.movie.id}/${userRatingID}`,
             {
               rating: updatedRating,
               watchAgain: thumbsRating,
