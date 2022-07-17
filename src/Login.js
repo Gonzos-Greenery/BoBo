@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
         width: width,
         height: height*0.35,
         borderRadius: 25,
-        marginBottom: 10
+        marginBottom: 10,
     },
     textStyle:{
         backgroundColor: "#A4C69C",

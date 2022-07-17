@@ -31,7 +31,7 @@ export default ({navigation, route}) => {
                 <View>
                     <View style={{margin: 10}}>
                         <Text style={styles.textMain}>
-                            {`Movie Night: ${store.party.name}'s`}
+                            {`${store.party.name}`}
                         </Text>
                         <Text style={styles.textMain}>
                             {`Date: ${store.party.date}`}
@@ -40,7 +40,7 @@ export default ({navigation, route}) => {
                             {`Location: ${store.party.location}`}
                         </Text>
                         <Text style={styles.textMain} >
-                            {`Host: ${host === undefined ? '' : host}`}
+                            {`Host: ${host === undefined ? '' : host.toUpperCase()}`}
                         </Text>
                     </View>
                     <View style={{textAlign:'center', marginBottom: 10}}>
