@@ -8,7 +8,8 @@ import {
   Stack,
   HStack,
   Avatar,
-  Circle
+  Circle,
+  useToast
 } from 'native-base';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
@@ -30,6 +31,7 @@ const User = ({ navigation }) => {
         });
     const { auth } = useSelector(state => state);
     const dispatch = useDispatch()
+    const toast = useToast()
     
     const handleClick = () => setShow(!show);
     const validate = (input) => {
@@ -54,8 +56,11 @@ const User = ({ navigation }) => {
         };
         if (validate(user.email)) {
             try {
+                console.log(user)
                 await dispatch(updateUser(user))
-                navigation.push('Movies')
+                toast.show({
+                    description: 'Updated!'
+                })
             } catch (err) {
                 setErrors(err.message);
             }
@@ -133,7 +138,7 @@ const User = ({ navigation }) => {
                             size='s'
                             rounded='none'
                             w='1/6'
-                            h='full'
+                            h='3/4'
                             variant='ghost'
                             colorScheme='green'
                             _text={{ color: '#86A17F' }}

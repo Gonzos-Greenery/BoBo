@@ -72,13 +72,6 @@ export const fetchUserByUsername = (username) => {
 export const updateUser = (user) => {
   return async (dispatch) => {
     try {
-      // const { data: updatedUser } = await axios({
-      //   method: 'put',
-      //   url: `http://localhost:8080/api/users/update/${user.id}`,
-      //   data: {
-      //     user,
-      //   },
-      // });
       const {data : updatedUser } = await axios.put(`https://bobo-server.herokuapp.com/api/users/update/${user.id}`, {user})
       dispatch(_updateUser(updatedUser));
     } catch (error) {

@@ -29,7 +29,7 @@ export default ({ navigation, route }) => {
     //navigate back to that party
     const data = await dispatch(addFriendToParty(friend, store.party.id));
     if (data === true) {
-      navigation.push('PartyView', { id: store.party.id });
+      navigation.navigate('PartyView', { id: store.party.id });
     } else {
       toast.show({
         description: 'User did not exist, Try Again',

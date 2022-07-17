@@ -23,15 +23,9 @@ export default ({ navigation, route }) => {
     return state;
   });
 
-  useFocusEffect(
-    React.useCallback(() => {
-      dispatch(fetchMovies())
-
-      return () => {
-        return
-      }
-    },[])
-  );
+  useEffect(() => {
+    dispatch(fetchMovies())
+  }, []);
 
   useEffect(() => {
     if (auth.id) {
