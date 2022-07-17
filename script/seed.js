@@ -51,33 +51,37 @@ async function seed() {
 
   console.log('tables seeded');
 
-  await parties[0].addUsers([users[0], users[1], users[2], users[3]]);
-  await parties[1].addUsers([users[0], users[1]]);
   await parties[2].addUser(users[0], { through: { host: true } });
-  await parties[2].addUser(users[2]);
-  await parties[0].addMovie(movies[0]);
-  await parties[0].addMovie(movies[1]);
-  await parties[0].addMovie(movies[121]);
-  await parties[0].addMovie(movies[3213]);
-  await parties[0].addMovie(movies[5663]);
-  await parties[0].addMovie(movies[233]);
-  await parties[0].addMovie(movies[9]);
-  await parties[0].addMovie(movies[847]);
-  await parties[0].addMovie(movies[7378]);
-  await parties[1].addMovie(movies[0]);
-  await parties[1].addMovie(movies[3]);
-  await parties[1].addMovie(movies[4]);
-  await parties[1].addMovie(movies[5]);
-  await parties[1].addMovie(movies[6]);
-  await parties[1].addMovie(movies[7]);
-  await parties[2].addMovie(movies[8]);
-  await parties[2].addMovie(movies[5433]);
-  await parties[2].addMovie(movies[443]);
-  await parties[2].addMovie(movies[665]);
-  await parties[2].addMovie(movies[6764]);
-  await parties[2].addMovie(movies[8664]);
+
+  await parties[0].addUsers([users[0], users[1], users[2], users[3]]);
+  await parties[1].addUser(users[1], { through: { host: true } });
+  await parties[1].addUser(users[1]);
+  await parties[2].addUsers(users[2], { through: { host: true } });
+  await parties[0].addMovies([
+    movies[0],
+    movies[1],
+    movies[121],
+    movies[3213],
+    movies[5663],
+    movies[233],
+    movies[9],
+    movies[847],
+    movies[7378],
+  ]);
+  await parties[1].addMovies([
+    movies[0],
+    movies[3],
+    movies[4],
+    movies[5],
+    movies[6],
+    movies[7],
+  ]);
+  await parties[2].addMovies([movies[8], [5433], [443], [665], [6764], [8664]]);
   await users[0].addUserFriends([users[1], users[2], users[3]]);
   await users[0].addFriends([users[1], users[2], users[3]]);
+  await users[1].addUserFriend(users[3]);
+  await users[1].addFriend(users[3]);
+  
   // await users[0].add;
   // console.log(users[0].__proto__);
 

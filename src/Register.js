@@ -1,8 +1,8 @@
 import React from 'react';
-import { View, Text } from 'react-native';
 // import { gql, useMutation } from '@apollo/client';
 // import { REGISTER_USER_MUTATION } from './graphql/Mutation';
-import {
+import { StyleSheet, Dimensions } from 'react-native';
+import {View, Text,
   Input,
   Icon,
   MaterialIcons,
@@ -13,7 +13,7 @@ import {
   Center,
   Stack,
   useToast,
-  WarningOutlineIcon,
+  WarningOutlineIcon, Image
 } from 'native-base';
 import { useSelector, useDispatch } from 'react-redux';
 // import {registerUser} from './store/user';
@@ -60,7 +60,11 @@ const Register = ({ navigation }) => {
   };
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={styles.container}>
+      {/* <Image
+                style={styles.logo}
+                source={require('../public/logo.png')}
+            /> */}
       <VStack space={2} w='100%' alignItems='center'>
         <FormControl>
           <Stack mx='4' alignItems='center'>
@@ -149,13 +153,13 @@ const Register = ({ navigation }) => {
         <Button
           _text={{ color: '#F7F6D4' }}
           w='70%'
-          bg='#86A17F'
+          bg='#848B82'
           shadow='4'
           onPress={handleSubmit}
         >
           Register
         </Button>
-        <Text color='#86A17F' py='9'>
+        <Text _text={{color:'#86A17F'}} py='9'>
           Already signed up?
         </Text>
         <Text
@@ -170,5 +174,17 @@ const Register = ({ navigation }) => {
     </View>
   );
 };
+const {width, height} = Dimensions.get('window')
+const styles = StyleSheet.create({
+  container: {
+      alignItems: 'center',
+      height:'100%',
+      width: '100%',
+      backgroundColor: `rgba(164,198,156,1)`,
+      flex:1
+  },logo:{
+    marginTop:0,
+    height: height * 0.30
+},})
 
 export default Register;
