@@ -72,7 +72,7 @@ export default ({ navigation }) => {
         }
     };
 
-    
+
     const handleSubmit = async () => {
         const data = {username,password}
         const result = await dispatch(authenticate(data,'login'))
@@ -81,7 +81,7 @@ export default ({ navigation }) => {
                 description: 'Incorrect Username Or Password'
             })
         } else {
-            navigation.push('Movies')
+            navigation.navigate('LoggedIn')
         }
     }
 
@@ -89,7 +89,7 @@ export default ({ navigation }) => {
         <View style={styles.container}>
             <Image
                 style={styles.logo}
-                source={logo} 
+                source={logo}
             />
             <VStack space={2} w="100%" alignItems="center" marginTop={2}>
                 <FormControl>
@@ -97,7 +97,7 @@ export default ({ navigation }) => {
                         <FormControl.Label py="1" w="75%">
                             Username
                         </FormControl.Label>
-                        <Input 
+                        <Input
                             size="lg"
                             variant="underlined"
                             maxW="300px"
@@ -108,7 +108,7 @@ export default ({ navigation }) => {
                         <FormControl.Label py="1" w="75%">
                             Password
                         </FormControl.Label>
-                        <Input 
+                        <Input
                             size="lg"
                             variant="underlined"
                             maxW="300px"
@@ -144,11 +144,11 @@ export default ({ navigation }) => {
                 </View>
             </View>
             <Text style={{textAlign:'center', paddingTop: 20, fontSize:16}}>Don't have an account?</Text>
-            <Button 
-                style={styles.btn} 
+            <Button
+                style={styles.btn}
                 _text={{ color: 'black' }}
                 onPress={() => {
-                    navigation.navigate('Register')
+                    navigation.navigate('RegisterStack')
                 }}
                 >Sign Up Here</Button>
         </View>
@@ -220,7 +220,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         width: 60,
-        height: 60, 
+        height: 60,
         marginHorizontal: 12,
         borderWidth: 1,
         borderColor: '#E7E7E7',
