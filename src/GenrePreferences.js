@@ -97,7 +97,7 @@ const GenrePreferences = ({ navigation, route }) => {
         </Stack>
         <Stack>
           <Button
-            _text={{ color: 'white' }}
+            _text={{ color: '#404746' }}
             bg='primary.300'
             shadow='4'
             onPress={handleSubmit}

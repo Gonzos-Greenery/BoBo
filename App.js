@@ -23,6 +23,8 @@ import User from './src/User';
 import Footer from './src/Footer';
 import HostParty from './src/HostParty';
 import FriendsList from './src/FriendsList';
+import theme from './src/theme';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const Stack = createStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
@@ -35,14 +37,25 @@ const client = new ApolloClient({
 
 function PartyStack() {
   return (
-    <Stack.Navigator initalRouteName="Party" screenOptions={screenOptions}>
-      <Stack.Screen name="Party" component={PartyView} />
-      <Stack.Screen name="Party Invites" component={PartyAddForm} />
-      <Stack.Screen name="Party-Host" component={HostParty} />
+    <Stack.Navigator
+      initalRouteName="Party-Host"
+      screenOptions={screenOptions}
+      options={{ headerShown: false }}
+    >
+      <Stack.Screen
+        name="Party-Host"
+        component={HostParty}
+        options={{ headerShown: false }}
+      />
       <Stack.Screen
         name="PartyAddForm"
         component={PartyAddForm}
         options={{ title: 'Add Someone' }}
+      />
+      <Stack.Screen
+        name="MovieCard"
+        component={MovieCard}
+        options={{ title: 'Netflix and Chill' }}
       />
     </Stack.Navigator>
   );
@@ -53,25 +66,66 @@ function LoggedInStack() {
     <Tab.Navigator
       initalRouteName="Home"
       activeColor="#404746"
-      inactiveColor="8A9D8C"
+      inactiveColor="#8A9D8C"
       barStyle={{ backgroundColor: '#F6F5DC' }}
       headerShown={false}
     >
-      <Tab.Screen name="Home" component={MovieStack} />
+      <Tab.Screen
+        name="Home"
+        component={MovieStack}
+        options={{
+          tabBarLabel: 'Home',
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="home" color={color} size={26} />
+          ),
+        }}
+      />
       {/* <Tab.Screen name='Home' component={AllMovies}/> */}
-      <Tab.Screen name="User" component={User} />
-      <Tab.Screen name="PartyStack" component={PartyStack} />
+      <Tab.Screen
+        name="User"
+        component={User}
+        options={{
+          tabBarLabel: 'Profile',
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons
+              name="account-details"
+              color={color}
+              size={26}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="PartyStack"
+        component={PartyStack}
+        headerShown={false}
+        options={{
+          tabBarLabel: 'Create New Party',
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons
+              name="movie-open-plus"
+              color={color}
+              size={26}
+            />
+          ),
+        }}
+      />
     </Tab.Navigator>
   );
 }
 
 function RegisterStack() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+      navigationOptions={{ headerStyle: { backgroundColor: '#EFEECE' } }}
+    >
       <Stack.Screen
         name="Register"
         component={Register}
-        options={{ title: 'BoBo Reg' }}
+        options={{
+          title: 'Register an account with BOBO',
+          headerStyle: { backgroundColor: '#EFEECE' },
+        }}
       />
       <Stack.Screen
         name="StreamingOptions"
@@ -94,8 +148,15 @@ function RegisterStack() {
 
 function MovieStack() {
   return (
-    <Stack.Navigator initialRouteName="Movies" options={{headerShown:false}}>
-      <Stack.Screen options={{headerShown:false}} name="Movies" headerShown={false} component={AllMovies} />
+    <Stack.Navigator initialRouteName="Movies" options={{ headerShown: false }}>
+      <Stack.Screen
+        name="Movies"
+        headerShown={false}
+        component={AllMovies}
+        options={{
+          headerShown: false,
+        }}
+      />
       <Stack.Screen
         name="SingleMovie"
         component={SingleMovie}
@@ -114,13 +175,14 @@ function MovieStack() {
         component={MovieCard}
         options={{ title: 'Netflix and Chill' }}
       />
+      <Stack.Screen name="Party" component={PartyView} />
     </Stack.Navigator>
   );
 }
 
 export default function App() {
   return (
-    <NativeBaseProvider>
+    <NativeBaseProvider theme={theme}>
       <Provider store={store}>
         <NavigationContainer>
           <Stack.Navigator
@@ -132,15 +194,28 @@ export default function App() {
               component={Login}
               options={{ headerShown: false }}
             />
-            <Stack.Screen name="LoggedIn" component={LoggedInStack} options={{headerShown:false}}/>
+            <Stack.Screen
+              name="LoggedIn"
+              component={LoggedInStack}
+              options={{ headerShown: false }}
+            />
 
-            <Stack.Screen name="RegisterStack" component={RegisterStack} options={{headerShown:false}}/>
+            <Stack.Screen
+              name="RegisterStack"
+              component={RegisterStack}
+              options={{ headerShown: false }}
+            />
             <Stack.Screen
               name="PartyView"
               component={PartyView}
-              options={{ title: 'Party' , headerShown:false}}
+              options={{ title: 'Upcoming BOBO Party', headerStyle: { backgroundColor: '#404746', color:'#404746' }}}
             />
-            <Stack.Screen name="Parties" component={PartyStack} />
+            <Stack.Screen
+              name="Parties"
+              component={PartyStack}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen name="Party Invites" component={PartyAddForm} />
             <Stack.Screen name="User" component={User} />
             <Stack.Screen name="FriendsList" component={FriendsList} />
           </Stack.Navigator>

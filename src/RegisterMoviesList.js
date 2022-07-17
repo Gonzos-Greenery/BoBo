@@ -42,10 +42,12 @@ export default ({navigation}) => {
                 <Button
                     onPress={() => {navigation.navigate('LoggedIn')}}
                     size="lg"
+                    _text={{ color: '#404746' }}
                     w="1/6"
                 >Skip</Button>
                 <Button
                     onPress={handleSubmit}
+                    _text={{ color: '#404746' }}
                     size="lg"
                     w="1/6"
                 >Submit</Button>

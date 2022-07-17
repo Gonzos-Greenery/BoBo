@@ -54,8 +54,9 @@ async function seed() {
   await parties[2].addUser(users[0], { through: { host: true } });
 
   await parties[0].addUsers([users[0], users[1], users[2], users[3]]);
-  await parties[1].addUsers([users[0], users[1]]);
-  await parties[2].addUsers( users[2]);
+  await parties[1].addUser(users[1], { through: { host: true } });
+  await parties[1].addUser(users[1]);
+  await parties[2].addUsers(users[2], { through: { host: true } });
   await parties[0].addMovies([
     movies[0],
     movies[1],
@@ -78,6 +79,9 @@ async function seed() {
   await parties[2].addMovies([movies[8], [5433], [443], [665], [6764], [8664]]);
   await users[0].addUserFriends([users[1], users[2], users[3]]);
   await users[0].addFriends([users[1], users[2], users[3]]);
+  await users[1].addUserFriend(users[3]);
+  await users[1].addFriend(users[3]);
+  
   // await users[0].add;
   // console.log(users[0].__proto__);
 

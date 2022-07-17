@@ -251,9 +251,7 @@ export default ({ route, navigation }) => {
       }
     };
     updateRating();
-    navigation.navigate("LoggedIn", {
-      username: username,
-    });
+    navigation.navigate("Movies");
   };
 
   return (
