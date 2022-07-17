@@ -74,15 +74,14 @@ const editMovies = async (info) => {
       return res;
     })
   );
-  const random = newMovies.sort((a, b) => 0.5 - Math.random());
   for (let type in genres) {
-    const filteredMovies = random.filter((movie) =>
+    const filteredMovies = newMovies.filter((movie) =>
       movie.genres_arr.includes(type)
     );
     genres[type] = filteredMovies;
   }
   return {
-    all: random,
+    all: newMovies,
     sort: genres,
   };
 };

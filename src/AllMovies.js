@@ -6,15 +6,14 @@ import {
   Pressable,
   View,
   Image,
-  Button,
   StyleSheet,
   ScrollView,
-  TouchableOpacity,
 } from 'react-native';
 import { Box } from 'native-base';
 import { fetchMovies } from './store/movies';
 import { fetchParties } from './store/parties';
 import Loading from './Loading';
+import { useFocusEffect } from '@react-navigation/native';
 
 export default ({ navigation, route }) => {
   const dispatch = useDispatch();
@@ -22,9 +21,15 @@ export default ({ navigation, route }) => {
     return state;
   });
 
-  useEffect(() => {
-    dispatch(fetchMovies());
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      dispatch(fetchMovies());
+
+      return () => {
+        return;
+      };
+    }, [])
+  );
 
   useEffect(() => {
     if (auth.id) {
@@ -34,14 +39,12 @@ export default ({ navigation, route }) => {
 
   return (
     <View style={styles.container}>
-      <ScrollView>
+      <ScrollView style={{ marginTop: 30 }}>
         {auth.movies === undefined ? (
           <Text style={{ fontSize: 16 }}>Nothing watched previously</Text>
         ) : (
           <View style={styles.genreRow}>
-            <Text style={{ fontSize: 16, fontWeight: 'bold' }}>
-              Previously Watched...
-            </Text>
+            <Text style={styles.textMovies}>Previously Watched...</Text>
             <FlatList
               horizontal
               ItemSeparatorComponent={() => <View style={{ width: 5 }} />}
@@ -57,7 +60,10 @@ export default ({ navigation, route }) => {
                       navigation.navigate('SingleMovie', { movie: movie.item });
                     }}
                   >
-                    <Image style={styles.image} source={movie.item.image} />
+                    <Image
+                      style={styles.image}
+                      source={{ uri: movie.item.image }}
+                    />
                   </Pressable>
                 </View>
               )}
@@ -65,33 +71,65 @@ export default ({ navigation, route }) => {
           </View>
         )}
         <View style={styles.genreRow}>
-          <Text style={{ fontSize: 16, fontWeight: 'bold' }}>
-            Upcoming Parties...
-          </Text>
+          <Text style={styles.textMovies}>Upcoming Parties...</Text>
           <FlatList
             horizontal
             ItemSeparatorComponent={() => <View style={{ width: 5 }} />}
             data={userParties === [] ? [] : userParties}
             renderItem={(party) => (
               <View>
-                {/* <Pressable
-                                onPress={() => navigation.navigate('PartyView', {id: party.item.id})}>
-                                <Image style={styles.image} source={"https://thumbs.dreamstime.com/b/film-strip-video-camera-vector-icon-cinema-symbol-film-strip-video-camera-vector-icon-cinema-symbol-photographic-film-135692148.jpg"}/>
-                            </Pressable> */}
-                <TouchableOpacity
+                <Pressable
                   onPress={() =>
                     navigation.navigate('PartyView', { id: party.item.id })
                   }
-                  style={styles.btn}
                 >
+                  <Image
+                    style={styles.image}
+                    source={{
+                      uri: 'https://thumbs.dreamstime.com/b/film-strip-video-camera-vector-icon-cinema-symbol-film-strip-video-camera-vector-icon-cinema-symbol-photographic-film-135692148.jpg',
+                    }}
+                  />
                   <Text
                     style={{ textAlign: 'center', fontWeight: 'bold' }}
                   >{`Party #${party.item.id}`}</Text>
-                </TouchableOpacity>
+                </Pressable>
               </View>
             )}
           />
         </View>
+        {movies.all === undefined ? (
+          <Loading />
+        ) : (
+          Object.keys(movies.sort).map((genre, idx) => {
+            return (
+              <View key={idx} style={styles.genreRow}>
+                <Text style={styles.textMovies}>{genre.toUpperCase()}</Text>
+                <FlatList
+                  horizontal
+                  ItemSeparatorComponent={() => <View style={{ width: 10 }} />}
+                  renderItem={(movie) => (
+                    <View key={movie}>
+                      <Pressable
+                        onPress={() => {
+                          navigation.navigate('SingleMovie', {
+                            movie: movie.item,
+                          });
+                        }}
+                      >
+                        <Image
+                          style={styles.image}
+                          source={{ uri: movie.item.image }}
+                        />
+                      </Pressable>
+                    </View>
+                  )}
+                  keyExtractor={(movie, idx) => idx.toString()}
+                  data={movies.sort[genre]}
+                />
+              </View>
+            );
+          })
+        )}
       </ScrollView>
     </View>
   );
@@ -99,15 +137,15 @@ export default ({ navigation, route }) => {
 
 const styles = StyleSheet.create({
   image: {
-    width: 140,
-    height: 220,
+    width: 160,
+    height: 240,
     borderRadius: 10,
     shadowColor: 'rgba(0, 0, 0, 0.1)',
     shadowOpacity: 0.2,
     shadowRadius: 15,
   },
   genreRow: {
-    marginTop: 20,
+    marginTop: 35,
   },
   loading: {
     width: '100%',
@@ -125,5 +163,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#d5e7d0',
     padding: 10,
     borderRadius: 10,
+  },
+  textMovies: {
+    fontSize: 19,
+    marginLeft: 5,
+    marginBottom: 5,
+    fontFamily: 'AppleSDGothicNeo-Bold',
   },
 });
