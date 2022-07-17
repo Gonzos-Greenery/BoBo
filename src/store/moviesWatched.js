@@ -23,7 +23,7 @@ const addMovieWatched = (moviesWatched) => {
 export const fetchMoviesWatched = (userId) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.get(`/api/users/movieswatched/${userId}`);
+      const { data } = await axios.get(`https://bobo-server.herokuapp.com/api/users/movieswatched/${userId}`);
       dispatch(setMovies(data));
     } catch (error) {
       console.log(error);
@@ -34,17 +34,7 @@ export const fetchMoviesWatched = (userId) => {
 export const addMovieToUser = (userId, movies) => {
   return async (dispatch) => {
     try {
-      // await axios.put(`/api/users/movieswatched/add/${userId}/${movieId}`);
-      // const { data: updatedMoviesWatched } = await axios.get(
-      //   `/api/moviesWatched/${userId}`
-      // );
-      const {data} = await axios({
-        method: 'post',
-        url: `http://localhost:8080/api/users/movieswatched/register/add/${userId}`,
-        data: {
-          movies
-        }
-      });
+      const {data} = await axios.post(`https://bobo-server.herokuapp.com/api/users/movieswatched/register/add/${userId}`, {movies})
       dispatch(addMovieWatched(updatedMoviesWatched));
     } catch (error) {
       console.log(error);

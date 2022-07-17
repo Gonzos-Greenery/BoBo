@@ -26,8 +26,13 @@ export default StyleSheet.create({
   },
   header: {
     fontWeight: 'bold',
+    fontSize: 26,
+    marginBottom: 15,
+    textAlign: 'center'
   },
   subheader: {
     paddingTop: 10,
+    marginTop: 5,
+    width: '75%',
   },
 });

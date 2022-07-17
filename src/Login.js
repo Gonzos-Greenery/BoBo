@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -6,6 +6,7 @@ import {
   Image,
   Dimensions,
   TouchableOpacity,
+  Alert
 } from 'react-native';
 import * as Facebook from 'expo-facebook';
 import * as Google from 'expo-auth-session/providers/google';
@@ -25,6 +26,7 @@ import {
 } from '@fortawesome/free-brands-svg-icons';
 import { useSelector, useDispatch} from 'react-redux';
 import { authenticate } from './store';
+import logo from '../assets/logo.png'
 
 export default ({ navigation }) => {
     const [username, setUsername] = useState('');
@@ -87,9 +89,9 @@ export default ({ navigation }) => {
         <View style={styles.container}>
             <Image
                 style={styles.logo}
-                source={require('../public/logo.png')}
+                source={logo}
             />
-            <VStack space={2} w="100%" alignItems="center">
+            <VStack space={2} w="100%" alignItems="center" marginTop={2}>
                 <FormControl>
                     <Stack mx="4" alignItems="center">
                         <FormControl.Label py="1" w="75%">
@@ -163,7 +165,10 @@ const styles = StyleSheet.create({
     },
     logo:{
         marginTop:0,
-        height: height * 0.40
+        width: width,
+        height: height*0.35,
+        borderRadius: 25,
+        marginBottom: 10
     },
     textStyle:{
         backgroundColor: "#A4C69C",

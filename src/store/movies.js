@@ -1,5 +1,6 @@
 import axios from 'axios';
-const localhost = 'http://localhost:8080'
+const url = 'https://bobo-server.herokuapp.com'
+
 // Action constants
 const SET_MOVIES = 'SET_MOVIES';
 
@@ -46,7 +47,6 @@ const editMovies = async (info) => {
       let res = fetch(API_URL)
       .then(res => res.json())
       .then(({movie_results}) => {
-
         if(movie_results && movie_results.length>0 && movie_results[0] && movie_results[0].poster_path){
           movie.image = `${IMG_URL + movie_results[0].poster_path}`
           return movie
@@ -55,7 +55,7 @@ const editMovies = async (info) => {
           return movie
         }
       })
-      .catch(e => console.log(e))
+      .catch(e => e)
       return res
   }))
   for(let type in genres){
@@ -72,10 +72,7 @@ const editMovies = async (info) => {
 export const fetchMovies = () => {
   return async (dispatch) => {
     try {
-      const { data } = await axios({
-        method:'get',
-        url: `${localhost}/api/movies`
-      })
+      const {data} = await axios.get(`${url}/api/movies`)
       let movies = await editMovies(data)
       dispatch(setMovies(movies));
     } catch (error) {

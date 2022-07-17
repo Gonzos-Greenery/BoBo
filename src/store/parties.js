@@ -23,10 +23,7 @@ const _deleteParty = (party) => {
 export const fetchParties = (userId) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios({
-        method: 'get',
-        url: `http://localhost:8080/api/party/all/${userId}`
-      })
+      const {data} = await axios.get(`https://bobo-server.herokuapp.com/api/party/all/${userId}`)
       dispatch(setParties(data));
     } catch (error) {
       console.log(error);
@@ -37,7 +34,7 @@ export const fetchParties = (userId) => {
 export const deleteParty = (id) => {
   return async (dispatch) => {
     try {
-      const { data: party } = await axios.delete(`/api/party/${id}`);
+      const { data: party } = await axios.delete(`https://bobo-server.herokuapp.com/api/party/${id}`);
       dispatch(_deleteParty(party));
     } catch (error) {
       console.log(error);
