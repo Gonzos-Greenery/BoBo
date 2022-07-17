@@ -252,7 +252,7 @@ export default ({ route, navigation }) => {
       }
     };
     updateRating();
-    navigation.push("Movies");
+    navigation.navigate("Movies");
   };
 
   return (
@@ -277,7 +277,7 @@ export default ({ route, navigation }) => {
           />
         </View>
       ) : (
-          <View 
+          <View
           style={styles.subheader}>
             <Button
             title="I've seen this movie"
