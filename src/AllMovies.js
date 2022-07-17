@@ -23,9 +23,7 @@ export default ({ navigation, route }) => {
     return state;
   });
 
-  useEffect(() => {
-    dispatch(fetchMovies())
-  }, []);
+  
 
   useEffect(() => {
     if (auth.id) {

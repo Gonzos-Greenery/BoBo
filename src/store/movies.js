@@ -60,8 +60,12 @@ const editMovies = async (info) => {
   }))
   for(let type in genres){
     const filteredMovies = newMovies.filter(movie => movie.genres_arr.includes(type))
-    genres[type] = filteredMovies;
+    genres[type] = filteredMovies
   }
+  // newMovies.forEach(movie => {
+  //   const firstGenre = movie.genres_arr.slice(2, movie.genres_arr.length-2).split(`', `);
+  //   genres[firstGenre].push(movie)
+  // })
   return {
     all: newMovies,
     sort: genres
