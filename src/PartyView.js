@@ -28,12 +28,9 @@ export default ({ navigation, route }) => {
     dispatch(fetchParty(route.params.id));
   }, []);
 
-  useEffect(async () => {
+  useEffect(() => {
     if (store.party.users) {
-      const { data } = await axios.get(
-        `http://localhost:8080/api/users/username/${store.party.users[0].username}`
-      );
-      console.log(data);
+      console.log(store.party.users);
       const host = store.party.users.filter((user) => user.UserParties.host);
       setHost(host[0] === undefined ? 'Not Assigned' : host[0].username);
     }
