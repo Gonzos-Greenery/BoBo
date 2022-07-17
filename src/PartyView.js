@@ -31,13 +31,13 @@ export default ({navigation, route}) => {
                 <View>
                     <View style={{margin: 10}}>
                         <Text style={styles.textMain}>
-                            {`Movie Night: ${store.party.name}'s`}
+                            {`Movie Night: ${store.party.name? store.party.name:'BOBO Party!!!'}'s`}
                         </Text>
                         <Text style={styles.textMain}>
-                            {`Date: ${store.party.date}`}
+                            {`Date: ${store.party.date?store.party.date.slice(0,10):'No date set'}`}
                         </Text>
                         <Text style={styles.textMain}>
-                            {`Location: ${store.party.location}`}
+                            {`Location: ${store.party.location? store.party.location:'The shire'}`}
                         </Text>
                         <Text style={styles.textMain} >
                             {`Host: ${host === undefined ? '' : host}`}
@@ -79,9 +79,7 @@ export default ({navigation, route}) => {
             }
         </View>
       )}
-    </View>
-  );
-};
+
 
 const styles = StyleSheet.create({
     container: {
