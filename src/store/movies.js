@@ -58,13 +58,12 @@ const editMovies = async (info) => {
       .catch(e => e)
       return res
   }))
-  const random = newMovies.sort((a,b) => 0.5 - Math.random())
   for(let type in genres){
-    const filteredMovies = random.filter(movie => movie.genres_arr.includes(type))
+    const filteredMovies = newMovies.filter(movie => movie.genres_arr.includes(type))
     genres[type] = filteredMovies;
   }
   return {
-    all: random,
+    all: newMovies,
     sort: genres
   }
 }

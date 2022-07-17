@@ -23,7 +23,7 @@ const addRating = (ratings) => {
 export const fetchPartyRatings = (partyId) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.get(`/api/partyrating/${partyId}`);
+      const { data } = await axios.get(`https://bobo-server.herokuapp.com/api/partyrating/${partyId}`);
       dispatch(setRatings(data));
     } catch (error) {
       console.log(error);
@@ -35,11 +35,11 @@ export const addPartyRating = (partyId, userId, movieId, rating) => {
   return async (dispatch) => {
     try {
       await axios.post(
-        `/api/partyrating/add/${movieId}/${partyId}/${userId}`,
+        `https://bobo-server.herokuapp.com/api/partyrating/add/${movieId}/${partyId}/${userId}`,
         rating
       );
       const { data: updatedPartyRatings } = await axios.get(
-        `/api/partyrating/${userId}`
+        `https://bobo-server.herokuapp.com/api/partyrating/${userId}`
       );
       dispatch(addRating(updatedPartyRatings));
     } catch (error) {

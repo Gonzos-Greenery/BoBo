@@ -65,7 +65,8 @@ export const createNewParty = (userId, name, location, date, invitees) => {
 export const addFriendToParty = (username, partyId) => {
   return async (dispatch) => {
     try {
-      const {data} = await axios.put(`${url}/api/party/${partyId}/${username}`)
+      console.log(username, partyId)
+      const {data} = await axios.put(`${url}/api/party/addUsers/${partyId}/${username}`)
       // const { data } = await axios({
       //   method: 'put',
       //   url: `http://localhost:8080/api/party/${partyId}/${username}`,
