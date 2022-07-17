@@ -6,13 +6,13 @@ import {
   SafeAreaView,
   StyleSheet,
   ScrollView,
-  Dimensions,
   Platform,
+  FlatList,
 } from 'react-native';
-// import DatePicker from 'react-native-date-picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 // import { gql, useMutation } from '@apollo/client';
 import axios from 'axios';
+import { faUser } from '@fortawesome/free-solid-svg-icons';
 import {
   Input,
   Icon,
@@ -34,22 +34,22 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { createNewParty } from './store/party';
 import { fetchUser, fetchUserByUsername } from './store/user';
 
-const Invitee = (props) => {
-  const friend = props.friend;
+// const Invitee = (props) => {
+//   const friend = props.friend;
 
-  return (
-    <Box
-      bg='primary.100'
-      w='75%'
-      rounded='md'
-      shadow={3}
-      justifyContent='center'
-      alignItems='center'
-    >
-      {`${friend.name} ( @${friend.username} )`}
-    </Box>
-  );
-};
+//   return (
+//     <Box
+//       bg='primary.100'
+//       w='75%'
+//       rounded='md'
+//       shadow={3}
+//       justifyContent='center'
+//       alignItems='center'
+//     >
+//       {`${friend.name} ( @${friend.username} )`}
+//     </Box>
+//   );
+// };
 
 const HostParty = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -213,30 +213,49 @@ const HostParty = ({ navigation }) => {
               style={styleSheet.datePicker}
             />
           )}
-          <VStack space={3} alignSelf='center' alignItems='center' w='75%'>
-            <Heading fontSize='lg'>Invite Friends</Heading>
-            <HStack alignItems='center' space={2}>
-              <SearchIcon size='3xl' />
-              <Input
-                placeholder='Search By Username'
-                width='75%'
-                borderRadius='4'
-                py='3'
-                px='1'
-                fontSize='14'
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-              />
-              <Pressable onPress={handleSearchSubmit}>
-                <Box>Invite</Box>
-              </Pressable>
-            </HStack>
-          </VStack>
-          <VStack space={3} alignSelf='center' alignItems='center' w='100%'>
-            {invitees.map((invitee) => {
-              return <Invitee friend={invitee} key={invitee.username} />;
-            })}
-          </VStack>
+          <Heading alignSelf='center' fontSize='lg'>
+            Invite Friends
+          </Heading>
+          <HStack justifyItems='center' alignItems='center' space={2} w='75%'>
+            <SearchIcon size='3xl' />
+            <Input
+              placeholder='Search By Username'
+              width='75%'
+              borderRadius='4'
+              py='3'
+              px='1'
+              fontSize='14'
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            <Pressable onPress={handleSearchSubmit}>
+              <Box>Invite</Box>
+            </Pressable>
+          </HStack>
+          <View style={{ textAlign: 'center', width: '75%' }}>
+            <FlatList
+              data={invitees}
+              renderItem={({ item, index }) => {
+                return (
+                  <View style={styleSheet.user}>
+                    <FontAwesomeIcon
+                      icon={faUser}
+                      size={30}
+                      color={'#8A9D8C'}
+                      style={{
+                        marginRight: 30,
+                        marginLeft: 10,
+                        alignSelf: 'center',
+                      }}
+                    />
+                    <Text style={{ fontSize: 16, alignSelf: 'center' }}>
+                      {item.name}
+                    </Text>
+                  </View>
+                );
+              }}
+            />
+          </View>
           <Button
             _text={{ color: '#F7F6D4' }}
             w='80%'
@@ -273,6 +292,16 @@ const styleSheet = StyleSheet.create({
     width: 320,
     height: 260,
     display: 'flex',
+  },
+  user: {
+    height: 60,
+    borderRadius: 13,
+    width: '100%',
+    alignSelf: 'center',
+    marginTop: 7,
+    textAlign: 'justify',
+    backgroundColor: 'white',
+    flexDirection: 'row',
   },
 });
 
