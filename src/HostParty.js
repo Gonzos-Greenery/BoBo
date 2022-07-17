@@ -1,6 +1,14 @@
 import React, { useState, useEffect, Select } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { View, Text, SafeAreaView, StyleSheet, ScrollView } from 'react-native';
+import {
+  View,
+  Text,
+  SafeAreaView,
+  StyleSheet,
+  ScrollView,
+  Dimensions,
+  Platform,
+} from 'react-native';
 // import DatePicker from 'react-native-date-picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 // import { gql, useMutation } from '@apollo/client';
@@ -104,7 +112,7 @@ const HostParty = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={styleSheet.container}>
       <ScrollView>
         <VStack space={5} w='100%' alignItems='center'>
           <Heading size='2xl'>Host a BOBO Party</Heading>
@@ -245,6 +253,12 @@ const HostParty = ({ navigation }) => {
 };
 
 const styleSheet = StyleSheet.create({
+  container: {
+    height: '100%',
+    width: '100%',
+    backgroundColor: `rgba(164,198,156,1)`,
+    flex: 1,
+  },
   MainContainer: {
     flex: 1,
     padding: 6,

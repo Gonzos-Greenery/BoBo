@@ -11,7 +11,7 @@ import axios from 'axios';
 import { Button, VStack, Stack, Label, Icon } from 'native-base';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchParty } from './store/party';
-import { fetchPartyMovies } from './store/movies';
+import { fetchPartyMovies } from './store/partyMovies';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 
