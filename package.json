@@ -77,7 +77,8 @@
     "redux-devtools-extension": "^2.13.9",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.4.1",
-    "sequelize": "^6.21.3"
+    "sequelize": "^6.21.3",
+    "walker": "^1.0.8"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

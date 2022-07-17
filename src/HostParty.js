@@ -79,7 +79,7 @@ const HostParty = ({ navigation }) => {
     //Send the request to the backend to validate + add user to that party
     //navigate back to that party
     const { data } = await axios.get(
-      `http://localhost:8080/api/users/username/${search}`
+      `https://bobo-server.herokuapp.com/api/users/username/${search}`
     );
 
     if (data) {

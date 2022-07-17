@@ -12,6 +12,7 @@ import userParties from './parties';
 import userRatings from './userRatings';
 import partyRatings from './partyRatings';
 import party from './party';
+import partyMovies from './partyMovies';
 
 const reducer = combineReducers({
   auth,
@@ -24,7 +25,7 @@ const reducer = combineReducers({
   userRatings,
   partyRatings,
   party,
-  //Friends list
+  partyMovies,
 });
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({ collapsed: true }))
