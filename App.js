@@ -20,7 +20,6 @@ import Register from './src/Register';
 import PartyView from './src/PartyView';
 import PartyAddForm from './src/PartyAddForm';
 import User from './src/User';
-import Footer from './src/Footer';
 import HostParty from './src/HostParty';
 import FriendsList from './src/FriendsList';
 import theme from './src/theme';
@@ -28,12 +27,6 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 const Stack = createStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
-
-/* Used for graphql hookup (also add in <ApolloProvider client={client}> tage around return statement)
-const client = new ApolloClient({
-  uri: 'http://localhost:8080/graphql',
-  cache: new InMemoryCache(),
-}); */
 
 function PartyStack() {
   return (
@@ -121,7 +114,7 @@ function RegisterStack() {
     >
       <Stack.Screen
         name="Register"
-        component={Register}
+        component={RegisterMoviesList}
         options={{
           title: 'Register an account with BOBO',
           headerStyle: { backgroundColor: '#EFEECE' },

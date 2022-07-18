@@ -34,15 +34,6 @@ export const authenticate = (userData, method) => async (dispatch) => {
   }
 };
 
-// export const logout = () => {
-//   window.localStorage.removeItem(TOKEN);
-//   history.push('/login');
-//   return {
-//     type: SET_AUTH,
-//     auth: {},
-//   };
-// };
-
 // reducer
 export default function (state = {}, action) {
   switch (action.type) {

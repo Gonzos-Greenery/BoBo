@@ -16,9 +16,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 
 export default ({ navigation, route }) => {
-  const [votingStatus, setVotingStatus] = useState(); //state of voting period, state of users list, state of users voted status
-  const [host, setHost] = useState(); //keeps track of users + adding new users
-  const [films, setFilms] = useState(); //storing a collection of 10 films with top scorings that are not seen or is "will watch again movie"
+  const [votingStatus, setVotingStatus] = useState();
+  const [host, setHost] = useState();
+  const [films, setFilms] = useState();
   const dispatch = useDispatch();
   const store = useSelector((state) => {
     return state;
@@ -98,7 +98,7 @@ export default ({ navigation, route }) => {
             )}
           </View>
           <Button
-            style={{ backgroundColor: '#d5e7d0' }}
+            style={{ backgroundColor: '#d5e7d0', width: '75%', alignSelf:'center' }}
             _text={{ color: 'black' }}
             onPress={() => dispatch(fetchPartyMovies(store.party.users))}
           >

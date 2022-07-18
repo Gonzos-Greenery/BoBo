@@ -40,14 +40,6 @@ export const fetchUserGenre = (userId) => {
 export const addUserGenre = (userId, genres) => {
   return async (dispatch) => {
     try {
-      // const { data } = await axios.post(`/api/users/genre/${userId}`, genre);
-      // const { data } = await axios({
-        //   method: 'post',
-        //   url: `http://localhost:8080/api/users/genres/add/${userId}`,
-        //   data: {
-          //     genres,
-          //   },
-          // });
       const {data} = await axios.post(`https://bobo-server.herokuapp.com/api/users/genres/add/${userId}`, {genres})
       dispatch(setUserGenre(data));
     } catch (error) {

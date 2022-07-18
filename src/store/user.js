@@ -83,13 +83,6 @@ export const updateUser = (user) => {
 export const registerUpdateWatched = (id, movies) => {
   return async (dispatch) => {
     try {
-      // const { data } = await axios({
-      //   method: 'post',
-      //   url: `http://localhost:8080/api/users/movieswatched/register/add/${id}`,
-      //   data: {
-      //     movies: movies,
-      //   },
-      // });
       const {data} = await axios.post(`https://bobo-server.herokuapp.com/api/users/movieswatched/register/add/${id}`, {movies})
       dispatch(getUser(data));
     } catch (e) {
@@ -104,10 +97,6 @@ export const addFriend = (userId, friendUsername) => {
       const { data: friend } = await axios.get(
         `https://bobo-server.herokuapp.com/api/users/username/${friendUsername}`
       );
-      // const { data } = await axios({
-      //   method: 'put',
-      //   url: `http://localhost:8080/api/users/addFriend/${userId}/${friend.id}`,
-      // });
       const {data} = await axios.put(`https://bobo-server.herokuapp.com/api/users/addFriend/${userId}/${friend.id}`)
       dispatch(addUserFriend(data));
     } catch (e) {
@@ -119,10 +108,6 @@ export const addFriend = (userId, friendUsername) => {
 export const removeFriend = (userId, friendId) => {
   return async (dispatch) => {
     try {
-      // const { data } = await axios({
-      //   method: 'put',
-      //   url: `http://localhost:8080/api/users/removeFriend/${userId}/${friendId}`,
-      // });
       const {data} = await axios.put(`https://bobo-server.herokuapp.com/api/users/removeFriend/${userId}/${friendId}`)
       dispatch(removeUserFriend(data));
     } catch (e) {
