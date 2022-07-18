@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { ScrollView } from 'react-native';
+import { SafeAreaView, ScrollView, Dimensions, StyleSheet } from 'react-native';
 import {
   Pressable,
   Text,
@@ -63,7 +63,7 @@ const StreamingOptions = ({ navigation, route }) => {
   };
 
   return (
-    <ScrollView>
+    <SafeAreaView style={styles.container}>
       <VStack space={3} alignItems='center'>
         <Center
           bg='primary.100'
@@ -71,6 +71,7 @@ const StreamingOptions = ({ navigation, route }) => {
           rounded='8'
           w='75%'
           p='4'
+          margin='4'
           _text={{
             color: 'primary.900',
             textAlign: 'center',
@@ -94,11 +95,9 @@ const StreamingOptions = ({ navigation, route }) => {
                     {() => {
                       return (
                         <Circle
-                          size='100px'
-                          borderWidth='1'
-                          bg={
-                            services[service] ? 'primary.900' : 'coolGray.100'
-                          }
+                          size={services[service] ? '110px' : '100px'}
+                          borderWidth={services[service] ? '3' : '1'}
+                          bg={services[service] ? 'primary.100' : 'primary.500'}
                         >
                           <Avatar
                             source={{
@@ -128,8 +127,19 @@ const StreamingOptions = ({ navigation, route }) => {
           </Button>
         </Stack>
       </VStack>
-    </ScrollView>
+    </SafeAreaView>
   );
 };
+
+const { width, height } = Dimensions.get('window');
+const styles = StyleSheet.create({
+  container: {
+    alignItems: 'center',
+    height: '100%',
+    width: '100%',
+    backgroundColor: `rgba(164,198,156,1)`,
+    flex: 1,
+  },
+});
 
 export default StreamingOptions;

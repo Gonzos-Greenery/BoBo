@@ -23,8 +23,6 @@ export default ({ navigation, route }) => {
     return state;
   });
 
-  
-
   useEffect(() => {
     if (auth.id) {
       dispatch(fetchParties(auth.id));

@@ -12,9 +12,7 @@ router.get('/', async (req, res, next) => {
     const parties = await Party.findAll({
       include: {
         model: User,
-        include: {
-          model: Genre,
-        },
+        include: Genre,
       },
     });
     res.json(parties);
