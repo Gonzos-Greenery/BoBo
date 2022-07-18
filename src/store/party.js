@@ -44,8 +44,10 @@ export const createNewParty = (userId, name, location, date, invitees) => {
 
       await axios.put(`${url}/api/party/addPartyHost/${newParty.id}/${userId}`)
 
+
       for (let i = 0; i < invitees.length; i++) {
         await axios.put(`${url}/api/party/addUsers/${newParty.id}/${invitees[i].username}`)
+
       }
       dispatch(_addParty(newParty));
     } catch (error) {
@@ -57,7 +59,7 @@ export const createNewParty = (userId, name, location, date, invitees) => {
 export const addFriendToParty = (username, partyId) => {
   return async (dispatch) => {
     try {
-      console.log(username, partyId)
+
       const {data} = await axios.put(`${url}/api/party/addUsers/${partyId}/${username}`)
       return data;
     } catch (e) {

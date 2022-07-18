@@ -6,7 +6,7 @@ router.use('/movies', require('./movies.js'));
 router.use('/party', require('./party'));
 router.use('/userrating', require('./userRating'));
 router.use('/partyrating', require('./partyRating'));
-// router.use('/auth', require('./auth'));
+
 
 router.use((req, res, next) => {
   const error = new Error('Not Found');

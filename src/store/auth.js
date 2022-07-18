@@ -34,6 +34,8 @@ export const authenticate = (userData, method) => async (dispatch) => {
   }
 };
 
+
+
 // reducer
 export default function (state = {}, action) {
   switch (action.type) {

@@ -1,6 +1,4 @@
 import React from 'react';
-// import { gql, useMutation } from '@apollo/client';
-// import { REGISTER_USER_MUTATION } from './graphql/Mutation';
 import { StyleSheet, Dimensions } from 'react-native';
 import {View, Text,
   Input,
@@ -16,6 +14,10 @@ import {View, Text,
   WarningOutlineIcon, Image
 } from 'native-base';
 import { useSelector, useDispatch } from 'react-redux';
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 import { authenticate } from './store/auth';
 
 const Register = ({ navigation }) => {
@@ -41,12 +43,12 @@ const Register = ({ navigation }) => {
       const newUserInput = { username, email, password, name: fullName };
       try {
         const data = await dispatch(authenticate(newUserInput, 'signup'));
-        console.log(data);
+
         if (data != true) {
           setErrors('Username/email already exists');
-          console.log('no data');
+
         } else {
-          console.log(data);
+
           navigation.push('StreamingOptions');
         }
       } catch (err) {

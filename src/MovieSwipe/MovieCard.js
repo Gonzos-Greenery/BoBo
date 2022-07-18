@@ -36,7 +36,6 @@ const MovieCard = ({ navigation }) => {
     fetch(url)
       .then((res) => res.json())
       .then((data) => {
-        // showMovies(data.results);
         setMovieArr(data.results);
       });
   }

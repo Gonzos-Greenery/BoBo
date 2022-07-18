@@ -28,6 +28,7 @@ export default ({ navigation, route }) => {
     //Send the request to the backend to validate + add user to that party
     //navigate back to that party
     const data = await dispatch(addFriendToParty(friend, store.party.id));
+
     if (data === true) {
       navigation.navigate('PartyView', { id: store.party.id });
     } else {
@@ -38,7 +39,7 @@ export default ({ navigation, route }) => {
   };
   return (
     <View >
-        {/* style={styles.container} */}
+       
       <Text style={styles.textMain}> Current Attendees: </Text>
       {route.params.attendees.map((user, idx) => (
         <View key={idx}>

@@ -8,18 +8,7 @@ import {
   Dimensions,
 } from "react-native";
 import axios from "axios";
-// import { gql, useQuery } from "@apollo/client";
-// import { SINGLE_MOVIES_QUERY } from "../graphql/Query";
-// import Loading from "../Loading";
 
-// const RecommendedMovie = ({ movie }) => {
-//   console.log(movie);
-//   return (
-//     <View>
-//       <Text>Recommended Movie goes here</Text>
-//     </View>
-//   );
-// };
 
 export default () => {
   const [data, setData] = useState();
@@ -28,16 +17,9 @@ export default () => {
   const [site, setSite] = useState("");
   const [imdbUrl, setImdbUrl] = useState();
   const [title, setTitle] = useState();
-  //   const [isExpanded, setIsExpanded] = useState(false)
-  //   // const { data, loading } = useQuery(SINGLE_MOVIES_QUERY, {
-  //   //   variables: { id: "62c4833e28dd2eb1a7f68733" },
-  //   // });
-  //   if (loading) {
-  //     return <Loading />;
-  //   }
+
 
   useEffect(() => {
-    // dispatch(fetchMovie(route.params.movie.id));
     const getMovie = async () => {
       const res = await axios
         .get(`http://localhost:8080/api/movies/11631`)
@@ -119,14 +101,14 @@ const styles = StyleSheet.create({
     height: height * 0.5,
   },
   imagecontainer: {
-    // width: width * 0.5,
+
     height: height * 0.8,
     textAlign: "center",
     borderWidth: 10,
     borderColor: "darkolivegreen",
     borderRadius: 8,
     backgroundColor: "darkseagreen",
-    // position: "relative",
+
     justifyContent: "center",
     alignItems: "center",
     padding: 30,
