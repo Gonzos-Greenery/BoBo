@@ -14,10 +14,6 @@ import {View, Text,
   WarningOutlineIcon, Image
 } from 'native-base';
 import { useSelector, useDispatch } from 'react-redux';
-<<<<<<< HEAD
-=======
-
->>>>>>> main
 import { authenticate } from './store/auth';
 
 const Register = ({ navigation }) => {
