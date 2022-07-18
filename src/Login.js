@@ -80,8 +80,7 @@ export default ({ navigation }) => {
         description: 'Incorrect Username Or Password',
       });
     } else {
-      // navigation.navigate('LoggedIn')
-      navigation.navigate('FriendsList');
+      navigation.navigate('LoggedIn');
     }
   };
 
