@@ -3,14 +3,22 @@ const db = require('./db');
 const User = require('./models/User');
 const Movie = require('./models/Movie');
 const UserRating = require('./models/UserRating');
-const {Party, UserParties} = require('./models/Party');
+const { Party, UserParties } = require('./models/Party');
 const PartyRating = require('./models/PartyRating');
 const Genre = require('./models/Genre');
 
 User.hasMany(UserRating);
 User.belongsToMany(Genre, { through: 'UserGenre' });
-User.belongsToMany(User, {as: 'friends', foreignKey: 'user_id', through: 'UsersFriends'});
-User.belongsToMany(User, {as: 'userFriends', foreignKey: 'friend_id', through: 'UsersFriends'});
+User.belongsToMany(User, {
+  as: 'friends',
+  foreignKey: 'user_id',
+  through: 'UsersFriends',
+});
+User.belongsToMany(User, {
+  as: 'userFriends',
+  foreignKey: 'friend_id',
+  through: 'UsersFriends',
+});
 User.belongsToMany(Party, { through: UserParties });
 User.hasMany(PartyRating);
 User.belongsToMany(Movie, { through: 'UserMovies' });

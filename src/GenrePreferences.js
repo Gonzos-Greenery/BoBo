@@ -1,6 +1,13 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { View, Text, ScrollView } from 'react-native';
+import {
+  SafeAreaView,
+  StyleSheet,
+  Dimensions,
+  View,
+  Text,
+  ScrollView,
+} from 'react-native';
 import {
   Pressable,
   Button,
@@ -50,7 +57,7 @@ const GenrePreferences = ({ navigation, route }) => {
   };
 
   return (
-    <ScrollView>
+    <SafeAreaView style={styles.container}>
       <VStack alignItems='center'>
         <Stack>
           <Center
@@ -58,6 +65,7 @@ const GenrePreferences = ({ navigation, route }) => {
             alignItems='center'
             rounded='8'
             p='4'
+            margin='4'
             _text={{
               color: 'primary.900',
               textAlign: 'center',
@@ -67,7 +75,7 @@ const GenrePreferences = ({ navigation, route }) => {
             Which genres are you interested in?
           </Center>
         </Stack>
-        <Stack>
+        <ScrollView>
           <HStack flexWrap='wrap' justifyContent='space-around'>
             {Object.keys(genreObject).map((genre) => {
               return (
@@ -81,9 +89,11 @@ const GenrePreferences = ({ navigation, route }) => {
                   >
                     <Circle
                       size='120px'
-                      bg={genres[genre] ? 'primary.300' : 'primary.900'}
+                      borderWidth={genres[genre] ? '3' : '1'}
+                      bg={genres[genre] ? 'primary.100' : 'primary.500'}
                       _text={{
-                        color: 'white',
+                        color: 'primary.900',
+                        textAlign: 'center',
                         fontWeight: 'bold',
                       }}
                     >
@@ -94,10 +104,10 @@ const GenrePreferences = ({ navigation, route }) => {
               );
             })}
           </HStack>
-        </Stack>
+        </ScrollView>
         <Stack>
           <Button
-            _text={{ color: 'white' }}
+            _text={{ color: '#404746' }}
             bg='primary.300'
             shadow='4'
             onPress={handleSubmit}
@@ -106,8 +116,18 @@ const GenrePreferences = ({ navigation, route }) => {
           </Button>
         </Stack>
       </VStack>
-    </ScrollView>
+    </SafeAreaView>
   );
 };
+
+const { width, height } = Dimensions.get('window');
+const styles = StyleSheet.create({
+  container: {
+    height: '100%',
+    width: '100%',
+    backgroundColor: `rgba(164,198,156,1)`,
+    flex: 1,
+  },
+});
 
 export default GenrePreferences;

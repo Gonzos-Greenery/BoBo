@@ -84,7 +84,7 @@ const User = ({ navigation }) => {
 
     return (
         <View style={{backgroundColor: `#A4C69C`, height: '100%'}}>
-            <VStack alignItems='center' marginTop={20}>
+            <VStack alignItems='center' marginTop={10}>
                 <FontAwesomeIcon icon={faUserCircle} size={120} color={"#CEE9C5"}/>
                 <FormControl>
                     <Stack mx='4' alignItems='center' marginTop='10'>
@@ -153,7 +153,7 @@ const User = ({ navigation }) => {
                         )}
                     </Stack>
                 </FormControl>
-                <View style={{flexDirection: 'row', justifyContent:'center', margin: 10}}>
+                <View style={{justifyContent:'center', margin: 15}}>
                     <Stack mx='2' alignItems='center'>
                         <HStack flexWrap='wrap' justifyContent='space-around'>
                             {Object.keys(services).map((service) => {
@@ -169,7 +169,7 @@ const User = ({ navigation }) => {
                                     {() => {
                                         return (
                                         <Circle
-                                            size='100px'
+                                            size='80px'
                                             borderWidth='1'
                                             bg={
                                             services[service] ? 'primary.900' : 'coolGray.100'
@@ -179,7 +179,7 @@ const User = ({ navigation }) => {
                                             source={{
                                                 uri: logos[service],
                                             }}
-                                            size='75px'
+                                            size='50px'
                                             {...service}
                                             />
                                         </Circle>

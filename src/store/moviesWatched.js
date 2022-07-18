@@ -24,7 +24,7 @@ const addMovieWatched = (moviesWatched) => {
 export const fetchMoviesWatched = (userId) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.get(`${url}/api/users/movieswatched/${userId}`);
+      const { data } = await axios.get(`https://bobo-server.herokuapp.com/api/users/movieswatched/${userId}`);
       dispatch(setMovies(data));
     } catch (error) {
       console.log(error);

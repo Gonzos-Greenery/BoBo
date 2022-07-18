@@ -1,5 +1,5 @@
 import axios from 'axios';
-const url = 'https://bobo-server.herokuapp.com'
+const url = 'https://bobo-server.herokuapp.com';
 
 // Action constants
 const SET_MOVIES = 'SET_MOVIES';
@@ -14,67 +14,76 @@ const setMovies = (movies) => {
 
 const editMovies = async (info) => {
   const genres = {
-      action: [],
-      animation: [],
-      comedy: [],
-      crime: [],
-      documentation: [],
-      drama: [],
-      european: [],
-      family: [],
-      fantasy: [],
-      history: [],
-      horror: [],
-      music: [],
-      romance: [],
-      scifi: [],
-      thriller: [],
-      war: [],
-      western: [],
-  }
-  const newMovies = await Promise.all(info.map(movie => {
+    action: [],
+    animation: [],
+    comedy: [],
+    crime: [],
+    documentation: [],
+    drama: [],
+    european: [],
+    family: [],
+    fantasy: [],
+    history: [],
+    horror: [],
+    music: [],
+    romance: [],
+    scifi: [],
+    thriller: [],
+    war: [],
+    western: [],
+  };
+  const newMovies = await Promise.all(
+    info.map((movie) => {
       const imdbId = movie.imdb_id;
-      const API_KEY = "api_key=1cf50e6248dc270629e802686245c2c8";
-      const BASE_URL = "https://api.themoviedb.org/3";
+      const API_KEY = 'api_key=1cf50e6248dc270629e802686245c2c8';
+      const BASE_URL = 'https://api.themoviedb.org/3';
 
       const API_URL =
-          BASE_URL +
-          `/find/${imdbId}?` +
-          API_KEY +
-          "&language=en-US&external_source=imdb_id";
-      const IMG_URL = "https://image.tmdb.org/t/p/w500";
+        BASE_URL +
+        `/find/${imdbId}?` +
+        API_KEY +
+        '&language=en-US&external_source=imdb_id';
+      const IMG_URL = 'https://image.tmdb.org/t/p/w500';
 
       let res = fetch(API_URL)
-      .then(res => res.json())
-      .then(({movie_results}) => {
-        if(movie_results && movie_results.length>0 && movie_results[0] && movie_results[0].poster_path){
-          movie.image = `${IMG_URL + movie_results[0].poster_path}`
-          return movie
-        } else {
-          movie.image = "https://img.freepik.com/premium-vector/movie-night-cinema-flat-poster_118124-966.jpg"
-          return movie
-        }
-      })
-      .catch(e => e)
-      return res
-  }))
-  const random = newMovies.sort((a,b) => 0.5 - Math.random())
-  for(let type in genres){
-    const filteredMovies = random.filter(movie => movie.genres_arr.includes(type))
+        .then((res) => res.json())
+        .then(({ movie_results }) => {
+          if (
+            movie_results &&
+            movie_results.length > 0 &&
+            movie_results[0] &&
+            movie_results[0].poster_path
+          ) {
+            movie.image = `${IMG_URL + movie_results[0].poster_path}`;
+            return movie;
+          } else {
+            movie.image =
+              'https://img.freepik.com/premium-vector/movie-night-cinema-flat-poster_118124-966.jpg';
+            return movie;
+          }
+        })
+        .catch((e) => e);
+      return res;
+    })
+  );
+  for (let type in genres) {
+    const filteredMovies = newMovies.filter((movie) =>
+      movie.genres_arr.includes(type)
+    );
     genres[type] = filteredMovies;
   }
   return {
-    all: random,
-    sort: genres
-  }
-}
+    all: newMovies,
+    sort: genres,
+  };
+};
 // Thunks
 
 export const fetchMovies = () => {
   return async (dispatch) => {
     try {
-      const {data} = await axios.get(`${url}/api/movies`)
-      let movies = await editMovies(data)
+      const { data } = await axios.get(`${url}/api/movies`);
+      let movies = await editMovies(data);
       dispatch(setMovies(movies));
     } catch (error) {
       console.log(error);

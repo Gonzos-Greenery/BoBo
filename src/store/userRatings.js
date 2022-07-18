@@ -24,7 +24,11 @@ const addRating = (ratings) => {
 export const fetchUserRatings = (userId) => {
   return async (dispatch) => {
     try {
+<<<<<<< HEAD
       const { data } = await axios.get(`${url}/api/userrating/${userId}`);
+=======
+      const { data } = await axios.get(`https://bobo-server.herokuapp.com/api/userrating/${userId}`);
+>>>>>>> 4db375915f36af63ebecb75103bfa123a18c28cf
       dispatch(setRatings(data));
     } catch (error) {
       console.log(error);
@@ -35,13 +39,14 @@ export const fetchUserRatings = (userId) => {
 export const addUserRating = (userId, movieId, rating) => {
   return async (dispatch) => {
     try {
-      const { data: newParty } = await axios({
-        method: "post",
-        url: `${url}/api/userRating/${userId}/${movieId}`,
-        data: {
-          rating,
-        },
-      });
+      const {data: newParty} = await axios.post(`https://bobo-server.herokuapp.com/api/userRating/${userId}/${movieId}`, {rating})
+      // const { data: newParty } = await axios({
+      //   method: "post",
+      //   url: `http://localhost:8080/api/userRating/${userId}/${movieId}`,
+      //   data: {
+      //     rating,
+      //   },
+      // });
       // await axios.post(
       //   `${localhost}/api/userRatings/add/${userId}/${movieId}`,
       //   rating
