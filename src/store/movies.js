@@ -32,48 +32,23 @@ const editMovies = async (info) => {
     war: [],
     western: [],
   };
-  const newMovies = await Promise.all(
-    info.map((movie) => {
-      const imdbId = movie.imdb_id;
-      const API_KEY = 'api_key=1cf50e6248dc270629e802686245c2c8';
-      const BASE_URL = 'https://api.themoviedb.org/3';
+  // for (let type in genres) {
+  //   const filteredMovies = info.filter((movie) =>
+  //     movie.genres_arr.includes(type)
+  //   );
+  //   genres[type] = filteredMovies;
+  // }
+  info.forEach(movie => {
+    const firstGenre = movie.genres_arr.slice(2, movie.genres_arr.length-2).split(`', `);
+    const nextGenre = firstGenre[firstGenre.length-1]
+    genres[firstGenre[0]].push(movie)
+    if(firstGenre.length > 1 && nextGenre !== `'sport`){
+      genres[nextGenre.slice(1, nextGenre.length)].push(movie)
+    }
+  })
 
-      const API_URL =
-        BASE_URL +
-        `/find/${imdbId}?` +
-        API_KEY +
-        '&language=en-US&external_source=imdb_id';
-      const IMG_URL = 'https://image.tmdb.org/t/p/w500';
-
-      let res = fetch(API_URL)
-        .then((res) => res.json())
-        .then(({ movie_results }) => {
-          if (
-            movie_results &&
-            movie_results.length > 0 &&
-            movie_results[0] &&
-            movie_results[0].poster_path
-          ) {
-            movie.image = `${IMG_URL + movie_results[0].poster_path}`;
-            return movie;
-          } else {
-            movie.image =
-              'https://img.freepik.com/premium-vector/movie-night-cinema-flat-poster_118124-966.jpg';
-            return movie;
-          }
-        })
-        .catch((e) => e);
-      return res;
-    })
-  );
-  for (let type in genres) {
-    const filteredMovies = newMovies.filter((movie) =>
-      movie.genres_arr.includes(type)
-    );
-    genres[type] = filteredMovies;
-  }
   return {
-    all: newMovies,
+    all: info,
     sort: genres,
   };
 };

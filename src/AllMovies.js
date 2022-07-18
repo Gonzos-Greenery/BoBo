@@ -13,7 +13,6 @@ import {
 import { fetchMovies } from './store/movies';
 import { fetchParties } from './store/parties';
 import Loading from './Loading';
-import { useFocusEffect } from '@react-navigation/native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faTicket } from '@fortawesome/free-solid-svg-icons';
 
@@ -66,7 +65,7 @@ export default ({ navigation, route }) => {
                     )}
                 />
             </View>
-            {movies.all === undefined ? <Loading /> : 
+            {
                 Object.keys(movies.sort).map((genre,idx) => {
                     return (
                         <View key={idx} style={styles.genreRow}>

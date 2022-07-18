@@ -114,7 +114,7 @@ function RegisterStack() {
     >
       <Stack.Screen
         name="Register"
-        component={RegisterMoviesList}
+        component={Register}
         options={{
           title: 'Register an account with BOBO',
           headerStyle: { backgroundColor: '#EFEECE' },
