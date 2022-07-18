@@ -1,24 +1,27 @@
 import React, {useState, useEffect} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { ScrollView, Text, View, Image, Pressable, FlatList, StyleSheet} from 'react-native';
-import {
-    Input,
-    Icon,
-    MaterialIcons,
-    Label,
-    Button,
-    VStack,
-    FormControl,
-    Center,
-    Stack,
-    useToast,
-    WarningOutlineIcon,
-} from 'native-base';
+import {Button} from 'native-base';
 import { fetchMovies } from './store/movies';
 import { registerUpdateWatched } from './store/user';
-import Loading from './Loading';
-//Need to run a function to create specific genres that are available
-//It then populates individual movies in the list for each one
+
+const MovieItem = (props) => (
+    <Pressable
+    onPress={() => {
+        if(props.selected.includes(props.data.id)){
+            props.onSelect(props.selected.filter(id => id !== props.data.id))
+        } else {
+            props.onSelect([...props.selected, props.data.id])
+        }
+    }}>
+        <Image
+            source={{uri: props.data.image}}
+            style={props.selected.includes(props.data.id) ? 
+                styles.imageSelected : styles.image
+            }
+        />
+    </Pressable>
+)
 
 export default ({navigation}) => {
     const dispatch = useDispatch()
@@ -53,32 +56,24 @@ export default ({navigation}) => {
                 >Submit</Button>
             </View>
             <ScrollView>
-
-
                 {movies === undefined ? <View /> :
                     Object.keys(movies.sort).map((genre,idx) => {
                         return (
                             <View key={idx} style={styles.genreRow}>
                                 <Text style={{fontSize: 16, fontWeight: 'bold'}}>{genre.toUpperCase()}</Text>
                                 <FlatList
-                                horizontal
-                                ItemSeparatorComponent={() => <View style={{width:5}}/>}
-                                renderItem = {(movie) => (
-                                    <View key={movie}>
-                                        <Pressable onPress={() => {
-                                            setSelected([...selected, movie.item.id])
-
-                                        }}>
-                                            <Image
-                                            style={styles.image}
-                                            source={{uri: movie.item.image}}
-                                            />
-                                      </Pressable>
-                                    </View>
-                                )}
-                                keyExtractor={(movie,idx) => idx.toString()}
-                                data = {movies.sort[genre]}
-                            />
+                                    horizontal
+                                    ItemSeparatorComponent={() => <View style={{width:5}}/>}
+                                    renderItem = {({item}) => (
+                                        <MovieItem 
+                                            data={item}
+                                            selected={selected}
+                                            onSelect={setSelected}
+                                        /> 
+                                    )}
+                                    keyExtractor={(movie,idx) => idx.toString()}
+                                    data = {movies.sort[genre]}
+                                />
                             </View>
                         )
                     })
@@ -100,5 +95,10 @@ const styles = StyleSheet.create({
     loading:{
         width:'100%',
         height:'100%'
+    },
+    imageSelected: {
+        width: 120,
+        height: 200,
+        borderRadius: 100,
     }
 });

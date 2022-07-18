@@ -14,7 +14,6 @@ import {View, Text,
   WarningOutlineIcon, Image
 } from 'native-base';
 import { useSelector, useDispatch } from 'react-redux';
-
 import { authenticate } from './store/auth';
 
 const Register = ({ navigation }) => {
@@ -27,7 +26,6 @@ const Register = ({ navigation }) => {
   const handleClick = () => setShow(!show);
   const toast = useToast();
   const dispatch = useDispatch();
-
   const validate = () => {
     if (!email.includes('@') || !email.includes('.')) {
       setErrors('Invalid email type.');
@@ -59,7 +57,6 @@ const Register = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-
       <VStack space={2} w='100%' alignItems='center'>
         <FormControl>
           <Stack mx='4' alignItems='center'>

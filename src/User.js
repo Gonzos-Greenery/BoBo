@@ -8,7 +8,8 @@ import {
   Stack,
   HStack,
   Avatar,
-  Circle
+  Circle,
+  useToast
 } from 'native-base';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
@@ -30,6 +31,7 @@ const User = ({ navigation }) => {
         });
     const { auth } = useSelector(state => state);
     const dispatch = useDispatch()
+    const toast = useToast()
     
     const handleClick = () => setShow(!show);
     const validate = (input) => {
@@ -55,7 +57,9 @@ const User = ({ navigation }) => {
         if (validate(user.email)) {
             try {
                 await dispatch(updateUser(user))
-                navigation.push('Movies')
+                toast.show({
+                    description: 'Updated!'
+                })
             } catch (err) {
                 setErrors(err.message);
             }
@@ -84,10 +88,10 @@ const User = ({ navigation }) => {
 
     return (
         <View style={{backgroundColor: `#A4C69C`, height: '100%'}}>
-            <VStack alignItems='center' marginTop={10}>
+            <VStack alignItems='center' marginTop={20}>
                 <FontAwesomeIcon icon={faUserCircle} size={120} color={"#CEE9C5"}/>
                 <FormControl>
-                    <Stack mx='4' alignItems='center' marginTop='10'>
+                    <Stack mx='3' alignItems='center' marginTop='2'>
                         <FormControl.Label pb='0' w='75%'>
                         Username
                         </FormControl.Label>
@@ -133,7 +137,7 @@ const User = ({ navigation }) => {
                             size='s'
                             rounded='none'
                             w='1/6'
-                            h='full'
+                            h='3/4'
                             variant='ghost'
                             colorScheme='green'
                             _text={{ color: '#86A17F' }}
@@ -153,9 +157,9 @@ const User = ({ navigation }) => {
                         )}
                     </Stack>
                 </FormControl>
-                <View style={{justifyContent:'center', margin: 15}}>
-                    <Stack mx='2' alignItems='center'>
-                        <HStack flexWrap='wrap' justifyContent='space-around'>
+                <View style={{justifyContent:'center'}}>
+                    <Stack mx='4' alignItems='center'>
+                        <HStack flexWrap='wrap' justifyContent='space-evenly'>
                             {Object.keys(services).map((service) => {
                                 return (
                                 <Stack key={service}>
@@ -169,7 +173,7 @@ const User = ({ navigation }) => {
                                     {() => {
                                         return (
                                         <Circle
-                                            size='80px'
+                                            size='70px'
                                             borderWidth='1'
                                             bg={
                                             services[service] ? 'primary.900' : 'coolGray.100'
@@ -179,7 +183,7 @@ const User = ({ navigation }) => {
                                             source={{
                                                 uri: logos[service],
                                             }}
-                                            size='50px'
+                                            size='55px'
                                             {...service}
                                             />
                                         </Circle>

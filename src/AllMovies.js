@@ -8,12 +8,13 @@ import {
   Image,
   StyleSheet,
   ScrollView,
+  TouchableOpacity
 } from 'react-native';
-import { Box } from 'native-base';
 import { fetchMovies } from './store/movies';
 import { fetchParties } from './store/parties';
 import Loading from './Loading';
-import { useFocusEffect } from '@react-navigation/native';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faTicket } from '@fortawesome/free-solid-svg-icons';
 
 export default ({ navigation, route }) => {
   const dispatch = useDispatch();
@@ -21,128 +22,85 @@ export default ({ navigation, route }) => {
     return state;
   });
 
-  useFocusEffect(
-    React.useCallback(() => {
-      dispatch(fetchMovies());
-
-      return () => {
-        return;
-      };
-    }, [])
-  );
-
   useEffect(() => {
     if (auth.id) {
       dispatch(fetchParties(auth.id));
     }
   }, [auth]);
 
-  return (
-    <View style={styles.container}>
-      <ScrollView style={{ marginTop: 30 }}>
-        {auth.movies === undefined ? (
-          <Text style={{ fontSize: 16 }}>Nothing watched previously</Text>
-        ) : (
-          <View style={styles.genreRow}>
-            <Text style={styles.textMovies}>Previously Watched...</Text>
-            <FlatList
-              horizontal
-              ItemSeparatorComponent={() => <View style={{ width: 5 }} />}
-              data={
-                movies.all === undefined
-                  ? []
-                  : movies.all.filter((movie) => auth.movies.includes(movie.id))
-              }
-              renderItem={(movie) => (
-                <View>
-                  <Pressable
-                    onPress={() => {
-                      navigation.navigate('SingleMovie', { movie: movie.item });
-                    }}
-                  >
-                    <Image
-                      style={styles.image}
-                      source={{ uri: movie.item.image }}
-                    />
-                  </Pressable>
-                </View>
-              )}
-            />
-          </View>
-        )}
-        <View style={styles.genreRow}>
-          <Text style={styles.textMovies}>Upcoming Parties...</Text>
-          <FlatList
-            horizontal
-            ItemSeparatorComponent={() => <View style={{ width: 5 }} />}
-            data={userParties === [] ? [] : userParties}
-            renderItem={(party) => (
-              <View>
-                <Pressable
-                  onPress={() =>
-                    navigation.push('PartyView', { id: party.item.id })
-                  }
-                >
-                  <Image
-                    style={styles.image}
-                    source={{
-                      uri: 'https://thumbs.dreamstime.com/b/film-strip-video-camera-vector-icon-cinema-symbol-film-strip-video-camera-vector-icon-cinema-symbol-photographic-film-135692148.jpg',
-                    }}
-                  />
-                  <Text
-                    style={{ textAlign: 'center', fontWeight: 'bold' }}
-                  >{`Party #${party.item.id}`}</Text>
-                </Pressable>
-              </View>
-            )}
-          />
-        </View>
-        {movies.all === undefined ? (
-          <Loading />
-        ) : (
-          Object.keys(movies.sort).map((genre, idx) => {
-            return (
-              <View key={idx} style={styles.genreRow}>
-                <Text style={styles.textMovies}>{genre.toUpperCase()}</Text>
-                <FlatList
-                  horizontal
-                  ItemSeparatorComponent={() => <View style={{ width: 10 }} />}
-                  renderItem={(movie) => (
-                    <View key={movie}>
-                      <Pressable
-                        onPress={() => {
-                          navigation.navigate('SingleMovie', {
-                            movie: movie.item,
-                          });
-                        }}
-                      >
-                        <Image
-                          style={styles.image}
-                          source={{ uri: movie.item.image }}
-                        />
-                      </Pressable>
-                    </View>
-                  )}
-                  keyExtractor={(movie, idx) => idx.toString()}
-                  data={movies.sort[genre]}
+    return (
+      <View style={styles.container}>
+        <ScrollView style={{marginTop: 30}}>
+            {auth.movies === undefined ? <Text style={{fontSize: 16}}>Nothing watched previously</Text> :
+            <View style={styles.genreRow}>
+                <Text style={styles.textMovies}>Previously Watched...</Text>
+                <FlatList 
+                    horizontal
+                    ItemSeparatorComponent={() => <View style={{width:5}}/>}
+                    data={movies.all === undefined ? [] : movies.all.filter(movie => auth.movies.includes(movie.id))}
+                    renderItem={(movie) => (
+                        <View>
+                            <Pressable onPress={() => {navigation.navigate('SingleMovie', {movie: movie.item})}}>
+                                <Image style={styles.image} source={{uri: movie.item.image}}/>
+                            </Pressable>
+                        </View>
+                    )}
                 />
-              </View>
-            );
-          })
-        )}
-      </ScrollView>
-    </View>
-  );
-};
+            </View>
+            }
+            <View style={styles.genreRow}>
+                <Text style={styles.textMovies}>Upcoming Parties...</Text>
+                <FlatList 
+                    horizontal
+                    ItemSeparatorComponent={() => <View style={{width:10}}/>}
+                    data={userParties === [] ? [] : userParties}
+                    renderItem={(party) => (
+                        <View style={{height:100}}>
+                            <TouchableOpacity style={styles.btn}
+                              onPress={() => navigation.navigate('PartyView', {id: party.item.id})}>
+                              <FontAwesomeIcon icon={faTicket} size={70} color={'#8A9D8C'}/>
+                              <Text style={{fontFamily: 'AppleSDGothicNeo-Bold', fontSize: 14}}>{`${party.item.name}`}</Text>   
+                            </TouchableOpacity>
+                        </View>
+                    )}
+                />
+            </View>
+            {
+                Object.keys(movies.sort).map((genre,idx) => {
+                    return (
+                        <View key={idx} style={styles.genreRow}>
+                            <Text style={styles.textMovies}>{genre.toUpperCase()}</Text>
+                            <FlatList 
+                            horizontal
+                            ItemSeparatorComponent={() => <View style={{width:10}}/>}
+                            renderItem = {(movie) => (
+                                <View key={movie}>
+                                    <Pressable onPress={() => {
+                                    navigation.navigate('SingleMovie', {movie: movie.item})}}>
+                                    <Image 
+                                        style={styles.image} 
+                                        source={{uri: movie.item.image}}
+                                    />
+                                    </Pressable>
+                                </View>
+                            )}
+                            keyExtractor={(movie,idx) => idx.toString()}
+                            data = {movies.sort[genre]}
+                            />
+                        </View>
+                    )
+                })
+            }
+            </ScrollView>
+      </View>
+  )
+}
 
 const styles = StyleSheet.create({
   image: {
     width: 160,
     height: 240,
-    borderRadius: 10,
-    shadowColor: 'rgba(0, 0, 0, 0.1)',
-    shadowOpacity: 0.2,
-    shadowRadius: 15,
+    borderRadius: 15,
   },
   genreRow: {
     marginTop: 35,
@@ -156,18 +114,28 @@ const styles = StyleSheet.create({
     width: '100%',
     backgroundColor: `rgba(164,198,156,1)`,
   },
-  btn: {
-    alignContent: 'center',
+  btn:{
+    alignItems:'center',
     width: 100,
-    height: 85,
-    backgroundColor: '#d5e7d0',
-    padding: 10,
-    borderRadius: 10,
+    height: 95,
+    backgroundColor: "#d5e7d0",
+    padding: 5,
+    borderRadius: 10, 
+    shadowColor: '#171717',
+    shadowOffset: {width: -2, height: 4},
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
   },
   textMovies: {
-    fontSize: 19,
+    fontSize: 19, 
     marginLeft: 5,
     marginBottom: 5,
-    fontFamily: 'AppleSDGothicNeo-Bold',
-  },
+    fontFamily: 'AppleSDGothicNeo-Bold'
+  }, 
+  shadowProp: {
+    shadowColor: '#171717',
+    shadowOffset: {width: -2, height: 4},
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+  }
 });
