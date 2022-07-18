@@ -29,27 +29,11 @@ import {
   HStack,
   SearchIcon,
   useToast,
+  KeyboardAvoidingView,
 } from 'native-base';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { createNewParty } from './store/party';
 import { fetchUser, fetchUserByUsername } from './store/user';
-
-// const Invitee = (props) => {
-//   const friend = props.friend;
-
-//   return (
-//     <Box
-//       bg='primary.100'
-//       w='75%'
-//       rounded='md'
-//       shadow={3}
-//       justifyContent='center'
-//       alignItems='center'
-//     >
-//       {`${friend.name} ( @${friend.username} )`}
-//     </Box>
-//   );
-// };
 
 const HostParty = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -108,11 +92,12 @@ const HostParty = ({ navigation }) => {
   const handleSubmit = () => {
     const location = address;
     dispatch(createNewParty(user.id, partyName, location, date, invitees));
-    navigation.push('Movies');
+    navigation.navigate('LoggedIn');
   };
 
   return (
     <SafeAreaView style={styleSheet.container}>
+      {/* <KeyboardAvoidingView> */}
       <ScrollView>
         <VStack space={5} w='100%' alignItems='center'>
           <Heading size='2xl'>Host a BOBO Party</Heading>
@@ -161,8 +146,8 @@ const HostParty = ({ navigation }) => {
                   bg='coolGray.100'
                   p='5'
                   rounded='8'
+                  minW='75%'
                   alignItems='center'
-                  w='100%'
                 >
                   {date.toDateString()}
                 </Box>
@@ -267,6 +252,7 @@ const HostParty = ({ navigation }) => {
           </Button>
         </VStack>
       </ScrollView>
+      {/* </KeyboardAvoidingView> */}
     </SafeAreaView>
   );
 };

@@ -81,6 +81,7 @@ export default ({ navigation }) => {
       });
     } else {
       navigation.navigate('LoggedIn');
+      // navigation.navigate('FriendsList');
     }
   };
 
