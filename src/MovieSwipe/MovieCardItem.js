@@ -35,11 +35,11 @@ const MovieCardItem = (card) => {
       <View style={styles.tinderCardWrapper}>
         <View style={styles.imagecontainer}>
           <Text style={styles.header}>{card.card.original_title}</Text>
-          {/* <Text style={styles.header}>{card.card}</Text> */}
+
           <Image
             style={styles.image}
             source={{
-              // uri: card.card,
+             
               uri: posterUrl,
             }}
           />

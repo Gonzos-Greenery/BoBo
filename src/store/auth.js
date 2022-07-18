@@ -26,7 +26,7 @@ export const me = (data) => async (dispatch) => {
 
 export const authenticate = (userData, method) => async (dispatch) => {
   try {
-    const res = await axios.post(`${url}/auth/${method}`, {username: userData.username, password: userData.password})
+    const res = await axios.post(`${url}/auth/${method}`, userData)
     dispatch(me(res.data));
     return true;
   } catch (authError) {
@@ -34,14 +34,7 @@ export const authenticate = (userData, method) => async (dispatch) => {
   }
 };
 
-// export const logout = () => {
-//   window.localStorage.removeItem(TOKEN);
-//   history.push('/login');
-//   return {
-//     type: SET_AUTH,
-//     auth: {},
-//   };
-// };
+
 
 // reducer
 export default function (state = {}, action) {

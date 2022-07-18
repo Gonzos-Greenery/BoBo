@@ -20,7 +20,6 @@ import Register from './src/Register';
 import PartyView from './src/PartyView';
 import PartyAddForm from './src/PartyAddForm';
 import User from './src/User';
-import Footer from './src/Footer';
 import HostParty from './src/HostParty';
 import FriendsList from './src/FriendsList';
 import theme from './src/theme';
@@ -29,11 +28,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 const Stack = createStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
 
-/* Used for graphql hookup (also add in <ApolloProvider client={client}> tage around return statement)
-const client = new ApolloClient({
-  uri: 'http://localhost:8080/graphql',
-  cache: new InMemoryCache(),
-}); */
+
 
 function PartyStack() {
   return (
@@ -57,6 +52,14 @@ function PartyStack() {
         component={MovieCard}
         options={{ title: 'Netflix and Chill' }}
       />
+
+       <Stack.Screen
+              name="PartyView"
+              component={PartyView}
+              options={{
+                headerShown:false,
+              }}
+            />
     </Stack.Navigator>
   );
 }
@@ -80,7 +83,7 @@ function LoggedInStack() {
           ),
         }}
       />
-      {/* <Tab.Screen name='Home' component={AllMovies}/> */}
+
       <Tab.Screen
         name="User"
         component={User}
@@ -95,6 +98,16 @@ function LoggedInStack() {
           ),
         }}
       />
+      <Tab.Screen name="FriendsList" component={FriendsList}  options={{
+          tabBarLabel: 'Friends',
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons
+              name="account-multiple"
+              color={color}
+              size={26}
+            />
+          ),
+        }}/>
       <Tab.Screen
         name="PartyStack"
         component={PartyStack}
@@ -175,7 +188,13 @@ function MovieStack() {
         component={MovieCard}
         options={{ title: 'Netflix and Chill' }}
       />
-      <Stack.Screen name="Party" component={PartyView} />
+        <Stack.Screen
+              name="PartyView"
+              component={PartyView}
+              options={{
+                headerShown:false,
+              }}
+            />
     </Stack.Navigator>
   );
 }
@@ -205,19 +224,16 @@ export default function App() {
               component={RegisterStack}
               options={{ headerShown: false }}
             />
-            <Stack.Screen
-              name="PartyView"
-              component={PartyView}
-              options={{ title: 'Upcoming BOBO Party', headerStyle: { backgroundColor: '#404746', color:'#404746' }}}
-            />
+
             <Stack.Screen
               name="Parties"
               component={PartyStack}
               options={{ headerShown: false }}
             />
+           
             <Stack.Screen name="Party Invites" component={PartyAddForm} />
             <Stack.Screen name="User" component={User} />
-            <Stack.Screen name="FriendsList" component={FriendsList} />
+
           </Stack.Navigator>
         </NavigationContainer>
       </Provider>

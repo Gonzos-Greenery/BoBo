@@ -10,7 +10,7 @@ import {
   FlatList,
 } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
-// import { gql, useMutation } from '@apollo/client';
+
 import axios from 'axios';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import {

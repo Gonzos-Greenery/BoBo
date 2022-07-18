@@ -1,6 +1,4 @@
 import React from 'react';
-// import { gql, useMutation } from '@apollo/client';
-// import { REGISTER_USER_MUTATION } from './graphql/Mutation';
 import { StyleSheet, Dimensions } from 'react-native';
 import {View, Text,
   Input,
@@ -16,7 +14,6 @@ import {View, Text,
   WarningOutlineIcon, Image
 } from 'native-base';
 import { useSelector, useDispatch } from 'react-redux';
-// import {registerUser} from './store/user';
 import { authenticate } from './store/auth';
 
 const Register = ({ navigation }) => {
@@ -29,7 +26,6 @@ const Register = ({ navigation }) => {
   const handleClick = () => setShow(!show);
   const toast = useToast();
   const dispatch = useDispatch();
-  // const [registerUser, { data }] = useMutation(REGISTER_USER_MUTATION);
   const validate = () => {
     if (!email.includes('@') || !email.includes('.')) {
       setErrors('Invalid email type.');
@@ -43,12 +39,12 @@ const Register = ({ navigation }) => {
       const newUserInput = { username, email, password, name: fullName };
       try {
         const data = await dispatch(authenticate(newUserInput, 'signup'));
-        console.log(data);
+
         if (data != true) {
           setErrors('Username/email already exists');
-          console.log('no data');
+
         } else {
-          console.log(data);
+
           navigation.push('StreamingOptions');
         }
       } catch (err) {
@@ -61,10 +57,6 @@ const Register = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      {/* <Image
-                style={styles.logo}
-                source={require('../public/logo.png')}
-            /> */}
       <VStack space={2} w='100%' alignItems='center'>
         <FormControl>
           <Stack mx='4' alignItems='center'>

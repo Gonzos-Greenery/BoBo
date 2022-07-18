@@ -27,6 +27,7 @@ import {
 import { useSelector, useDispatch } from 'react-redux';
 import { authenticate } from './store';
 import logo from '../assets/logo.png';
+import { fetchMovies } from './store/movies';
 
 export default ({ navigation }) => {
   const [username, setUsername] = useState('');
@@ -81,9 +82,12 @@ export default ({ navigation }) => {
       });
     } else {
       navigation.navigate('LoggedIn');
-      // navigation.navigate('FriendsList');
     }
   };
+
+  useEffect(() => {
+    dispatch(fetchMovies());
+  }, []);
 
   return (
     <View style={styles.container}>

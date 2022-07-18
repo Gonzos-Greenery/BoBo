@@ -46,9 +46,7 @@ const theme = extendTheme({
     },
   },
   fonts: { heading: 'Lato', body: 'Lato', mono: 'Lato' },
-  // config: {
-
-  // },
+  
 });
 
 export default theme;

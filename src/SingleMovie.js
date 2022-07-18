@@ -8,6 +8,7 @@ import {
   Image,
   TouchableOpacity,
   Button,
+  ScrollView
 } from "react-native";
 import { gql, useQuery } from "@apollo/client";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
@@ -40,11 +41,10 @@ export default ({ route, navigation }) => {
     "https://github.com/tranhonghan/images/blob/main/star_filled.png?raw=true";
   const starImgEmpty =
     "https://github.com/tranhonghan/images/blob/main/star_corner.png?raw=true";
-  // const singleMovie = useSelector((state) => state.movie);
-  // console.log(singleMovie);
 
-  useEffect(() => {
-    // dispatch(fetchMovie(route.params.movie.id));
+
+
+  useEffect(() => {;
 
     const getMovie = async (id) => {
       const res = await axios
@@ -52,11 +52,9 @@ export default ({ route, navigation }) => {
         .catch((err) => {
           console.log(err);
         });
-      // const res = dispatch(fetchMovies());
       setData(res.data);
       setImdbUrl(res.data.imdb_id);
       setTitle(res.data.title);
-      // showMovies(res.data);
     };
     const getUser = async (username) => {
       const res = await axios
@@ -90,13 +88,7 @@ export default ({ route, navigation }) => {
   };
   getUserRating(store.auth.id, route.params.movie.id);
 
-  // const { data, loading } = useQuery(SINGLE_MOVIES_QUERY, {
-  //   variables: { id: route.params.movie.id },
-  // });
 
-  // if (loading) {
-  //   return <Loading />;
-  // }
 
   const API_KEY = "api_key=1cf50e6248dc270629e802686245c2c8";
   const BASE_URL = "https://api.themoviedb.org/3";
@@ -223,7 +215,6 @@ export default ({ route, navigation }) => {
     if (thumbsUp) {
       thumbsRating = true;
     }
-    // addUserRating(userID, route.params.movie.id, defaultRating);
     const updateRating = async () => {
       if (update === false) {
         await axios
@@ -256,37 +247,38 @@ export default ({ route, navigation }) => {
   };
 
   return (
-    <View style={iconstyles.imageContainer}>
-      <Text style={styles.header}> {title}</Text>
-      <Image style={iconstyles.image} source={{ uri: posterUrl }} />
+    <ScrollView>
+      <View style={iconstyles.imageContainer}>
+        <Image style={iconstyles.image} source={{ uri: posterUrl }} />
 
-      {seen === true ? (
-        <View style={iconstyles.imageContainer}>
-          <Text style={styles.header}>How did you like {title}?</Text>
-          <View style={iconstyles.stars}>
-            <RatingBar />
-          </View>
-          <Text style={styles.subheader}>Would you watch it again?</Text>
-          <View style={iconstyles.thumbs}>
-            <ThumbsRating />
-          </View>
-          <Button
-            style={styles.subheader}
-            title="Submit"
-            onPress={() => submitHandler()}
-          />
-        </View>
-      ) : (
-          <View
-          style={styles.subheader}>
+        {seen === true ? (
+          <View style={iconstyles.imageContainer}>
+            <Text style={styles.header}>How did you like {title}?</Text>
+            <View style={iconstyles.stars}>
+              <RatingBar />
+            </View>
+            <Text style={styles.subheader}>Would you watch it again?</Text>
+            <View style={iconstyles.thumbs}>
+              <ThumbsRating />
+            </View>
             <Button
-            title="I've seen this movie"
-            onPress={() => seenHandler()}
+              style={styles.subheader}
+              title="Submit"
+              onPress={() => submitHandler()}
             />
-            <Text style={{marginTop: 10}}>{route.params.movie.description}</Text>
           </View>
-      )}
-    </View>
+        ) : (
+            <View
+            style={styles.subheader}>
+              <Button
+              title="I've seen this movie"
+              onPress={() => seenHandler()}
+              />
+              <Text style={{marginTop: 10}}>{route.params.movie.description}</Text>
+            </View>
+        )}
+      </View>
+    </ScrollView>
   );
 };
 
@@ -312,13 +304,7 @@ const iconstyles = StyleSheet.create({
     width: 300,
     height: 400,
     borderRadius: 15,
-    shadowColor: '#000',
-    shadowOpacity: 2,
-    shadowOffset: {
-      width: 0,
-      height: 0
-    },
-    shadowRadius: 20
+    marginTop: 20
   },
   imageContainer: {
     flexDirection: "column",

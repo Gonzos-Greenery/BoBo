@@ -31,48 +31,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faFaceSmile } from '@fortawesome/free-regular-svg-icons/faFaceSmile';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 
-// const Friend = (props) => {
-//   const friend = props.friend;
-//   const dispatch = useDispatch();
-//   const toast = useToast();
-//   const { user } = useSelector((state) => {
-//     return state;
-//   });
-
-//   return (
-//     <HStack alignItems='center' space={4}>
-//       <Box
-//         w='70%'
-//         h='60px'
-//         bg='primary.300'
-//         rounded='md'
-//         shadow={3}
-//         justifyContent='center'
-//         alignItems='center'
-//       >
-//         <HStack space={5} alignItems='center'>
-//           <FontAwesomeIcon icon={faFaceSmile} />
-//           <Box w='60px' fontWeight='bold'>
-//             {friend.username}
-//           </Box>
-//           <Box w='150px'>{friend.email}</Box>
-//         </HStack>
-//       </Box>
-{
-  /* <Pressable
-  onPress={() => {
-    dispatch(removeFriend(user.id, friend.id));
-    toast.show({
-      description: 'Friend removed',
-    });
-  }}
->
-  <CloseIcon size='xl' />
-</Pressable>; */
-}
-//     </HStack>
-//   );
-// };
 
 const FriendsList = ({ navigation }) => {
   const dispatch = useDispatch();
