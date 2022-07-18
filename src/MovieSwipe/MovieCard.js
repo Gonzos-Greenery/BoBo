@@ -68,7 +68,6 @@ const MovieCard = ({ navigation }) => {
     let voted = store.partyRatings.filter(
       (rating) => rating.userId === id && rating.partyId === partyId
     );
-    console.log(store);
     if (voted.length >= 10) {
       setHasVoted(true);
     } else {
@@ -93,8 +92,10 @@ const MovieCard = ({ navigation }) => {
       const index = store.partyMovies
         .map((movie) => movie.id)
         .indexOf(toBeRemoved);
-      console.log("childrefs", childRefs[index].current);
-      await childRefs[index].current.swipe(dir);
+        if (childRefs[index] && childRefs[index].current.swipe) {
+          await childRefs[index].current.swipe(dir);
+        }
+
     }
   };
 
@@ -124,40 +125,40 @@ const MovieCard = ({ navigation }) => {
 
   return (
     <View style={styles.wrapper}>
-      <View>
-        <View style={styles.cardMain}>
-          <View style={styles.swipesContainer}>
-            {store.partyMovies.map((movie, index) => {
-              return (
-                <TinderCard
-                  ref={childRefs[index]}
-                  onSwipe={(dir) => onSwipe(dir, movie.id)}
-                  key={movie.id}
-                >
-                  <View style={styles.tinderCardWrapper}>
-                    <View style={styles.imagecontainer}>
-                      <Text style={styles.header}>{movie.title}</Text>
-                      <Image
-                        style={styles.image}
-                        source={{
-                          uri: movie.image,
-                        }}
-                      />
-                      <Text
-                        numberOfLines={5}
-                        ellipsizeMode="tail"
-                        style={styles.header}
-                      >
-                        {movie.description}
-                      </Text>
+      {!hasVoted ? (
+        <View>
+          <View style={styles.cardMain}>
+            <View style={styles.swipesContainer}>
+              {store.partyMovies.map((movie, index) => {
+                return (
+                  <TinderCard
+                    ref={childRefs[index]}
+                    onSwipe={(dir) => onSwipe(dir, movie.id)}
+                    key={movie.id}
+                  >
+                    <View style={styles.tinderCardWrapper}>
+                      <View style={styles.imagecontainer}>
+                        <Text style={styles.header}>{movie.title}</Text>
+                        <Image
+                          style={styles.image}
+                          source={{
+                            uri: movie.image,
+                          }}
+                        />
+                        <Text
+                          numberOfLines={5}
+                          ellipsizeMode="tail"
+                          style={styles.header}
+                        >
+                          {movie.description}
+                        </Text>
+                      </View>
                     </View>
-                  </View>
-                </TinderCard>
-              );
-            })}
+                  </TinderCard>
+                );
+              })}
+            </View>
           </View>
-        </View>
-        {!hasVoted ? (
           <View>
             <View>
               <View style={styles.buttonWrapper}>
@@ -236,19 +237,19 @@ const MovieCard = ({ navigation }) => {
               </View>
             </View>
           </View>
-        ) : (
-          <View>
-            <TouchableOpacity
-              style={styles.rec}
-              onPress={() =>
-                navigation.navigate("PartyView", { id: store.party.id })
-              }
-            >
-              <Text style={{ color: "black" }}>You've Finished Voting</Text>
-            </TouchableOpacity>
-          </View>
-        )}
-      </View>
+        </View>
+      ) : (
+        <View>
+          <TouchableOpacity
+            style={styles.rec}
+            onPress={() =>
+              navigation.navigate("PartyView", { id: store.party.id })
+            }
+          >
+            <Text style={{ color: "black" }}>You've Finished Voting</Text>
+          </TouchableOpacity>
+        </View>
+      )}
     </View>
   );
 };

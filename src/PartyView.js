@@ -16,9 +16,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 
 export default ({ navigation, route }) => {
-  const [votingStatus, setVotingStatus] = useState(); //state of voting period, state of users list, state of users voted status
-  const [host, setHost] = useState(); //keeps track of users + adding new users
-  const [films, setFilms] = useState(); //storing a collection of 10 films with top scorings that are not seen or is "will watch again movie"
+  const [votingStatus, setVotingStatus] = useState();
+  const [host, setHost] = useState();
+  const [films, setFilms] = useState();
   const dispatch = useDispatch();
   const store = useSelector((state) => {
     return state;
@@ -98,7 +98,7 @@ export default ({ navigation, route }) => {
             )}
           </View>
           <Button
-            style={{ backgroundColor: '#d5e7d0' }}
+            style={{ backgroundColor: '#d5e7d0', width: '75%', alignSelf:'center' }}
             _text={{ color: 'black' }}
             onPress={() => dispatch(fetchPartyMovies(store.party.users))}
           >
@@ -154,38 +154,38 @@ export default ({ navigation, route }) => {
 
 const styles = StyleSheet.create({
   container: {
-    height: '100%',
+    height:'100%',
     width: '100%',
-    backgroundColor: `rgba(164,198,156,1)`,
+    backgroundColor: `rgba(164,198,156,1)`
   },
   textMain: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 5,
-    color: '#404746',
+      fontSize: 20,
+      fontWeight:'bold',
+      marginBottom:5,
+  }
+  ,
+  btn:{
+      height: 55,
+      borderRadius: 10,
+      width: 100,
+      justifyContent: 'center',
+      backgroundColor: '#8A9D8C',
+      alignSelf:'center'
   },
-  btn: {
-    height: 55,
-    borderRadius: 10,
-    width: 100,
-    justifyContent: 'center',
-    backgroundColor: '#8A9D8C',
-    alignSelf: 'center',
+  btnRow:{
+      flexDirection: 'row',
+      justifyContent: 'center',
+      marginTop:20,
+      justifyContent:'space-evenly'
   },
-  btnRow: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginTop: 20,
-    justifyContent: 'space-evenly',
-  },
-  user: {
-    height: 60,
-    borderRadius: 13,
-    width: '75%',
-    alignSelf: 'center',
-    marginTop: 7,
-    textAlign: 'justify',
-    backgroundColor: 'white',
-    flexDirection: 'row',
-  },
+  user:{
+      height: 60,
+      borderRadius: 13,
+      width: '75%',
+      alignSelf:'center',
+      marginTop: 7,
+      textAlign: 'justify',
+      backgroundColor: 'white',
+      flexDirection: 'row'
+  }
 });

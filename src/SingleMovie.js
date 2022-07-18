@@ -8,6 +8,7 @@ import {
   Image,
   TouchableOpacity,
   Button,
+  ScrollView
 } from "react-native";
 import { gql, useQuery } from "@apollo/client";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
@@ -244,37 +245,40 @@ export default ({ route, navigation }) => {
     updateRating();
     navigation.navigate("Movies");
   };
-console.log(store)
-  return (
-    <View style={iconstyles.imageContainer}>
-      <Text style={styles.header}> {title}</Text>
-      <Image style={iconstyles.image} source={{ uri: store.movie.image }} />
 
-      {seen === true ? (
-        <View style={iconstyles.imageContainer}>
-          <Text style={styles.header}>How did you like {store.movie.title}?</Text>
-          <View style={iconstyles.stars}>
-            <RatingBar />
+  return (
+    <ScrollView>
+      <View style={iconstyles.imageContainer}>
+        <Image style={iconstyles.image} source={{ uri: posterUrl }} />
+
+        {seen === true ? (
+          <View style={iconstyles.imageContainer}>
+            <Text style={styles.header}>How did you like {title}?</Text>
+            <View style={iconstyles.stars}>
+              <RatingBar />
+            </View>
+            <Text style={styles.subheader}>Would you watch it again?</Text>
+            <View style={iconstyles.thumbs}>
+              <ThumbsRating />
+            </View>
+            <Button
+              style={styles.subheader}
+              title="Submit"
+              onPress={() => submitHandler()}
+            />
           </View>
-          <Text style={styles.subheader}>Would you watch it again?</Text>
-          <View style={iconstyles.thumbs}>
-            <ThumbsRating />
-          </View>
-          <Button
-            style={styles.subheader}
-            title="Submit"
-            onPress={() => submitHandler()}
-          />
-        </View>
-      ) : (
-        <View style={styles.subheader}>
-          <Button title="I've seen this movie" onPress={() => seenHandler()} />
-          <Text style={{ marginTop: 10 }}>
-            {route.params.movie.description}
-          </Text>
-        </View>
-      )}
-    </View>
+        ) : (
+            <View
+            style={styles.subheader}>
+              <Button
+              title="I've seen this movie"
+              onPress={() => seenHandler()}
+              />
+              <Text style={{marginTop: 10}}>{route.params.movie.description}</Text>
+            </View>
+        )}
+      </View>
+    </ScrollView>
   );
 };
 
@@ -300,13 +304,7 @@ const iconstyles = StyleSheet.create({
     width: 300,
     height: 400,
     borderRadius: 15,
-    shadowColor: "#000",
-    shadowOpacity: 2,
-    shadowOffset: {
-      width: 0,
-      height: 0,
-    },
-    shadowRadius: 20,
+    marginTop: 20
   },
   imageContainer: {
     flexDirection: "column",
