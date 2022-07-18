@@ -1,4 +1,5 @@
 import axios from "axios";
+const url = "https://bobo-server.herokuapp.com";
 
 // Action constants
 const ADD_PARTY_RATING = "ADD_PARTY_RATING";
@@ -28,7 +29,7 @@ export const fetchPartyRatings = (partyId) => {
       // );
       const { data } = await axios({
         method: "get",
-        url: `http://localhost:8080/api/partyrating/${partyId}`,
+        url: `${url}/api/partyrating/${partyId}`,
       });
       dispatch(setRatings(data));
     } catch (error) {
@@ -42,7 +43,7 @@ export const addPartyRating = (partyId, userId, movieId, rating) => {
     try {
       const { data } = await axios({
         method: "post",
-        url: `http://localhost:8080/api/partyrating/add/${movieId}/${partyId}/${userId}`,
+        url: `${url}/api/partyrating/add/${movieId}/${partyId}/${userId}`,
         data: {
           rating,
         },

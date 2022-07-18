@@ -31,7 +31,7 @@ export default (route) => {
   useEffect(() => {
     const getRatings = async (partyId) => {
       const res = await axios
-        .get(`http://localhost:8080/api/partyrating/${partyId}`)
+        .get(`https://bobo-server.herokuapp.com/api/partyrating/${partyId}`)
         .catch((err) => {
           console.log(err);
         });
@@ -96,34 +96,47 @@ export default (route) => {
         {isBusy ? (
           <Loading />
         ) : (
-          <View>
+          <View style={styles.moviewrapper}>
             <Text>{movieObj.title}</Text>
             <Image style={styles.image} source={{ uri: movieObj.image }} />
-            <Text>{movieObj.description}</Text>
+            <Text style={styles.header}>{movieObj.description}</Text>
+            <Text>Available on: {site}</Text>
           </View>
         )}
-        <Text>Available on: {site}</Text>
       </View>
     </View>
   );
 };
 const { width, height } = Dimensions.get("window");
 const styles = StyleSheet.create({
+  moviewrapper: {
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+  },
   wrapper: {
     justifyContent: "center",
     alignItems: "center",
+    width: width,
+    height: height,
   },
   header: {
     justifyContent: "center",
     alignItems: "center",
+    flexWrap: "wrap",
+    overflow: "hidden",
+    width: width * 0.6,
   },
   image: {
-    width: width * 0.6,
-    height: height * 0.5,
+    flex: 1,
+    height: height * 0.6,
+    width: width * 0.7,
+    // aspectRatio: 1.5,
+    resizeMode: "contain",
   },
   imagecontainer: {
-    // width: width * 0.5,
-    height: height * 0.8,
+    width: width,
+    height: height,
     textAlign: "center",
     borderWidth: 10,
     borderColor: "darkolivegreen",
