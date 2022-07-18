@@ -30,8 +30,6 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 const Stack = createStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
 
-
-
 function PartyStack() {
   return (
     <Stack.Navigator
@@ -52,7 +50,7 @@ function PartyStack() {
       <Stack.Screen
         name="MovieCard"
         component={MovieCard}
-        options={{ title: "Netflix and Chill" }}
+        options={{ title: "Vote" }}
       />
       <Stack.Screen
         name="Recommendation"
@@ -60,13 +58,13 @@ function PartyStack() {
         options={{ title: "Final Recommendation" }}
       />
 
-       <Stack.Screen
-              name="PartyView"
-              component={PartyView}
-              options={{
-                headerShown:false,
-              }}
-            />
+      <Stack.Screen
+        name="PartyView"
+        component={PartyView}
+        options={{
+          headerShown: false,
+        }}
+      />
     </Stack.Navigator>
   );
 }
@@ -105,8 +103,11 @@ function LoggedInStack() {
           ),
         }}
       />
-      <Tab.Screen name="FriendsList" component={FriendsList}  options={{
-          tabBarLabel: 'Friends',
+      <Tab.Screen
+        name="FriendsList"
+        component={FriendsList}
+        options={{
+          tabBarLabel: "Friends",
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons
               name="account-multiple"
@@ -114,7 +115,8 @@ function LoggedInStack() {
               size={26}
             />
           ),
-        }}/>
+        }}
+      />
       <Tab.Screen
         name="PartyStack"
         component={PartyStack}
@@ -195,13 +197,18 @@ function MovieStack() {
         component={MovieCard}
         options={{ title: "Vote" }}
       />
-        <Stack.Screen
-              name="PartyView"
-              component={PartyView}
-              options={{
-                headerShown:false,
-              }}
-            />
+      <Stack.Screen
+        name="Recommendation"
+        component={Recommendation}
+        options={{ title: "Final Recommendation" }}
+      />
+      <Stack.Screen
+        name="PartyView"
+        component={PartyView}
+        options={{
+          headerShown: false,
+        }}
+      />
     </Stack.Navigator>
   );
 }
@@ -239,7 +246,6 @@ export default function App() {
 
             <Stack.Screen name="Party Invites" component={PartyAddForm} />
             <Stack.Screen name="User" component={User} />
-
           </Stack.Navigator>
         </NavigationContainer>
       </Provider>

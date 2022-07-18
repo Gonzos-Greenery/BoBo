@@ -57,10 +57,6 @@ export default (route) => {
     findRating(ratingArr);
   }, [ratingArr]);
 
-  // useEffect(() => {
-  //   findRating(store.partyRatings);
-  // }, [store]);
-
   const findMovie = (array, id) => {
     array.some((el) => {
       if (el.id === id) {

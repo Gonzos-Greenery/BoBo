@@ -64,9 +64,15 @@ const MovieCard = ({ navigation }) => {
 
   const haveVoted = () => {
     let id = store.auth.id;
-    let voted = store.partyRatings.filter((rating) => rating.userId === id);
+    let partyId = store.party.id;
+    let voted = store.partyRatings.filter(
+      (rating) => rating.userId === id && rating.partyId === partyId
+    );
+    console.log(store);
     if (voted.length >= 10) {
       setHasVoted(true);
+    } else {
+      setHasVoted(false);
     }
   };
 
@@ -78,7 +84,7 @@ const MovieCard = ({ navigation }) => {
     [store.partyMovies]
   );
 
-  const swipe = (dir) => {
+  const swipe = async (dir) => {
     const cardsLeft = store.partyMovies.filter(
       (movie) => !alreadyRemoved.includes(movie.id)
     );
@@ -87,7 +93,8 @@ const MovieCard = ({ navigation }) => {
       const index = store.partyMovies
         .map((movie) => movie.id)
         .indexOf(toBeRemoved);
-      childRefs[index].current.swipe(dir);
+      console.log("childrefs", childRefs[index].current);
+      await childRefs[index].current.swipe(dir);
     }
   };
 
@@ -117,142 +124,131 @@ const MovieCard = ({ navigation }) => {
 
   return (
     <View style={styles.wrapper}>
-      {!hasVoted ? (
-        <View>
-          <View style={styles.cardMain}>
-            <View style={styles.swipesContainer}>
-              {store.partyMovies.map((movie, index) => {
-                return (
-                  <TinderCard
-                    ref={childRefs[index]}
-                    onSwipe={(dir) => onSwipe(dir, movie.id)}
-                    key={movie.id}
-                  >
-                    <View style={styles.tinderCardWrapper}>
-                      <View style={styles.imagecontainer}>
-                        <Text style={styles.header}>{movie.title}</Text>
-                        <Image
-                          style={styles.image}
-                          source={{
-                            uri: movie.image,
-                          }}
-                        />
-                        <Text
-                          numberOfLines={5}
-                          ellipsizeMode="tail"
-                          style={styles.header}
-                        >
-                          {movie.description}
-                        </Text>
-                      </View>
+      <View>
+        <View style={styles.cardMain}>
+          <View style={styles.swipesContainer}>
+            {store.partyMovies.map((movie, index) => {
+              return (
+                <TinderCard
+                  ref={childRefs[index]}
+                  onSwipe={(dir) => onSwipe(dir, movie.id)}
+                  key={movie.id}
+                >
+                  <View style={styles.tinderCardWrapper}>
+                    <View style={styles.imagecontainer}>
+                      <Text style={styles.header}>{movie.title}</Text>
+                      <Image
+                        style={styles.image}
+                        source={{
+                          uri: movie.image,
+                        }}
+                      />
+                      <Text
+                        numberOfLines={5}
+                        ellipsizeMode="tail"
+                        style={styles.header}
+                      >
+                        {movie.description}
+                      </Text>
                     </View>
-                  </TinderCard>
-                );
-              })}
-            </View>
+                  </View>
+                </TinderCard>
+              );
+            })}
           </View>
+        </View>
+        {!hasVoted ? (
           <View>
-            {!empty ? (
-              <View>
-                <View style={styles.buttonWrapper}>
-                  <View style={styles.buttonColumn}>
-                    <Animated.Text
-                      style={{
-                        opacity: hateopacity,
-                        padding: 10,
-                        color: "red",
-                        fontSize: 30,
-                      }}
-                    >
-                      -2
-                    </Animated.Text>
-                    <TouchableOpacity
-                      style={styles.hate}
-                      onPress={() => swipe("down")}
-                    >
-                      <Text style={{ color: "white" }}>HATE</Text>
-                    </TouchableOpacity>
-                  </View>
-                  <View style={styles.buttonColumn}>
-                    <Animated.Text
-                      style={{
-                        opacity: dislikeopacity,
-                        padding: 10,
-                        color: "red",
-                        fontSize: 30,
-                      }}
-                    >
-                      -1
-                    </Animated.Text>
-                    <TouchableOpacity
-                      style={styles.dislike}
-                      onPress={() => swipe("left")}
-                    >
-                      <Text style={{ color: "white" }}>DISLIKE</Text>
-                    </TouchableOpacity>
-                  </View>
-                  <View style={styles.buttonColumn}>
-                    <Animated.Text
-                      style={{
-                        opacity: likeopacity,
-                        padding: 10,
-                        color: "limegreen",
-                        fontSize: 30,
-                      }}
-                    >
-                      +1
-                    </Animated.Text>
-                    <TouchableOpacity
-                      style={styles.like}
-                      onPress={() => swipe("right")}
-                    >
-                      <Text style={{ color: "black" }}>LIKE</Text>
-                    </TouchableOpacity>
-                  </View>
-                  <View style={styles.buttonColumn}>
-                    <Animated.Text
-                      style={{
-                        opacity: loveopacity,
-                        padding: 10,
-                        color: "limegreen",
-                        fontSize: 30,
-                      }}
-                    >
-                      +2
-                    </Animated.Text>
-                    <TouchableOpacity
-                      style={styles.love}
-                      onPress={() => swipe("up")}
-                    >
-                      <Text style={{ color: "black" }}>LOVE</Text>
-                    </TouchableOpacity>
-                  </View>
+            <View>
+              <View style={styles.buttonWrapper}>
+                <View style={styles.buttonColumn}>
+                  <Animated.Text
+                    style={{
+                      opacity: hateopacity,
+                      padding: 10,
+                      color: "red",
+                      fontSize: 30,
+                    }}
+                  >
+                    -2
+                  </Animated.Text>
+                  <TouchableOpacity
+                    style={styles.hate}
+                    onPress={() => swipe("down")}
+                  >
+                    <Text style={{ color: "white" }}>HATE</Text>
+                  </TouchableOpacity>
+                </View>
+                <View style={styles.buttonColumn}>
+                  <Animated.Text
+                    style={{
+                      opacity: dislikeopacity,
+                      padding: 10,
+                      color: "red",
+                      fontSize: 30,
+                    }}
+                  >
+                    -1
+                  </Animated.Text>
+                  <TouchableOpacity
+                    style={styles.dislike}
+                    onPress={() => swipe("left")}
+                  >
+                    <Text style={{ color: "white" }}>DISLIKE</Text>
+                  </TouchableOpacity>
+                </View>
+                <View style={styles.buttonColumn}>
+                  <Animated.Text
+                    style={{
+                      opacity: likeopacity,
+                      padding: 10,
+                      color: "limegreen",
+                      fontSize: 30,
+                    }}
+                  >
+                    +1
+                  </Animated.Text>
+                  <TouchableOpacity
+                    style={styles.like}
+                    onPress={() => swipe("right")}
+                  >
+                    <Text style={{ color: "black" }}>LIKE</Text>
+                  </TouchableOpacity>
+                </View>
+                <View style={styles.buttonColumn}>
+                  <Animated.Text
+                    style={{
+                      opacity: loveopacity,
+                      padding: 10,
+                      color: "limegreen",
+                      fontSize: 30,
+                    }}
+                  >
+                    +2
+                  </Animated.Text>
+                  <TouchableOpacity
+                    style={styles.love}
+                    onPress={() => swipe("up")}
+                  >
+                    <Text style={{ color: "black" }}>LOVE</Text>
+                  </TouchableOpacity>
                 </View>
               </View>
-            ) : (
-              <TouchableOpacity
-                style={styles.rec}
-                onPress={() =>
-                  navigation.navigate("PartyView", { id: store.party.id })
-                }
-              >
-                <Text style={{ color: "black" }}>Finish Voting</Text>
-              </TouchableOpacity>
-            )}
+            </View>
           </View>
-        </View>
-      ) : (
-        <View>
-          <TouchableOpacity
-            style={styles.rec}
-            onPress={() =>
-              navigation.navigate("PartyView", { id: store.party.id })
-            }
-          >
-            <Text style={{ color: "black" }}>You've Already Voted</Text>
-          </TouchableOpacity>
-        </View>
-      )}
+        ) : (
+          <View>
+            <TouchableOpacity
+              style={styles.rec}
+              onPress={() =>
+                navigation.navigate("PartyView", { id: store.party.id })
+              }
+            >
+              <Text style={{ color: "black" }}>You've Finished Voting</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+      </View>
     </View>
   );
 };
