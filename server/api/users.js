@@ -53,7 +53,7 @@ router.put('/update/:userid', async (req, res, next) => {
 
 router.get('/username/:username', async (req, res, next) => {
   try {
-    const user = await User.findOne({
+    let user = await User.findOne({
       where: { username: req.params.username },
       attributes: [
         'id',
@@ -67,6 +67,9 @@ router.get('/username/:username', async (req, res, next) => {
         'hbo',
       ],
     });
+    const userGenres = await user.getGenres();
+    user.genres = userGenres;
+    console.log(user);
     res.json(user);
   } catch (err) {
     next(err);

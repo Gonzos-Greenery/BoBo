@@ -69,6 +69,7 @@
     "react-native-vector-icons": "^9.2.0",
     "react-native-web": "^0.17.7",
     "react-redux": "^8.0.2",
+    "react-scripts": "^5.0.1",
     "react-select": "^5.4.0",
     "react-spring": "^8.0.27",
     "react-tinder-card": "^1.4.0",
@@ -76,7 +77,8 @@
     "redux-devtools-extension": "^2.13.9",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.4.1",
-    "sequelize": "^6.21.3"
+    "sequelize": "^6.21.3",
+    "walker": "^1.0.8"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

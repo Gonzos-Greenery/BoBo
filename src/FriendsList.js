@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { View, Text, SafeAreaView } from 'react-native';
+import {
+  View,
+  Text,
+  SafeAreaView,
+  FlatList,
+  StyleSheet,
+  ScrollView,
+} from 'react-native';
 import { fetchUser, addFriend, removeFriend } from './store/user';
 import {
   Input,
@@ -22,53 +29,57 @@ import {
 } from 'native-base';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faFaceSmile } from '@fortawesome/free-regular-svg-icons/faFaceSmile';
+import { faUser } from '@fortawesome/free-solid-svg-icons';
 
-const Friend = (props) => {
-  const friend = props.friend;
-  const dispatch = useDispatch();
-  const toast = useToast();
-  const { user } = useSelector((state) => {
-    return state;
-  });
+// const Friend = (props) => {
+//   const friend = props.friend;
+//   const dispatch = useDispatch();
+//   const toast = useToast();
+//   const { user } = useSelector((state) => {
+//     return state;
+//   });
 
-  return (
-    <HStack alignItems='center' space={4}>
-      <Box
-        w='70%'
-        h='60px'
-        bg='primary.300'
-        rounded='md'
-        shadow={3}
-        justifyContent='center'
-        alignItems='center'
-      >
-        <HStack space={5} alignItems='center'>
-          <FontAwesomeIcon icon={faFaceSmile} />
-          <Box w='60px' fontWeight='bold'>
-            {friend.username}
-          </Box>
-          <Box w='150px'>{friend.email}</Box>
-        </HStack>
-      </Box>
-      <Pressable
-        onPress={() => {
-          dispatch(removeFriend(user.id, friend.id));
-          toast.show({
-            description: 'Friend removed',
-          });
-        }}
-      >
-        <CloseIcon size='xl' />
-      </Pressable>
-    </HStack>
-  );
-};
+//   return (
+//     <HStack alignItems='center' space={4}>
+//       <Box
+//         w='70%'
+//         h='60px'
+//         bg='primary.300'
+//         rounded='md'
+//         shadow={3}
+//         justifyContent='center'
+//         alignItems='center'
+//       >
+//         <HStack space={5} alignItems='center'>
+//           <FontAwesomeIcon icon={faFaceSmile} />
+//           <Box w='60px' fontWeight='bold'>
+//             {friend.username}
+//           </Box>
+//           <Box w='150px'>{friend.email}</Box>
+//         </HStack>
+//       </Box>
+{
+  /* <Pressable
+  onPress={() => {
+    dispatch(removeFriend(user.id, friend.id));
+    toast.show({
+      description: 'Friend removed',
+    });
+  }}
+>
+  <CloseIcon size='xl' />
+</Pressable>; */
+}
+//     </HStack>
+//   );
+// };
 
 const FriendsList = ({ navigation }) => {
   const dispatch = useDispatch();
   const toast = useToast();
 
   const [search, setSearch] = useState('');
+  const [listChange, setListChange] = useState(0);
 
   const { auth, user } = useSelector((state) => {
     return state;
@@ -79,6 +90,14 @@ const FriendsList = ({ navigation }) => {
       dispatch(fetchUser(auth.id));
     }
   }, [auth]);
+
+  useEffect(() => {
+    if (auth.id) {
+      setTimeout(function () {
+        dispatch(fetchUser(auth.id));
+      }, 300);
+    }
+  }, [listChange]);
 
   const handleSubmit = () => {
     const result = dispatch(addFriend(user.id, search));
@@ -91,26 +110,59 @@ const FriendsList = ({ navigation }) => {
         description: 'Friend added!',
       });
       setSearch('');
+      setListChange(listChange + 1);
     }
   };
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <VStack space={5} w='100%' alignItems='center'>
-        <Heading size='3xl'>Friend List</Heading>
-        {user.friends &&
-          user.friends.map((friend) => {
-            return <Friend friend={friend} key={friend.username} />;
-          })}
-        <VStack
-          w='75%'
-          space={3}
-          alignSelf='center'
-          alignItems='center'
-          justifyItems='center'
-        >
+    <SafeAreaView style={styleSheet.container}>
+      <ScrollView>
+        <VStack space={5} w='100%' alignItems='center'>
+          <Heading size='2xl'>Friend List</Heading>
+          <View style={{ textAlign: 'center', width: '90%' }}>
+            <FlatList
+              data={user.friends}
+              renderItem={({ item, index }) => {
+                return (
+                  <View style={styleSheet.user}>
+                    <FontAwesomeIcon
+                      icon={faUser}
+                      size={30}
+                      color={'#8A9D8C'}
+                      style={{
+                        marginRight: 10,
+                        marginLeft: 10,
+                        alignSelf: 'center',
+                      }}
+                    />
+                    <Text style={{ fontSize: 16, alignSelf: 'center' }}>
+                      {`${item.name} @${item.username}`}
+                    </Text>
+                    <Pressable
+                      onPress={() => {
+                        dispatch(removeFriend(user.id, item.id));
+                        toast.show({
+                          description: 'Friend removed',
+                        });
+                        setListChange(listChange + 1);
+                      }}
+                    >
+                      <CloseIcon
+                        size='md'
+                        style={{
+                          marginRight: 5,
+                          marginLeft: 5,
+                          alignSelf: 'center',
+                        }}
+                      />
+                    </Pressable>
+                  </View>
+                );
+              }}
+            />
+          </View>
           <Heading fontSize='lg'>Add Friends</Heading>
-          <HStack alignItems='center' w='100%'>
+          <HStack alignItems='center' space={2} w='75%'>
             <SearchIcon size='xl' />
             <Input
               placeholder='Search By Username'
@@ -127,9 +179,28 @@ const FriendsList = ({ navigation }) => {
             </Pressable>
           </HStack>
         </VStack>
-      </VStack>
+      </ScrollView>
     </SafeAreaView>
   );
 };
+const styleSheet = StyleSheet.create({
+  container: {
+    height: '100%',
+    width: '100%',
+    backgroundColor: `rgba(164,198,156,1)`,
+  },
+  user: {
+    height: 60,
+    borderRadius: 13,
+    width: '75%',
+    alignSelf: 'center',
+    marginTop: 7,
+    textAlign: 'justify',
+    backgroundColor: 'white',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+});
 
 export default FriendsList;
