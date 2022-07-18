@@ -144,17 +144,17 @@ function RegisterStack() {
       <Stack.Screen
         name="StreamingOptions"
         component={StreamingOptions}
-        options={{ headerShown: false }}
+        options={{ headerShown: false ,    headerStyle: { backgroundColor: '#EFEECE' },}}
       />
       <Stack.Screen
         name="GenrePreferences"
         component={GenrePreferences}
-        options={{ headerShown: false }}
+        options={{ headerShown: false ,    headerStyle: { backgroundColor: '#EFEECE' },}}
       />
       <Stack.Screen
         name="RegisterMovies"
         component={RegisterMoviesList}
-        options={{ title: "Select Movies You've Seen" }}
+        options={{ title: "Select Movies You've Seen",    headerStyle: { backgroundColor: '#EFEECE' }, }}
       />
     </Stack.Navigator>
   );
@@ -182,6 +182,7 @@ function MovieStack() {
           },
         }) => ({
           title: title,
+          headerStyle: { backgroundColor: '#EFEECE' },
         })}
       />
       <Stack.Screen
@@ -231,7 +232,7 @@ export default function App() {
               component={PartyStack}
               options={{ headerShown: false }}
             />
-           
+
             <Stack.Screen name="Party Invites" component={PartyAddForm} />
             <Stack.Screen name="User" component={User} />
 
