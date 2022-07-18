@@ -10,7 +10,7 @@ import {
   FlatList,
 } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
-// import { gql, useMutation } from '@apollo/client';
+
 import axios from 'axios';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import {
@@ -34,22 +34,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { createNewParty } from './store/party';
 import { fetchUser, fetchUserByUsername } from './store/user';
 
-// const Invitee = (props) => {
-//   const friend = props.friend;
-
-//   return (
-//     <Box
-//       bg='primary.100'
-//       w='75%'
-//       rounded='md'
-//       shadow={3}
-//       justifyContent='center'
-//       alignItems='center'
-//     >
-//       {`${friend.name} ( @${friend.username} )`}
-//     </Box>
-//   );
-// };
+ 
 
 const HostParty = ({ navigation }) => {
   const dispatch = useDispatch();

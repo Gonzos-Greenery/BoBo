@@ -12,6 +12,6 @@ const movieSchema = new Schema({
 });
 
 const Movie = mongoose.model("movie", movieSchema);
-// const Movie = mongoose.model("movie-limited", movieSchema);
+
 
 export default Movie;

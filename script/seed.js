@@ -81,9 +81,7 @@ async function seed() {
   await users[0].addFriends([users[1], users[2], users[3]]);
   await users[1].addUserFriend(users[3]);
   await users[1].addFriend(users[3]);
-  
-  // await users[0].add;
-  // console.log(users[0].__proto__);
+
 
   console.log('added associations');
 }

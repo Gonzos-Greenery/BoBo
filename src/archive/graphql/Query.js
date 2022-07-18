@@ -25,12 +25,4 @@ query getMovie($id: ID)
   }
 }`
 
-// export const MOVIES_QUERY = gql`
-//   query Movies {
-//     movies {
-//       id
-//       title
-//       description
-//     }
-//   }
-// `
+/

@@ -47,7 +47,7 @@ router.post("/:userid/:movieid", async (req, res, next) => {
     const user = await User.findByPk(req.params.userid);
     await newRating.setUser(user);
     await newRating.setMovie(movie);
-    console.log(newRating);
+   
     res.json(newRating);
   } catch (error) {
     next(error);
