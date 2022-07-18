@@ -51,6 +51,7 @@
     "graphql": "^16.5.0",
     "graphql-anywhere": "^4.2.7",
     "graphql-tag": "^2.12.6",
+    "jest-serializer": "^28.0.0",
     "jsonwebtoken": "^8.5.1",
     "native-base": "^3.4.7",
     "path": "^0.12.7",
