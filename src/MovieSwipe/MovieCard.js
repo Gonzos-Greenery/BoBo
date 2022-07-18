@@ -13,13 +13,15 @@ import {
 } from "react-native";
 import bo from "../../assets/bo.jpg";
 import lobo from "../../assets/lobo.jpg";
-import MovieCardItem from "./MovieCardItem";
 import { addPartyRating } from "../store/partyRatings";
+import { fetchPartyMovies } from "../store/partyMovies";
+import { fetchPartyRatings } from "../store/partyRatings";
+
+const alreadyRemoved = [];
 
 const MovieCard = ({ navigation }) => {
-  const [movieArr, setMovieArr] = useState([]);
   const [empty, setEmpty] = useState(false);
-
+  const [hasVoted, setHasVoted] = useState(false);
   const hateopacity = useState(new Animated.Value(0))[0];
   const dislikeopacity = useState(new Animated.Value(0))[0];
   const likeopacity = useState(new Animated.Value(0))[0];
@@ -52,26 +54,39 @@ const MovieCard = ({ navigation }) => {
   }
 
   useEffect(() => {
-    setMovieArr(store.movies.all.slice(20, 30));
+    dispatch(fetchPartyRatings());
+    dispatch(fetchPartyMovies(store.party.users));
   }, []);
+  
+  useEffect(() => {
+    haveVoted();
+  }, [store]);
 
-  const alreadyRemoved = [];
+  const haveVoted = () => {
+    let id = store.auth.id;
+    let voted = store.partyRatings.filter((rating) => rating.userId === id);
+    if (voted.length >= 10) {
+      setHasVoted(true);
+    }
+  };
 
   const childRefs = useMemo(
     () =>
-      Array(movieArr.length)
+      Array(store.partyMovies.length)
         .fill(0)
         .map((i) => React.createRef()),
-    [movieArr]
+    [store.partyMovies]
   );
 
   const swipe = (dir) => {
-    const cardsLeft = movieArr.filter(
+    const cardsLeft = store.partyMovies.filter(
       (movie) => !alreadyRemoved.includes(movie.id)
     );
     if (cardsLeft.length) {
       const toBeRemoved = cardsLeft[cardsLeft.length - 1].id;
-      const index = movieArr.map((movie) => movie.id).indexOf(toBeRemoved);
+      const index = store.partyMovies
+        .map((movie) => movie.id)
+        .indexOf(toBeRemoved);
       childRefs[index].current.swipe(dir);
     }
   };
@@ -79,22 +94,21 @@ const MovieCard = ({ navigation }) => {
   const onSwipe = async (dir, movieId) => {
     alreadyRemoved.push(movieId);
 
-    // console.log(dir);
     if (dir === "right") {
       fade(likeopacity);
-      //   dispatch(addPartyRating(store.party.id, userId, movieId, 3));
+      dispatch(addPartyRating(store.party.id, userId, movieId, 3));
     }
     if (dir === "left") {
       fade(dislikeopacity);
-      //   dispatch(addPartyRating(store.party.id, userId, movieId, 2));
+      dispatch(addPartyRating(store.party.id, userId, movieId, 2));
     }
     if (dir === "up") {
       fade(loveopacity);
-      //   dispatch(addPartyRating(store.party.id, userId, movieId, 4));
+      dispatch(addPartyRating(store.party.id, userId, movieId, 4));
     }
     if (dir === "down") {
       fade(hateopacity);
-      //   dispatch(addPartyRating(store.party.id, userId, movieId, 1));
+      dispatch(addPartyRating(store.party.id, userId, movieId, 1));
     }
     if (alreadyRemoved.length === 10) {
       setEmpty(true);
@@ -103,127 +117,142 @@ const MovieCard = ({ navigation }) => {
 
   return (
     <View style={styles.wrapper}>
-      <View style={styles.cardMain}>
-        <View style={styles.swipesContainer}>
-          {movieArr.map((movie, index) => {
-            return (
-              <TinderCard
-                ref={childRefs[index]}
-                onSwipe={(dir) => onSwipe(dir, movie.id)}
-                key={movie.id}
-              >
-                <View style={styles.tinderCardWrapper}>
-                  <View style={styles.imagecontainer}>
-                    <Text style={styles.header}>{movie.title}</Text>
-                    <Image
-                      style={styles.image}
-                      source={{
-                        uri: movie.image,
-                      }}
-                    />
-                    <Text
-                      numberOfLines={5}
-                      ellipsizeMode="tail"
-                      style={styles.header}
-                    >
-                      {movie.description}
-                    </Text>
-                  </View>
-                </View>
-              </TinderCard>
-            );
-          })}
-        </View>
-      </View>
-      <View>
-        {!empty ? (
-          <View>
-            <View style={styles.buttonWrapper}>
-              <View style={styles.buttonColumn}>
-                <Animated.Text
-                  style={{
-                    opacity: hateopacity,
-                    padding: 10,
-                    color: "red",
-                    fontSize: 30,
-                  }}
-                >
-                  -2
-                </Animated.Text>
-                <TouchableOpacity
-                  style={styles.hate}
-                  onPress={() => swipe("down")}
-                >
-                  <Text style={{ color: "white" }}>HATE</Text>
-                </TouchableOpacity>
-              </View>
-              <View style={styles.buttonColumn}>
-                <Animated.Text
-                  style={{
-                    opacity: dislikeopacity,
-                    padding: 10,
-                    color: "red",
-                    fontSize: 30,
-                  }}
-                >
-                  -1
-                </Animated.Text>
-                <TouchableOpacity
-                  style={styles.dislike}
-                  onPress={() => swipe("left")}
-                >
-                  <Text style={{ color: "white" }}>DISLIKE</Text>
-                </TouchableOpacity>
-              </View>
-              <View style={styles.buttonColumn}>
-                <Animated.Text
-                  style={{
-                    opacity: likeopacity,
-                    padding: 10,
-                    color: "limegreen",
-                    fontSize: 30,
-                  }}
-                >
-                  +1
-                </Animated.Text>
-                <TouchableOpacity
-                  style={styles.like}
-                  onPress={() => swipe("right")}
-                >
-                  <Text style={{ color: "black" }}>LIKE</Text>
-                </TouchableOpacity>
-              </View>
-              <View style={styles.buttonColumn}>
-                <Animated.Text
-                  style={{
-                    opacity: loveopacity,
-                    padding: 10,
-                    color: "limegreen",
-                    fontSize: 30,
-                  }}
-                >
-                  +2
-                </Animated.Text>
-                <TouchableOpacity
-                  style={styles.love}
-                  onPress={() => swipe("up")}
-                >
-                  <Text style={{ color: "black" }}>LOVE</Text>
-                </TouchableOpacity>
-              </View>
+      {!hasVoted ? (
+        <View>
+          <View style={styles.cardMain}>
+            <View style={styles.swipesContainer}>
+              {store.partyMovies.map((movie, index) => {
+                return (
+                  <TinderCard
+                    ref={childRefs[index]}
+                    onSwipe={(dir) => onSwipe(dir, movie.id)}
+                    key={movie.id}
+                  >
+                    <View style={styles.tinderCardWrapper}>
+                      <View style={styles.imagecontainer}>
+                        <Text style={styles.header}>{movie.title}</Text>
+                        <Image
+                          style={styles.image}
+                          source={{
+                            uri: movie.image,
+                          }}
+                        />
+                        <Text
+                          numberOfLines={5}
+                          ellipsizeMode="tail"
+                          style={styles.header}
+                        >
+                          {movie.description}
+                        </Text>
+                      </View>
+                    </View>
+                  </TinderCard>
+                );
+              })}
             </View>
           </View>
-        ) : (
+          <View>
+            {!empty ? (
+              <View>
+                <View style={styles.buttonWrapper}>
+                  <View style={styles.buttonColumn}>
+                    <Animated.Text
+                      style={{
+                        opacity: hateopacity,
+                        padding: 10,
+                        color: "red",
+                        fontSize: 30,
+                      }}
+                    >
+                      -2
+                    </Animated.Text>
+                    <TouchableOpacity
+                      style={styles.hate}
+                      onPress={() => swipe("down")}
+                    >
+                      <Text style={{ color: "white" }}>HATE</Text>
+                    </TouchableOpacity>
+                  </View>
+                  <View style={styles.buttonColumn}>
+                    <Animated.Text
+                      style={{
+                        opacity: dislikeopacity,
+                        padding: 10,
+                        color: "red",
+                        fontSize: 30,
+                      }}
+                    >
+                      -1
+                    </Animated.Text>
+                    <TouchableOpacity
+                      style={styles.dislike}
+                      onPress={() => swipe("left")}
+                    >
+                      <Text style={{ color: "white" }}>DISLIKE</Text>
+                    </TouchableOpacity>
+                  </View>
+                  <View style={styles.buttonColumn}>
+                    <Animated.Text
+                      style={{
+                        opacity: likeopacity,
+                        padding: 10,
+                        color: "limegreen",
+                        fontSize: 30,
+                      }}
+                    >
+                      +1
+                    </Animated.Text>
+                    <TouchableOpacity
+                      style={styles.like}
+                      onPress={() => swipe("right")}
+                    >
+                      <Text style={{ color: "black" }}>LIKE</Text>
+                    </TouchableOpacity>
+                  </View>
+                  <View style={styles.buttonColumn}>
+                    <Animated.Text
+                      style={{
+                        opacity: loveopacity,
+                        padding: 10,
+                        color: "limegreen",
+                        fontSize: 30,
+                      }}
+                    >
+                      +2
+                    </Animated.Text>
+                    <TouchableOpacity
+                      style={styles.love}
+                      onPress={() => swipe("up")}
+                    >
+                      <Text style={{ color: "black" }}>LOVE</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </View>
+            ) : (
+              <TouchableOpacity
+                style={styles.rec}
+                onPress={() =>
+                  navigation.navigate("PartyView", { id: store.party.id })
+                }
+              >
+                <Text style={{ color: "black" }}>Finish Voting</Text>
+              </TouchableOpacity>
+            )}
+          </View>
+        </View>
+      ) : (
+        <View>
           <TouchableOpacity
             style={styles.rec}
             onPress={() =>
-              navigation.navigate("Recommendation", { movieArr: movieArr })
+              navigation.navigate("PartyView", { id: store.party.id })
             }
           >
-            <Text style={{ color: "black" }}>Start The Party!</Text>
+            <Text style={{ color: "black" }}>You've Already Voted</Text>
           </TouchableOpacity>
-        )}
-      </View>
+        </View>
+      )}
     </View>
   );
 };
@@ -235,14 +264,6 @@ const styles = StyleSheet.create({
     top: -55,
     transform: "translateX(-50)",
     fontSize: 50,
-    // transform-style: preserve-3d;
-    // display: none;
-    // position:absolute;
-    // top: -55px;
-    // left:50%;
-    // transform: translateX(-50%);
-    // font-size:50px;
-    // line-height: 50px;styles
   },
   buttonWrapper: {
     flexDirection: "row",
@@ -300,7 +321,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     width: width,
-    height: height * 0.8,
+    height: height * 0.74,
   },
   swipesContainer: {
     width: width,
@@ -329,8 +350,6 @@ const styles = StyleSheet.create({
     padding: 30,
   },
   image: {
-    // width: width * 0.6,
-    // height: height * 0.4,
     flex: 1,
     aspectRatio: 1.5,
     resizeMode: "contain",

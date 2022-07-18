@@ -1,5 +1,5 @@
 import axios from "axios";
-const url = 'https://bobo-server.herokuapp.com'
+const url = "https://bobo-server.herokuapp.com";
 
 // Action constants
 const ADD_USER_RATING = "ADD_USER_RATING";
@@ -24,22 +24,38 @@ const addRating = (ratings) => {
 export const fetchUserRatings = (userId) => {
   return async (dispatch) => {
     try {
-<<<<<<< HEAD
-      const { data } = await axios.get(`${url}/api/userrating/${userId}`);
-=======
-      const { data } = await axios.get(`https://bobo-server.herokuapp.com/api/userrating/${userId}`);
->>>>>>> 4db375915f36af63ebecb75103bfa123a18c28cf
+      const { data } = await axios.get(
+        `https://bobo-server.herokuapp.com/api/userRating/${userId}`
+      );
       dispatch(setRatings(data));
     } catch (error) {
       console.log(error);
     }
   };
 };
-
-export const addUserRating = (userId, movieId, rating) => {
+// dispatch(
+//   addUserRating(
+//     store.auth.id,
+//     route.params.movie.id,
+//     defaultRating,
+//     thumbsRating
+//   )
+// );
+export const addUserRating = (userId, movieId, rating, watchAgain) => {
   return async (dispatch) => {
     try {
-      const {data: newParty} = await axios.post(`https://bobo-server.herokuapp.com/api/userRating/${userId}/${movieId}`, {rating})
+      // await axios.post(
+      //   `https://bobo-server.herokuapp.com/api/partyrating/add/${movieId}/${partyId}/${userId}`,
+      //   { rating }
+      // );
+      // const { data: updatedPartyRatings } = await axios.get(
+      //   `https://bobo-server.herokuapp.com/api/partyrating/${partyId}`
+      // );
+      // dispatch(addRating(updatedPartyRatings));
+      const { data: updatedUserRatings } = await axios.post(
+        `https://bobo-server.herokuapp.com/api/userRating/${userId}/${movieId}`,
+        { rating, watchAgain }
+      );
       // const { data: newParty } = await axios({
       //   method: "post",
       //   url: `http://localhost:8080/api/userRating/${userId}/${movieId}`,
@@ -54,7 +70,7 @@ export const addUserRating = (userId, movieId, rating) => {
       // const { data: updatedUserRatings } = await axios.get(
       //   `${localhost}/api/userRatings/${userId}`
       // );
-      dispatch(addRating(newParty));
+      dispatch(addRating(updatedUserRatings));
     } catch (error) {
       console.log(error);
     }

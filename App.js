@@ -1,31 +1,31 @@
-import React from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { View, text, TouchableOpacity } from 'react-native';
-import { Provider } from 'react-redux';
-import store from './src/store';
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+import React from "react";
+import { StatusBar } from "expo-status-bar";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import { View, text, TouchableOpacity } from "react-native";
+import { Provider } from "react-redux";
+import store from "./src/store";
+import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 
-import AllMovies from './src/AllMovies';
-import Login from './src/Login';
-import MovieCard from './src/MovieSwipe/MovieCard';
-import SingleMovie from './src/SingleMovie';
-import RegisterMoviesList from './src/RegisterMoviesList.js';
-import Recommendation from './src/MovieSwipe/Recommendation';
-import StreamingOptions from './src/StreamingOptions';
-import GenrePreferences from './src/GenrePreferences';
-import { NativeBaseProvider } from 'native-base';
-import { screenOptions } from './src/styles.js';
-import Register from './src/Register';
-import PartyView from './src/PartyView';
-import PartyAddForm from './src/PartyAddForm';
-import User from './src/User';
-import Footer from './src/Footer';
-import HostParty from './src/HostParty';
-import FriendsList from './src/FriendsList';
-import theme from './src/theme';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import AllMovies from "./src/AllMovies";
+import Login from "./src/Login";
+import MovieCard from "./src/MovieSwipe/MovieCard";
+import SingleMovie from "./src/SingleMovie";
+import RegisterMoviesList from "./src/RegisterMoviesList.js";
+import Recommendation from "./src/MovieSwipe/Recommendation";
+import StreamingOptions from "./src/StreamingOptions";
+import GenrePreferences from "./src/GenrePreferences";
+import { NativeBaseProvider } from "native-base";
+import { screenOptions } from "./src/styles.js";
+import Register from "./src/Register";
+import PartyView from "./src/PartyView";
+import PartyAddForm from "./src/PartyAddForm";
+import User from "./src/User";
+import Footer from "./src/Footer";
+import HostParty from "./src/HostParty";
+import FriendsList from "./src/FriendsList";
+import theme from "./src/theme";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 const Stack = createStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
@@ -51,12 +51,17 @@ function PartyStack() {
       <Stack.Screen
         name="PartyAddForm"
         component={PartyAddForm}
-        options={{ title: 'Add Someone' }}
+        options={{ title: "Add Someone" }}
       />
       <Stack.Screen
         name="MovieCard"
         component={MovieCard}
-        options={{ title: 'Netflix and Chill' }}
+        options={{ title: "Netflix and Chill" }}
+      />
+      <Stack.Screen
+        name="Recommendation"
+        component={Recommendation}
+        options={{ title: "Final Recommendation" }}
       />
     </Stack.Navigator>
   );
@@ -68,14 +73,14 @@ function LoggedInStack() {
       initalRouteName="Home"
       activeColor="#404746"
       inactiveColor="#8A9D8C"
-      barStyle={{ backgroundColor: '#F6F5DC' }}
+      barStyle={{ backgroundColor: "#F6F5DC" }}
       headerShown={false}
     >
       <Tab.Screen
         name="Home"
         component={MovieStack}
         options={{
-          tabBarLabel: 'Home',
+          tabBarLabel: "Home",
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="home" color={color} size={26} />
           ),
@@ -86,7 +91,7 @@ function LoggedInStack() {
         name="User"
         component={User}
         options={{
-          tabBarLabel: 'Profile',
+          tabBarLabel: "Profile",
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons
               name="account-details"
@@ -101,7 +106,7 @@ function LoggedInStack() {
         component={PartyStack}
         headerShown={false}
         options={{
-          tabBarLabel: 'Create New Party',
+          tabBarLabel: "Create New Party",
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons
               name="movie-open-plus"
@@ -118,14 +123,14 @@ function LoggedInStack() {
 function RegisterStack() {
   return (
     <Stack.Navigator
-      navigationOptions={{ headerStyle: { backgroundColor: '#EFEECE' } }}
+      navigationOptions={{ headerStyle: { backgroundColor: "#EFEECE" } }}
     >
       <Stack.Screen
         name="Register"
         component={Register}
         options={{
-          title: 'Register an account with BOBO',
-          headerStyle: { backgroundColor: '#EFEECE' },
+          title: "Register an account with BOBO",
+          headerStyle: { backgroundColor: "#EFEECE" },
         }}
       />
       <Stack.Screen
@@ -174,9 +179,14 @@ function MovieStack() {
       <Stack.Screen
         name="MovieCard"
         component={MovieCard}
-        options={{ title: 'Netflix and Chill' }}
+        options={{ title: "Vote" }}
       />
       <Stack.Screen name="Party" component={PartyView} />
+      <Stack.Screen
+        name="Recommendation"
+        component={Recommendation}
+        options={{ title: "Final Recommendation" }}
+      />
     </Stack.Navigator>
   );
 }
@@ -209,7 +219,10 @@ export default function App() {
             <Stack.Screen
               name="PartyView"
               component={PartyView}
-              options={{ title: 'Upcoming BOBO Party', headerStyle: { backgroundColor: '#404746', color:'#404746' }}}
+              options={{
+                title: "Upcoming BOBO Party",
+                headerStyle: { backgroundColor: "#404746", color: "#404746" },
+              }}
             />
             <Stack.Screen
               name="Parties"

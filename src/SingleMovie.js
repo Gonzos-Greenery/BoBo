@@ -16,7 +16,7 @@ import axios from "axios";
 import styles from "./styles";
 import Loading from "./Loading";
 import { registerUpdateWatched } from "./store/user";
-import { fetchMovies } from "./store/movies";
+import { fetchMovie } from "./store/movie";
 
 export default ({ route, navigation }) => {
   const [userID, setUserID] = useState();
@@ -34,8 +34,8 @@ export default ({ route, navigation }) => {
   const [update, setUpdate] = useState(false);
   const dispatch = useDispatch();
   const store = useSelector((state) => {
-    return state
-})
+    return state;
+  });
   const starImgFilled =
     "https://github.com/tranhonghan/images/blob/main/star_filled.png?raw=true";
   const starImgEmpty =
@@ -44,7 +44,7 @@ export default ({ route, navigation }) => {
   // console.log(singleMovie);
 
   useEffect(() => {
-    // dispatch(fetchMovie(route.params.movie.id));
+    dispatch(fetchMovie(route.params.movie.id));
 
     const getMovie = async (id) => {
       const res = await axios
@@ -72,7 +72,9 @@ export default ({ route, navigation }) => {
 
   const getUserRating = async (userid, movieid) => {
     const res = await axios
-      .get(`https://bobo-server.herokuapp.com/api/userRating/${userid}/${movieid}`)
+      .get(
+        `https://bobo-server.herokuapp.com/api/userRating/${userid}/${movieid}`
+      )
       .catch((err) => {
         console.log(err);
       });
@@ -211,7 +213,7 @@ export default ({ route, navigation }) => {
 
   const seenHandler = () => {
     setSeen(!seen);
-    dispatch(registerUpdateWatched(userID, [route.params.movie.id]))
+    dispatch(registerUpdateWatched(userID, [route.params.movie.id]));
   };
 
   const submitHandler = () => {
@@ -253,15 +255,15 @@ export default ({ route, navigation }) => {
     updateRating();
     navigation.navigate("Movies");
   };
-
+console.log(store)
   return (
     <View style={iconstyles.imageContainer}>
       <Text style={styles.header}> {title}</Text>
-      <Image style={iconstyles.image} source={{ uri: posterUrl }} />
+      <Image style={iconstyles.image} source={{ uri: store.movie.image }} />
 
       {seen === true ? (
         <View style={iconstyles.imageContainer}>
-          <Text style={styles.header}>How did you like {title}?</Text>
+          <Text style={styles.header}>How did you like {store.movie.title}?</Text>
           <View style={iconstyles.stars}>
             <RatingBar />
           </View>
@@ -276,14 +278,12 @@ export default ({ route, navigation }) => {
           />
         </View>
       ) : (
-          <View
-          style={styles.subheader}>
-            <Button
-            title="I've seen this movie"
-            onPress={() => seenHandler()}
-            />
-            <Text style={{marginTop: 10}}>{route.params.movie.description}</Text>
-          </View>
+        <View style={styles.subheader}>
+          <Button title="I've seen this movie" onPress={() => seenHandler()} />
+          <Text style={{ marginTop: 10 }}>
+            {route.params.movie.description}
+          </Text>
+        </View>
       )}
     </View>
   );
@@ -311,19 +311,19 @@ const iconstyles = StyleSheet.create({
     width: 300,
     height: 400,
     borderRadius: 15,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOpacity: 2,
     shadowOffset: {
       width: 0,
-      height: 0
+      height: 0,
     },
-    shadowRadius: 20
+    shadowRadius: 20,
   },
   imageContainer: {
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    flex: 1
+    flex: 1,
   },
   ratingBar: {
     justifyContent: "center",

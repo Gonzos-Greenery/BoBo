@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     width: width,
-    height: height,
+    height: height * .9,
   },
   header: {
     justifyContent: "center",

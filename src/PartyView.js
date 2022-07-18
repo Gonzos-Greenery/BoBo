@@ -27,7 +27,7 @@ export default ({ navigation, route }) => {
   useEffect(() => {
     dispatch(fetchParty(route.params.id));
   }, []);
-
+  console.log(store)
   useEffect(() => {
     if (store.party.users) {
       const host = store.party.users.filter((user) => user.UserParties.host);
@@ -138,6 +138,9 @@ export default ({ navigation, route }) => {
                   backgroundColor: '#d5e7d0',
                 }}
                 _text={{ color: 'black' }}
+                onPress={() =>
+                  navigation.navigate("Recommendation")
+                }
               >
                 Recommend
               </Button>
