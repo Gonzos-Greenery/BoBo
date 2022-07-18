@@ -13,15 +13,6 @@ const {
   }
  };
 
-//  const isAdmin = (req, res, next) => {
-//   if (!req.user.isAdmin) {
-//     return res
-//       .status(403)
-//       .send('You do not have authorization to execute this action!');
-//   } else {
-//     next();
-//   }
-//  };
 
  module.exports = {
   requireToken

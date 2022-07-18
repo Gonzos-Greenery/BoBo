@@ -80,7 +80,7 @@ export default ({ navigation, route }) => {
               <View>
                 <Pressable
                   onPress={() =>
-                    navigation.navigate('PartyView', { id: party.item.id })
+                    navigation.push('PartyView', { id: party.item.id })
                   }
                 >
                   <Image

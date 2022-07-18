@@ -16,11 +16,8 @@ import {
   Center,
 } from 'native-base';
 import { updateUser } from './store/user';
-// import { gql, useMutation } from '@apollo/client';
-// import { UPDATE_USER_MUTATION } from './graphql/Mutation';
 
 const StreamingOptions = ({ navigation, route }) => {
-  // const [updateUser, { data }] = useMutation(UPDATE_USER_MUTATION);
 
   const userAuth = useSelector((state) => state.auth);
 

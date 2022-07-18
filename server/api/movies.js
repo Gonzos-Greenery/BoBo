@@ -19,7 +19,7 @@ router.get('/:movieid', async (req, res, next) => {
     const movie = await Movie.findByPk(req.params.movieid, {
       include: { model: Genre },
     });
-    // where: genre: includes('mystery')
+
     res.json(movie);
   } catch (error) {
     next(error);
@@ -27,13 +27,4 @@ router.get('/:movieid', async (req, res, next) => {
 });
 
 
-// router.get('/', async (req, res, next) => {
-//   try {
-//     const movies = await Movie.findAll({limit: 200, where: {
-//       production_countries: `['US']`
-//     }});
-//     res.json(movies);
-//   } catch (error) {
-//     next(error);
-//   }
-// });
+

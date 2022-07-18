@@ -13,7 +13,7 @@ const resolvers = {
     },
     getMovies: async () => {
       const movies = await Movie.find({ imdb_score: { $gt: 7 } }).limit(200);
-      // const movies = await Movie.find({imdb_score: {$gt: 7}, release_year: {$gt: 2019}, production_countries: "['US']"}).limit(200);
+   ;
       return movies;
     },
     getMovie: async (root, args) => {
@@ -24,10 +24,7 @@ const resolvers = {
       const user = await User.findById(args.id);
       return user;
     },
-    // getGenre: async (root, args) => {
-    //   const genre = await Genre.findOne({ where: { userId: args.userId } });
-    //   return genre;
-    // },
+  
   },
   Mutation: {
     addMovie: async (root, args) => {
@@ -133,7 +130,7 @@ const resolvers = {
           "USER_ALREADY_EXISTS"
         );
       }
-      console.log("input", name, username, email, password);
+
       let encryptedPassword = await bcrypt.hash(password, 5);
       const newUser = new User({
         name: name,
