@@ -5496,7 +5496,11 @@ browserslist@^4.0.0, browserslist@^4.14.5, browserslist@^4.16.6, browserslist@^4
 
 bser@2.1.1:
   version "2.1.1"
+<<<<<<< HEAD
   resolved "https://registry.yarnpkg.com/bser/-/bser-2.1.1.tgz#e6787da20ece9d07998533cfd9de6f5c38f4bc05"
+=======
+  resolved "https://registry.npmjs.org/bser/-/bser-2.1.1.tgz"
+>>>>>>> 1e2ad4e394d3f10d9b90a390df17527e21a3477a
   integrity sha512-gQxTNE/GAfIIrmHLUE3oJyp5FO6HRBfhjnw4/wMmA63ZGDJnWBmgY/lyQBpnDUkGmAhbSe39tx2d/iTOAfglwQ==
   dependencies:
     node-int64 "^0.4.0"
@@ -7801,9 +7805,15 @@ faye-websocket@^0.11.3:
   dependencies:
     websocket-driver ">=0.5.1"
 
+<<<<<<< HEAD
 fb-watchman@^2.0.0:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/fb-watchman/-/fb-watchman-2.0.1.tgz#fc84fb39d2709cf3ff6d743706157bb5708a8a85"
+=======
+fb-watchman@^2.0.0, fb-watchman@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.npmjs.org/fb-watchman/-/fb-watchman-2.0.1.tgz"
+>>>>>>> 1e2ad4e394d3f10d9b90a390df17527e21a3477a
   integrity sha512-DkPJKQeY6kKwmuMretBhr7G6Vodr7bFwDYTXIkfG1gjvNpaxBTQV3PbXg6bR1c1UP4jPOX0jHUbbHANL9vRjVg==
   dependencies:
     bser "2.1.1"
@@ -8179,7 +8189,11 @@ fs@^0.0.1-security:
 
 fsevents@^2.3.2, fsevents@~2.3.2:
   version "2.3.2"
+<<<<<<< HEAD
   resolved "https://registry.yarnpkg.com/fsevents/-/fsevents-2.3.2.tgz#8a526f78b8fdf4623b709e0b975c52c24c02fd1a"
+=======
+  resolved "https://registry.npmjs.org/fsevents/-/fsevents-2.3.2.tgz"
+>>>>>>> 1e2ad4e394d3f10d9b90a390df17527e21a3477a
   integrity sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==
 
 function-bind@^1.1.1:

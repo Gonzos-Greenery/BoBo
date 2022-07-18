@@ -97,12 +97,14 @@ router.get(`/all/:userId`, async (req, res, next) => {
     const party = await Party.findAll({
       include: {
         model: User,
+        // where: { id: req.params.userId },
       },
     });
     //has to be a better way to eager load and filter. This is a quick fix for now
     const filterUser = party.filter((party) =>
       party.users.some((user) => `${user.id}` === req.params.userId)
     );
+
     res.json(filterUser);
   } catch (e) {
     next(e);

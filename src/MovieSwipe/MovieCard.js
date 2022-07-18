@@ -57,7 +57,7 @@ const MovieCard = ({ navigation }) => {
     dispatch(fetchPartyRatings());
     dispatch(fetchPartyMovies(store.party.users));
   }, []);
-  
+
   useEffect(() => {
     haveVoted();
   }, [store]);

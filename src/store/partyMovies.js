@@ -71,6 +71,15 @@ const streamingServices = (users) => {
   return uniqueServices;
 };
 
+const moviesSeen = (users) => {
+  let totalMovies = [];
+  for (let i = 0; i < users.length; i++) {
+    users[i].movies.forEach((movie) => totalMovies.push(movie.id));
+  }
+  let uniqueMovies = [...new Set(totalMovies)];
+  return uniqueMovies;
+};
+
 // Thunk
 export const fetchPartyMovies = (users) => {
   return async (dispatch) => {
@@ -97,16 +106,20 @@ export const fetchPartyMovies = (users) => {
         }
       });
       // Filter by available streaming services
-      let remainingMovies = [];
+      let serviceFilteredMovies = [];
       genreFilteredMovies.map((movie) => {
         for (let i = 0; i < streamingOptions.length; i++) {
           if (movie[streamingOptions[i]]) {
-            remainingMovies.push(movie);
+            serviceFilteredMovies.push(movie);
             break;
           }
         }
       });
       // filter out seen movies -> still needed
+      const seenMovieIds = moviesSeen(users);
+      let remainingMovies = serviceFilteredMovies.filter(
+        (movie) => !seenMovieIds.includes(movie.id)
+      );
 
       // Filter for popular and recent movies
       remainingMovies.filter((movie) => movie.release_year > 2011);

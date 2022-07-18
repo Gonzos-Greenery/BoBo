@@ -35,7 +35,7 @@ export default ({navigation}) => {
         const result = await dispatch(registerUpdateWatched(auth.id, selected))
         navigation.push('LoggedIn')
     }
-    //onPress is delayed, missing the inital clicked movie
+
     return (
         <View>
             <View style={{alignItems: 'center', flexDirection: 'row', justifyContent:'space-between'}}>
@@ -53,28 +53,7 @@ export default ({navigation}) => {
                 >Submit</Button>
             </View>
             <ScrollView>
-                {/* {movies === undefined ? <Loading /> :
-                    <View style={styles.genreRow}>
-                        <Text style={{fontSize: 16, fontWeight: 'bold'}}>ALL MOVIES</Text>
-                            <FlatList
-                                horizontal
-                                pagingEnabled
-                                ItemSeparatorComponent={() => <View style={{width:5}}/>}
-                                renderItem = {(movie) => (
-                                    <View key={movie}>
-                                        <Pressable onPress={() => {navigation.navigate('SingleMovie', {movie: movie.item})}}>
-                                            <Image
-                                            style={styles.image}
-                                            source={{uri: movie.item.image}}
-                                            />
-                                      </Pressable>
-                                    </View>
-                                )}
-                                keyExtractor={(movie,idx) => idx.toString()}
-                                data = {movies.all}
-                            />
-                    </View>
-                } */}
+
 
                 {movies === undefined ? <View /> :
                     Object.keys(movies.sort).map((genre,idx) => {
@@ -88,7 +67,7 @@ export default ({navigation}) => {
                                     <View key={movie}>
                                         <Pressable onPress={() => {
                                             setSelected([...selected, movie.item.id])
-                                            console.log(selected)
+
                                         }}>
                                             <Image
                                             style={styles.image}

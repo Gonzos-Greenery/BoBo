@@ -9,15 +9,12 @@ import {
   Dimensions,
 } from "react-native";
 import { fetchPartyRatings } from "../store/partyRatings";
-
 import axios from "axios";
 import Loading from "../Loading";
-// import { gql, useQuery } from "@apollo/client";
-// import { SINGLE_MOVIES_QUERY } from "../graphql/Query";
-// import Loading from "../Loading";
+
 
 export default (route) => {
-  // const {movieArr} = useParams(route)
+
   const dispatch = useDispatch();
   const store = useSelector((state) => {
     return state;
@@ -131,7 +128,6 @@ const styles = StyleSheet.create({
     flex: 1,
     height: height * 0.6,
     width: width * 0.7,
-    // aspectRatio: 1.5,
     resizeMode: "contain",
   },
   imagecontainer: {
@@ -142,7 +138,7 @@ const styles = StyleSheet.create({
     borderColor: "darkolivegreen",
     borderRadius: 8,
     backgroundColor: "darkseagreen",
-    // position: "relative",
+
     justifyContent: "center",
     alignItems: "center",
     padding: 30,
