@@ -42,11 +42,11 @@ const HostParty = ({ navigation }) => {
   const [address, setAddress] = useState('');
   const [date, setDate] = useState(new Date());
   const [time, setTime] = useState(new Date(Date.now()));
+  const [timeString, setTimeString] = useState('');
   const [timePicker, setTimePicker] = useState(false);
   const [datePicker, setDatePicker] = useState(false);
   const [search, setSearch] = useState('');
   const [invitees, setInvitees] = useState([]);
-
   const { auth, user } = useSelector((state) => {
     return state;
   });
@@ -91,14 +91,24 @@ const HostParty = ({ navigation }) => {
 
   const handleSubmit = () => {
     const location = address;
-    dispatch(createNewParty(user.id, partyName, location, date, invitees));
-    navigation.navigate('LoggedIn');
+    if (!timeString) {
+      setTimeString(
+        time.toLocaleTimeString([], {
+          hour: '2-digit',
+          minute: '2-digit',
+        })
+      );
+    }
+    dispatch(
+      createNewParty(user.id, partyName, location, date, timeString, invitees)
+    );
+    navigation.push('LoggedIn');
   };
 
   return (
     <SafeAreaView style={styleSheet.container}>
-      {/* <KeyboardAvoidingView> */}
-      <ScrollView>
+      <KeyboardAvoidingView>
+        {/* <ScrollView> */}
         <VStack space={5} w='100%' alignItems='center'>
           <Heading size='2xl'>Host a BOBO Party</Heading>
           <FormControl isRequired>
@@ -146,7 +156,8 @@ const HostParty = ({ navigation }) => {
                   bg='coolGray.100'
                   p='5'
                   rounded='8'
-                  minW='75%'
+                  minW='100%'
+                  w='100%'
                   alignItems='center'
                 >
                   {date.toDateString()}
@@ -154,16 +165,26 @@ const HostParty = ({ navigation }) => {
               </Pressable>
             </Stack>
           </FormControl>
-          {datePicker && (
-            <DateTimePicker
-              value={date}
-              mode={'date'}
-              display={Platform.OS === 'ios' ? 'spinner' : 'default'}
-              is24Hour={true}
-              onChange={onDateSelected}
-              style={styleSheet.datePicker}
-            />
-          )}
+          {datePicker &&
+            (Platform.OS !== 'web' ? (
+              <DateTimePicker
+                value={date}
+                mode={'date'}
+                display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+                is24Hour={true}
+                onChange={onDateSelected}
+                style={styleSheet.datePicker}
+              />
+            ) : (
+              <Input
+                type='date'
+                placeholder='MM/DD/YYYY'
+                onSubmitEditing={(e) => {
+                  setDate(new Date(e.target.value));
+                  setDatePicker(false);
+                }}
+              />
+            ))}
           <FormControl isRequired>
             <Stack mx='4' alignItems='center'>
               <FormControl.Label pb='0' w='75%'>
@@ -177,27 +198,40 @@ const HostParty = ({ navigation }) => {
                   bg='coolGray.100'
                   p='5'
                   rounded='8'
-                  minW='75%'
+                  minW='100%'
+                  w='100%'
                   alignItems='center'
                 >
-                  {time.toLocaleTimeString('en-US', {
-                    hour: '2-digit',
-                    minute: '2-digit',
-                  })}
+                  {timeString
+                    ? timeString
+                    : time.toLocaleTimeString('en-US', {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                      })}
                 </Box>
               </Pressable>
             </Stack>
           </FormControl>
-          {timePicker && (
-            <DateTimePicker
-              value={time}
-              mode={'time'}
-              display={Platform.OS === 'ios' ? 'spinner' : 'default'}
-              is24Hour={false}
-              onChange={onTimeSelected}
-              style={styleSheet.datePicker}
-            />
-          )}
+          {timePicker &&
+            (Platform.OS !== 'web' ? (
+              <DateTimePicker
+                value={time}
+                mode={'time'}
+                display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+                is24Hour={false}
+                onChange={onTimeSelected}
+                style={styleSheet.datePicker}
+              />
+            ) : (
+              <Input
+                type='text'
+                placeholder='ex: 8:00 PM'
+                onSubmitEditing={(e) => {
+                  setTimeString(e.target.value);
+                  setTimePicker(false);
+                }}
+              />
+            ))}
           <Heading alignSelf='center' fontSize='lg'>
             Invite Friends
           </Heading>
@@ -251,8 +285,8 @@ const HostParty = ({ navigation }) => {
             Create Party
           </Button>
         </VStack>
-      </ScrollView>
-      {/* </KeyboardAvoidingView> */}
+        {/* </ScrollView> */}
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };
