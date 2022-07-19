@@ -31,7 +31,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faFaceSmile } from '@fortawesome/free-regular-svg-icons/faFaceSmile';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 
-
 const FriendsList = ({ navigation }) => {
   const dispatch = useDispatch();
   const toast = useToast();
@@ -76,7 +75,9 @@ const FriendsList = ({ navigation }) => {
     <SafeAreaView style={styleSheet.container}>
       <ScrollView>
         <VStack space={5} w='100%' alignItems='center'>
-          <Heading size='2xl'>Friend List</Heading>
+          <Heading size='xl' color='#EFEECE' marginTop='20'>
+            Friend List
+          </Heading>
           <View style={{ textAlign: 'center', width: '90%' }}>
             <FlatList
               data={user.friends}
