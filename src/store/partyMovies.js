@@ -1,8 +1,8 @@
-import axios from 'axios';
-const url = 'https://bobo-server.herokuapp.com';
+import axios from "axios";
+const url = "https://bobo-server.herokuapp.com";
 
 // Action constants
-const SET_PARTY_MOVIES = 'SET_PARTY_MOVIES';
+const SET_PARTY_MOVIES = "SET_PARTY_MOVIES";
 
 // Action creators
 
@@ -60,11 +60,11 @@ const topThreeGenres = (users) => {
 const streamingServices = (users) => {
   let totalServices = [];
   for (let i = 0; i < users.length; i++) {
-    if (users[i].hulu) totalServices.push('hulu');
-    if (users[i].netflix) totalServices.push('netflix');
-    if (users[i].prime) totalServices.push('prime');
-    if (users[i].disney) totalServices.push('disney');
-    if (users[i].hbo) totalServices.push('hbo');
+    if (users[i].hulu) totalServices.push("hulu");
+    if (users[i].netflix) totalServices.push("netflix");
+    if (users[i].prime) totalServices.push("prime");
+    if (users[i].disney) totalServices.push("disney");
+    if (users[i].hbo) totalServices.push("hbo");
   }
 
   let uniqueServices = [...new Set(totalServices)];
@@ -85,7 +85,7 @@ export const fetchPartyMovies = (users) => {
   return async (dispatch) => {
     try {
       const { data } = await axios({
-        method: 'get',
+        method: "get",
         url: `${url}/api/movies`,
       });
       const genrePrefs = topThreeGenres(users);
@@ -128,8 +128,40 @@ export const fetchPartyMovies = (users) => {
         return a.imdb_score - b.imdb_score;
       });
       const recommendedTenMovies = remainingMovies.slice(0, 10);
-      console.log(recommendedTenMovies);
-      dispatch(setPartyMovies(recommendedTenMovies));
+      const editedMovies = await Promise.all(
+        recommendedTenMovies.map((movie) => {
+          const imdbId = movie.imdb_id;
+          const API_KEY = "api_key=1cf50e6248dc270629e802686245c2c8";
+          const BASE_URL = "https://api.themoviedb.org/3";
+
+          const API_URL =
+            BASE_URL +
+            `/find/${imdbId}?` +
+            API_KEY +
+            "&language=en-US&external_source=imdb_id";
+          const IMG_URL = "https://image.tmdb.org/t/p/w500";
+          let res = fetch(API_URL)
+            .then((res) => res.json())
+            .then(({ movie_results }) => {
+              if (
+                movie_results &&
+                movie_results.length > 0 &&
+                movie_results[0] &&
+                movie_results[0].poster_path
+              ) {
+                movie.image = `${IMG_URL + movie_results[0].poster_path}`;
+                return movie;
+              } else {
+                movie.image =
+                  "https://img.freepik.com/premium-vector/movie-night-cinema-flat-poster_118124-966.jpg";
+                return movie;
+              }
+            })
+            .catch((e) => e);
+          return res;
+        })
+      );
+      dispatch(setPartyMovies(editedMovies));
     } catch (error) {
       console.log(error);
     }
