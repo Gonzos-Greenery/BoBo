@@ -37,7 +37,7 @@ export default ({ navigation, route }) => {
                 <FlatList
                     horizontal
                     ItemSeparatorComponent={() => <View style={{width:5}}/>}
-                    data={movies.all === undefined ? [] : movies.all.filter(movie => auth.movies.includes(movie.id))}
+                    data={auth.movies}
                     renderItem={(movie) => (
                         <View>
                             <Pressable onPress={() => {navigation.navigate('SingleMovie', {movie: movie.item})}}>
