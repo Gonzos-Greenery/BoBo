@@ -17,7 +17,7 @@ import axios from "axios";
 import styles from "./styles";
 import Loading from "./Loading";
 import { registerUpdateWatched } from "./store/user";
-import { fetchMovies } from "./store/movies";
+import { fetchMovie } from "./store/movie";
 
 export default ({ route, navigation }) => {
   const [userID, setUserID] = useState();
@@ -35,16 +35,15 @@ export default ({ route, navigation }) => {
   const [update, setUpdate] = useState(false);
   const dispatch = useDispatch();
   const store = useSelector((state) => {
-    return state
-})
+    return state;
+  });
   const starImgFilled =
     "https://github.com/tranhonghan/images/blob/main/star_filled.png?raw=true";
   const starImgEmpty =
     "https://github.com/tranhonghan/images/blob/main/star_corner.png?raw=true";
 
-
-
-  useEffect(() => {;
+  useEffect(() => {
+    dispatch(fetchMovie(route.params.movie.id));
 
     const getMovie = async (id) => {
       const res = await axios
@@ -62,7 +61,6 @@ export default ({ route, navigation }) => {
         .catch((err) => {
           console.log(err);
         });
-
       setUserID(res.data.id);
     };
     getUser(store.auth.username);
@@ -71,7 +69,9 @@ export default ({ route, navigation }) => {
 
   const getUserRating = async (userid, movieid) => {
     const res = await axios
-      .get(`https://bobo-server.herokuapp.com/api/userRating/${userid}/${movieid}`)
+      .get(
+        `https://bobo-server.herokuapp.com/api/userRating/${userid}/${movieid}`
+      )
       .catch((err) => {
         console.log(err);
       });
@@ -204,7 +204,7 @@ export default ({ route, navigation }) => {
 
   const seenHandler = () => {
     setSeen(!seen);
-    dispatch(registerUpdateWatched(userID, [route.params.movie.id]))
+    dispatch(registerUpdateWatched(userID, [route.params.movie.id]));
   };
 
   const submitHandler = () => {
@@ -310,7 +310,7 @@ const iconstyles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    flex: 1
+    flex: 1,
   },
   ratingBar: {
     justifyContent: "center",

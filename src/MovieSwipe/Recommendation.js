@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import {
   Text,
   FlatList,
@@ -7,102 +8,127 @@ import {
   Image,
   Dimensions,
 } from "react-native";
+import { fetchPartyRatings } from "../store/partyRatings";
 import axios from "axios";
+import Loading from "../Loading";
 
 
-export default () => {
-  const [data, setData] = useState();
-  const [posterUrl, setPosterUrl] = useState("");
-  const [description, setDescription] = useState();
-  const [site, setSite] = useState("");
-  const [imdbUrl, setImdbUrl] = useState();
-  const [title, setTitle] = useState();
+export default (route) => {
 
+  const dispatch = useDispatch();
+  const store = useSelector((state) => {
+    return state;
+  });
+  const [ratingArr, setRatingArr] = useState([]);
+  const [movieId, setMovieId] = useState();
+  const [movieObj, setMovieObj] = useState({});
+  const [isBusy, setBusy] = useState(true);
+  const [site, setSite] = useState();
 
   useEffect(() => {
-    const getMovie = async () => {
+    const getRatings = async (partyId) => {
       const res = await axios
-        .get(`http://localhost:8080/api/movies/11631`)
+        .get(`https://bobo-server.herokuapp.com/api/partyrating/${partyId}`)
         .catch((err) => {
           console.log(err);
         });
-
-      setData(res.data);
-      setImdbUrl(res.data.imdb_id);
-      setTitle(res.data.title);
-      setDescription(res.data.description);
+      setRatingArr(res.data);
     };
-
-    getMovie();
+    dispatch(fetchPartyRatings());
+    getRatings(store.party.id);
   }, []);
 
-  const API_KEY = "api_key=1cf50e6248dc270629e802686245c2c8";
-  const BASE_URL = "https://api.themoviedb.org/3";
+  const findRating = (array) => {
+    let scoreTable = {};
+    array.map((rating) => {
+      if (!scoreTable[rating.movieId]) {
+        scoreTable[rating.movieId] = rating.rating;
+      } else {
+        scoreTable[rating.movieId] += rating.rating;
+      }
+    });
+    const maxValue = Object.entries(scoreTable).sort((x, y) => y[1] - x[1])[0];
+    if (maxValue) {
+      setMovieId(Number(maxValue[0]));
+    }
+  };
 
-  const API_URL =
-    BASE_URL +
-    `/find/${imdbUrl}?` +
-    API_KEY +
-    "&language=en-US&external_source=imdb_id";
-  const IMG_URL = "https://image.tmdb.org/t/p/w500";
-  const searchURL = BASE_URL + "/search/movie?" + API_KEY;
+  useEffect(() => {
+    findRating(ratingArr);
+  }, [ratingArr]);
 
-  function getMovie(url) {
-    fetch(url)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.length !== 0 && data.movie_results.length !== 0) {
-          findStreaming();
-          return showMovies(data.movie_results[0]);
-        }
-      });
-  }
+  const findMovie = (array, id) => {
+    array.some((el) => {
+      if (el.id === id) {
+        setMovieObj(el);
+      }
+    });
+  };
 
-  function showMovies(data) {
-    const { poster_path } = data;
-    setPosterUrl(
-      `${
-        poster_path
-          ? IMG_URL + poster_path
-          : "http://via.placeholder.com/1080x1580"
-      }`
-    );
-  }
-  getMovie(API_URL);
+  useEffect(() => {
+    findMovie(store.movies.all, movieId);
+  }, [movieId]);
 
-  const findStreaming = () => {
-    for (let keys in data) {
-      if (data[keys] === true) {
-        setSite(keys);
+  const findStreaming = (array) => {
+    for (let keys in array) {
+      if (array[keys] === true) {
+        setSite(keys.toUpperCase());
       }
     }
   };
 
+  useEffect(() => {
+    findStreaming(movieObj);
+    setBusy(false);
+  }, [movieObj]);
+
   return (
-    <View>
+    <View style={styles.wrapper}>
       <Text style={styles.header}>Your BoBo Recommendation:</Text>
       <View style={styles.imagecontainer}>
-        <Text>{title}</Text>
-        <Image style={styles.image} source={{ uri: posterUrl }} />
-        <Text>{description}</Text>
-        <Text>Available on: {site.toUpperCase()}</Text>
+        {isBusy ? (
+          <Loading />
+        ) : (
+          <View style={styles.moviewrapper}>
+            <Text>{movieObj.title}</Text>
+            <Image style={styles.image} source={{ uri: movieObj.image }} />
+            <Text style={styles.header}>{movieObj.description}</Text>
+            <Text>Available on: {site}</Text>
+          </View>
+        )}
       </View>
     </View>
   );
 };
 const { width, height } = Dimensions.get("window");
 const styles = StyleSheet.create({
-  header: {
+  moviewrapper: {
+    flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
   },
-  image: {
+  wrapper: {
+    justifyContent: "center",
+    alignItems: "center",
+    width: width,
+    height: height * .9,
+  },
+  header: {
+    justifyContent: "center",
+    alignItems: "center",
+    flexWrap: "wrap",
+    overflow: "hidden",
     width: width * 0.6,
-    height: height * 0.5,
+  },
+  image: {
+    flex: 1,
+    height: height * 0.6,
+    width: width * 0.7,
+    resizeMode: "contain",
   },
   imagecontainer: {
-
-    height: height * 0.8,
+    width: width,
+    height: height,
     textAlign: "center",
     borderWidth: 10,
     borderColor: "darkolivegreen",

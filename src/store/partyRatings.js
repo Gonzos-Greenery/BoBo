@@ -1,8 +1,9 @@
-import axios from 'axios';
+import axios from "axios";
+const url = "https://bobo-server.herokuapp.com";
 
 // Action constants
-const ADD_PARTY_RATING = 'ADD_PARTY_RATING';
-const SET_PARTY_RATINGS = 'SET_PARTY_RATINGS';
+const ADD_PARTY_RATING = "ADD_PARTY_RATING";
+const SET_PARTY_RATINGS = "SET_PARTY_RATINGS";
 
 // Action creators
 const setRatings = (ratings) => {
@@ -23,7 +24,9 @@ const addRating = (ratings) => {
 export const fetchPartyRatings = (partyId) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.get(`https://bobo-server.herokuapp.com/api/partyrating/${partyId}`);
+      const { data } = await axios.get(
+        `https://bobo-server.herokuapp.com/api/partyrating/${partyId}`
+      );
       dispatch(setRatings(data));
     } catch (error) {
       console.log(error);
@@ -36,10 +39,10 @@ export const addPartyRating = (partyId, userId, movieId, rating) => {
     try {
       await axios.post(
         `https://bobo-server.herokuapp.com/api/partyrating/add/${movieId}/${partyId}/${userId}`,
-        rating
+        { rating }
       );
       const { data: updatedPartyRatings } = await axios.get(
-        `https://bobo-server.herokuapp.com/api/partyrating/${userId}`
+        `https://bobo-server.herokuapp.com/api/partyrating/${partyId}`
       );
       dispatch(addRating(updatedPartyRatings));
     } catch (error) {

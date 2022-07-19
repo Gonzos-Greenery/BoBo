@@ -1,4 +1,5 @@
 import axios from "axios";
+const url = 'https://bobo-server.herokuapp.com'
 
 // Action constants
 const ADD_MOVIE_WATCHED = "ADD_MOVIE_WATCHED";
@@ -35,7 +36,7 @@ export const addMovieToUser = (userId, movies) => {
   return async (dispatch) => {
     try {
       const {data} = await axios.post(`https://bobo-server.herokuapp.com/api/users/movieswatched/register/add/${userId}`, {movies})
-      dispatch(addMovieWatched(updatedMoviesWatched));
+      dispatch(addMovieWatched(data));
     } catch (error) {
       console.log(error);
     }

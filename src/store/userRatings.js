@@ -1,5 +1,5 @@
 import axios from "axios";
-const localhost = "http://localhost:8080";
+const url = "https://bobo-server.herokuapp.com";
 
 // Action constants
 const ADD_USER_RATING = "ADD_USER_RATING";
@@ -24,19 +24,31 @@ const addRating = (ratings) => {
 export const fetchUserRatings = (userId) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.get(`https://bobo-server.herokuapp.com/api/userrating/${userId}`);
+      const { data } = await axios.get(
+        `https://bobo-server.herokuapp.com/api/userRating/${userId}`
+      );
       dispatch(setRatings(data));
     } catch (error) {
       console.log(error);
     }
   };
 };
-
-export const addUserRating = (userId, movieId, rating) => {
+// dispatch(
+//   addUserRating(
+//     store.auth.id,
+//     route.params.movie.id,
+//     defaultRating,
+//     thumbsRating
+//   )
+// );
+export const addUserRating = (userId, movieId, rating, watchAgain) => {
   return async (dispatch) => {
     try {
-      const {data: newParty} = await axios.post(`https://bobo-server.herokuapp.com/api/userRating/${userId}/${movieId}`, {rating})
-      dispatch(addRating(newParty));
+      const { data: updatedUserRatings } = await axios.post(
+        `https://bobo-server.herokuapp.com/api/userRating/${userId}/${movieId}`,
+        { rating, watchAgain }
+      );
+      dispatch(addRating(updatedUserRatings));
     } catch (error) {
       console.log(error);
     }

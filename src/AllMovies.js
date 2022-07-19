@@ -34,7 +34,7 @@ export default ({ navigation, route }) => {
             {auth.movies === undefined ? <Text style={{fontSize: 16}}>Nothing watched previously</Text> :
             <View style={styles.genreRow}>
                 <Text style={styles.textMovies}>Previously Watched...</Text>
-                <FlatList 
+                <FlatList
                     horizontal
                     ItemSeparatorComponent={() => <View style={{width:5}}/>}
                     data={movies.all === undefined ? [] : movies.all.filter(movie => auth.movies.includes(movie.id))}
@@ -50,7 +50,7 @@ export default ({ navigation, route }) => {
             }
             <View style={styles.genreRow}>
                 <Text style={styles.textMovies}>Upcoming Parties...</Text>
-                <FlatList 
+                <FlatList
                     horizontal
                     ItemSeparatorComponent={() => <View style={{width:10}}/>}
                     data={userParties === [] ? [] : userParties}
@@ -59,7 +59,7 @@ export default ({ navigation, route }) => {
                             <TouchableOpacity style={styles.btn}
                               onPress={() => navigation.navigate('PartyView', {id: party.item.id})}>
                               <FontAwesomeIcon icon={faTicket} size={70} color={'#8A9D8C'}/>
-                              <Text style={{fontFamily: 'AppleSDGothicNeo-Bold', fontSize: 14}}>{`${party.item.name}`}</Text>   
+                              <Text style={{fontFamily: 'AppleSDGothicNeo-Bold', fontSize: 14}}>{`${party.item.name}`}</Text>
                             </TouchableOpacity>
                         </View>
                     )}
@@ -70,15 +70,15 @@ export default ({ navigation, route }) => {
                     return (
                         <View key={idx} style={styles.genreRow}>
                             <Text style={styles.textMovies}>{genre.toUpperCase()}</Text>
-                            <FlatList 
+                            <FlatList
                             horizontal
                             ItemSeparatorComponent={() => <View style={{width:10}}/>}
                             renderItem = {(movie) => (
                                 <View key={movie}>
                                     <Pressable onPress={() => {
                                     navigation.navigate('SingleMovie', {movie: movie.item})}}>
-                                    <Image 
-                                        style={styles.image} 
+                                    <Image
+                                        style={styles.image}
                                         source={{uri: movie.item.image}}
                                     />
                                     </Pressable>
@@ -120,18 +120,18 @@ const styles = StyleSheet.create({
     height: 95,
     backgroundColor: "#d5e7d0",
     padding: 5,
-    borderRadius: 10, 
+    borderRadius: 10,
     shadowColor: '#171717',
     shadowOffset: {width: -2, height: 4},
     shadowOpacity: 0.2,
     shadowRadius: 3,
   },
   textMovies: {
-    fontSize: 19, 
+    fontSize: 19,
     marginLeft: 5,
     marginBottom: 5,
     fontFamily: 'AppleSDGothicNeo-Bold'
-  }, 
+  },
   shadowProp: {
     shadowColor: '#171717',
     shadowOffset: {width: -2, height: 4},
