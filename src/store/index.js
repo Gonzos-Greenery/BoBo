@@ -28,7 +28,8 @@ const reducer = combineReducers({
   partyMovies,
 });
 const middleware = composeWithDevTools(
-  applyMiddleware(thunkMiddleware, createLogger({ collapsed: true }))
+  // applyMiddleware(thunkMiddleware, createLogger({ collapsed: true }))
+  applyMiddleware(thunkMiddleware)
 );
 const store = legacy_createStore(reducer, middleware);
 
