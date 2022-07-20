@@ -38,7 +38,7 @@ export default ({ navigation, route }) => {
     }
   };
   return (
-    <View >
+    <View style={styles.container}>
        
       <Text style={styles.textMain}> Current Attendees: </Text>
       {route.params.attendees.map((user, idx) => (

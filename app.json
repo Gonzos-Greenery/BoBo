@@ -3,9 +3,11 @@
     "name": "Bobo",
     "slug": "Bobo",
     "version": "1.0.0",
+    "privacy": "unlisted",
     "assetBundlePatterns": [
       "**/*"
-    ]
+    ],
+    "description": "Let BoBo help you with your movie decisions. "
   },
   "name": "Bobo"
 }
