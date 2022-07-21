@@ -108,23 +108,22 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   wrapper: {
+    flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
     width: width,
-    height: height * .9,
+    height: height * .8,
   },
   header: {
     justifyContent: "center",
-    alignItems: "center",
+    alignSelf: "center",
     flexWrap: "wrap",
     overflow: "hidden",
     width: width * 0.6,
   },
   image: {
-    flex: 1,
     height: height * 0.6,
-    width: width * 0.7,
-    resizeMode: "contain",
+    width: width * 0.9,
   },
   imagecontainer: {
     width: width,
