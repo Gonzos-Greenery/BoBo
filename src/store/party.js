@@ -1,5 +1,5 @@
 import axios from 'axios';
-const url = 'https://bobo-server.herokuapp.com'
+const url = 'https://bobo-server.herokuapp.com';
 // Action constant
 const ADD_PARTY = 'ADD_PARTY';
 const SET_PARTY = 'SET_PARTY';
@@ -25,7 +25,9 @@ const setParty = (party) => {
 export const fetchParty = (partyId) => {
   return async (dispatch) => {
     try {
-      const {data} = await axios.get(`https://bobo-server.herokuapp.com/api/party/${partyId}`)
+      const { data } = await axios.get(
+        `https://bobo-server.herokuapp.com/api/party/${partyId}`
+      );
       dispatch(setParty(data));
     } catch (error) {
       console.log(error);
@@ -33,21 +35,29 @@ export const fetchParty = (partyId) => {
   };
 };
 
-export const createNewParty = (userId, name, location, date, invitees) => {
+export const createNewParty = (
+  userId,
+  name,
+  location,
+  date,
+  time,
+  invitees
+) => {
   return async (dispatch) => {
     try {
-      const { data: newParty } = await axios.post(`${url}/api/party`,{
-          name,
-          location,
-          date,
+      const { data: newParty } = await axios.post(`${url}/api/party`, {
+        name,
+        location,
+        date,
+        time,
       });
 
-      await axios.put(`${url}/api/party/addPartyHost/${newParty.id}/${userId}`)
-
+      await axios.put(`${url}/api/party/addPartyHost/${newParty.id}/${userId}`);
 
       for (let i = 0; i < invitees.length; i++) {
-        await axios.put(`${url}/api/party/addUsers/${newParty.id}/${invitees[i].username}`)
-
+        await axios.put(
+          `${url}/api/party/addUsers/${newParty.id}/${invitees[i].username}`
+        );
       }
       dispatch(_addParty(newParty));
     } catch (error) {
@@ -59,8 +69,9 @@ export const createNewParty = (userId, name, location, date, invitees) => {
 export const addFriendToParty = (username, partyId) => {
   return async (dispatch) => {
     try {
-
-      const {data} = await axios.put(`${url}/api/party/addUsers/${partyId}/${username}`)
+      const { data } = await axios.put(
+        `${url}/api/party/addUsers/${partyId}/${username}`
+      );
       return data;
     } catch (e) {
       console.log(e);
